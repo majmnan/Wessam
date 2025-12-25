@@ -20,8 +20,8 @@ public class Gym {
     private Integer id;
 
 
-    @NotEmpty(message = "businuiss certificate id must be entered")
-    @Size(max = 10,message = "businuiss certificate id  must be maximum  size of 10")
+    @NotEmpty(message = "business certificate id must be entered")
+    @Size(max = 10,message = "business certificate id  must be maximum  size of 10")
     @Column(columnDefinition = "varchar(10) not null unique")
     private String businuissCertificateId;
 
