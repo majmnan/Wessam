@@ -22,22 +22,20 @@ public class RegisteredCourse {
 
 
     @ManyToOne
-    @JoinColumn(name = "course_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Course course;
 
 
     @ManyToOne
-    @JoinColumn(name = "trainee_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Trainee trainee;
 
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "traineeFeedback")
+    @JsonIgnore
     private Set<TraineeFeedback> traineeFeedbacks;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "coachReviews")
+    @JsonIgnore
     private Set<CoachReviews> coachReviewses;
 }

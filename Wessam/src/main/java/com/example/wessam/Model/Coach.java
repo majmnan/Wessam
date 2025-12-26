@@ -22,12 +22,12 @@ public class Coach {
     private Integer id;
 
     @NotEmpty(message = "coach name must be entered")
-    @Size(max = 10,message = "phone number must be maximum  size of 10")
-    @Pattern(regexp = "^05\\d{8}$", message = "phone number must start with 05")
+    @Pattern(regexp = "^9665\\d{8}$", message = "phone number must start with 05")
     @Column(columnDefinition = "varchar(10) not null unique")
     private String phoneNumber;
 
-
+    @NotNull
+    @Past
     private LocalDate birthDate;
 
 
@@ -36,18 +36,19 @@ public class Coach {
     @Column(columnDefinition = "int not null")
     private Integer yearsOfExperience;
 
-    @ManyToOne
-    @JoinColumn(name = "branch_id_int", referencedColumnName = "id")
+    @OneToOne
+    @MapsId
     @JsonIgnore
+    private User user;
+
+    @ManyToOne
     private Branch Branch;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "coach")
+    @JsonIgnore
     private Set<Course> courses;
 
-
     @ManyToOne
-    @JoinColumn(name = "sport_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Sport sport;
 
 

@@ -1,6 +1,5 @@
 package com.example.wessam.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,13 +19,9 @@ public class RegisteredTournament {
 
 
     @ManyToOne
-    @JoinColumn(name = "trainee_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Trainee trainee;
 
 
     @ManyToOne
-    @JoinColumn(name = "tournament_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Tournament tournament;
 }

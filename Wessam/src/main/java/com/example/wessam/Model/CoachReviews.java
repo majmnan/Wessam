@@ -25,11 +25,7 @@ public class CoachReviews {
 
     private String description;
 
-
-
     @ManyToOne
-    @JoinColumn(name = "registeredCourse_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private RegisteredCourse registeredCourse;
 
 }

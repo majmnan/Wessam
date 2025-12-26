@@ -2,6 +2,7 @@ package com.example.wessam.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,10 +23,12 @@ public class Trainee {
 
     private LocalDate birthDate;
     private String gender;
-    private Double height;//update: changed it to Double instead of String
-    private Double weight;//update: changed it to Double instead of String
-    private String belt;
+    private Integer height;
+    private Integer weight;
 
+    @Pattern(regexp = "^(beginners|intermediate|advanced)$")
+    @Column(nullable = false)
+    private String level;
 
     @OneToOne
     @MapsId
@@ -33,20 +36,20 @@ public class Trainee {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    @JsonIgnore
     private Set<RegisteredCourse> registeredCourses;
 
-
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    @JsonIgnore
     private Set<Tournament> tournaments;
 
 
     @ManyToOne
-    @JoinColumn(name = "sport_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Sport sport;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredTournament")
+    @JsonIgnore
     private Set<RegisteredTournament> registeredTournaments;
 
 

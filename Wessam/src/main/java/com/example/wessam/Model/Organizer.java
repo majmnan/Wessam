@@ -1,5 +1,6 @@
 package com.example.wessam.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -27,6 +28,16 @@ public class Organizer {
     @Column(columnDefinition = "varchar(25) not null")
     private String name;
 
+    @NotEmpty
+    private String businessCertificateId;
+
+    @Pattern(regexp = "^(inActive|Active)$")
+    private String status;
+
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private User user;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
     private Set<Tournament> tournaments;

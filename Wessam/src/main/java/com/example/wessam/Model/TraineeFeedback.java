@@ -38,7 +38,5 @@ public class TraineeFeedback {
 
 
     @ManyToOne
-    @JoinColumn(name = "registeredCourse_id_int", referencedColumnName = "id")
-    @JsonIgnore
-    private RegisteredCourse registeredCourse;
+    private RegisteredCourse register;
 }

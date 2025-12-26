@@ -32,12 +32,11 @@ public class Branch {
 
 
     @ManyToOne
-    @JoinColumn(name = "gym_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Gym gym;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "branch")
+    @JsonIgnore
     private Set<Coach> Coaches;
 
 }
