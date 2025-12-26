@@ -1,6 +1,7 @@
 package com.example.wessam.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -35,6 +37,13 @@ public class Course {
     @Column(nullable = false)
     private LocalDate endDate;
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    private Set<RegisteredCourse> registeredCourses;
 
-    //todo: connect the relations with the mising models(coach, trainee)
+    @ManyToOne
+    @JoinColumn(name = "coach_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Coach coach;
+
+
 }

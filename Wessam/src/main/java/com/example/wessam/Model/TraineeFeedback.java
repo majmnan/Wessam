@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -34,6 +35,7 @@ public class TraineeFeedback {
     @NotNull
     private LocalDate date;
 
-    //todo: many to one registered courses
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    private Set<RegisteredCourse> registeredCourses;
 }

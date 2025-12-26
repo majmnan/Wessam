@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @Setter
@@ -24,4 +26,8 @@ public class Organizer {
     @Size(min = 2,max = 25,message = "organizer name must be at least size of 2 and maximum size of 25")
     @Column(columnDefinition = "varchar(25) not null")
     private String name;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    private Set<Tournament> tournaments;
 }

@@ -1,9 +1,7 @@
 package com.example.wessam.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -12,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
+
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -30,6 +30,14 @@ public class Branch {
     @Pattern(regexp = "^https://www.google.com/maps.*$")
     private String Location;
 
-    //todo: many to one with gym
-    //todo: one to many with coach
+
+    @ManyToOne
+    @JoinColumn(name = "gym_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Gym gym;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "branch")
+    private Set<Coach> Coaches;
+
 }
