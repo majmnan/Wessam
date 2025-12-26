@@ -54,7 +54,7 @@ public class Tournament {
     @ManyToOne
     private Trainee champion;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredTournament")
     @JsonIgnore
     private Set<RegisteredTournament> registeredTournaments;
 
