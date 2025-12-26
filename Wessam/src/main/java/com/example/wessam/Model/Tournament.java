@@ -1,6 +1,7 @@
 package com.example.wessam.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,11 @@ public class Tournament {
     @Column(nullable = false)
     private LocalDate endDate;
 
+
+    @ManyToOne
+    @JoinColumn(name = "organizer_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Organizer organizer;
 
     //todo: connect the relations with the mising models(sport, organizer, trainee)
 

@@ -1,9 +1,7 @@
 package com.example.wessam.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +18,26 @@ public class RegisteredCourse {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //todo: many to one courses
-    //todo: many to one trainee
 
-    //todo: one to one CoachReviews
-    //todo: many to one traineeFeedback
+    @ManyToOne
+    @JoinColumn(name = "course_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Course course;
+
+
+    @ManyToOne
+    @JoinColumn(name = "trainee_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Trainee trainee;
+
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    @PrimaryKeyJoinColumn
+    private CoachReviews coachReviews;
+
+
+    @ManyToOne
+    @JoinColumn(name = "traineeFeedback", referencedColumnName = "id")
+    @JsonIgnore
+    private TraineeFeedback traineeFeedback;
 }

@@ -1,9 +1,7 @@
 package com.example.wessam.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,5 +25,9 @@ public class CoachReviews {
 
     private String description;
 
-    //todo: one to one registered course (course status should be finished)
+    @OneToOne
+    @MapsId
+    @JsonIgnore
+    private RegisteredCourse registeredCourse;
+
 }

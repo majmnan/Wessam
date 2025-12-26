@@ -1,5 +1,6 @@
 package com.example.wessam.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -33,6 +35,14 @@ public class Coach {
     @Positive(message = "years of experience must be positive number")
     @Column(columnDefinition = "int not null")
     private Integer yearsOfExperience;
+
+    @ManyToOne
+    @JoinColumn(name = "branch_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Branch Branch;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
+    private Set<Course> courses;
 
 
 }

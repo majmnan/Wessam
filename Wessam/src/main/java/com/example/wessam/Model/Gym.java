@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @Setter
@@ -30,4 +32,8 @@ public class Gym {
     @Size(max = 250,message = "gym description must be maximum  size of 250")
     @Column(columnDefinition = "varchar(250) not null ")
     private String description;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "gym")
+    private Set<Branch> branches;
 }
