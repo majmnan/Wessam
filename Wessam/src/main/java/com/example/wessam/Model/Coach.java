@@ -45,4 +45,10 @@ public class Coach {
     private Set<Course> courses;
 
 
+    @ManyToOne
+    @JoinColumn(name = "sport_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Sport sport;
+
+
 }

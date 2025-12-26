@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -46,6 +47,21 @@ public class Tournament {
     @JoinColumn(name = "organizer_id_int", referencedColumnName = "id")
     @JsonIgnore
     private Organizer organizer;
+
+    @ManyToOne
+    @JoinColumn(name = "sport_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Sport sport;
+
+
+    @ManyToOne
+    @JoinColumn(name = "trainee_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Trainee trainee;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredTournament")
+    private Set<RegisteredTournament> registeredTournaments;
 
     //todo: connect the relations with the mising models(sport, organizer, trainee)
 

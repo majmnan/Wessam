@@ -1,5 +1,6 @@
 package com.example.wessam.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -36,6 +37,8 @@ public class TraineeFeedback {
     private LocalDate date;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
-    private Set<RegisteredCourse> registeredCourses;
+    @ManyToOne
+    @JoinColumn(name = "registeredCourse_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private RegisteredCourse registeredCourse;
 }
