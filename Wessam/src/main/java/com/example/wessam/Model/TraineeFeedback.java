@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"registration_id","date"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"register_id","date"})})
 public class TraineeFeedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +38,5 @@ public class TraineeFeedback {
 
 
     @ManyToOne
-    private RegisteredCourse registration;
+    private RegisteredCourse register;
 }

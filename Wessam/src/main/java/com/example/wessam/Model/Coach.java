@@ -42,7 +42,7 @@ public class Coach {
     private User user;
 
     @ManyToOne
-    private Branch branch;
+    private Branch Branch;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "coach")
     @JsonIgnore
