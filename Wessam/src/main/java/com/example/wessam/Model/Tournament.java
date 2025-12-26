@@ -27,42 +27,35 @@ public class Tournament {
     @Size(min = 2,max = 20,message = "name size must be at least 2 maximum 20")
     @Column(nullable = false,length = 20)
     private String name;
+
     @NotNull(message = "reward must be entered ")
     @Positive(message = "reward value must be a positive number")
     @Column(nullable = false)
     private Integer reward;
+
     @FutureOrPresent(message = "start date can't be in the past")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "start date must be entered")
     @Column(nullable = false)
     private LocalDate startDate;
+
     @FutureOrPresent(message = "end date can't be in the past")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "end date must be entered")
     @Column(nullable = false)
     private LocalDate endDate;
 
-
     @ManyToOne
-    @JoinColumn(name = "organizer_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Organizer organizer;
 
     @ManyToOne
-    @JoinColumn(name = "sport_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Sport sport;
 
-
     @ManyToOne
-    @JoinColumn(name = "trainee_id_int", referencedColumnName = "id")
+    private Trainee champion;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
     @JsonIgnore
-    private Trainee trainee;
-
-
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredTournament")
     private Set<RegisteredTournament> registeredTournaments;
-
-    //todo: connect the relations with the mising models(sport, organizer, trainee)
 
 }

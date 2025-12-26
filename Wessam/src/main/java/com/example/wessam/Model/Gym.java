@@ -1,7 +1,9 @@
 package com.example.wessam.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,19 +23,25 @@ public class Gym {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @OneToOne
+    @JsonIgnore
+    @MapsId
+    private User user;
 
     @NotEmpty(message = "business certificate id must be entered")
     @Size(max = 10,message = "business certificate id  must be maximum  size of 10")
     @Column(columnDefinition = "varchar(10) not null unique")
     private String businuissCertificateId;
 
+    @Pattern(regexp = "^(inActive|Active)$")
+    private String status;
 
     @NotEmpty(message = "gym description must be entered")
     @Size(max = 250,message = "gym description must be maximum  size of 250")
     @Column(columnDefinition = "varchar(250) not null ")
     private String description;
 
-
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "gym")
+    @JsonIgnore
     private Set<Branch> branches;
 }

@@ -1,5 +1,6 @@
 package com.example.wessam.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -29,15 +30,18 @@ public class Sport {
     @Column(columnDefinition = "varchar(25) not null")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sport")
+    @JsonIgnore
     private Set<Tournament> tournaments;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sport")
+    @JsonIgnore
     private Set<Trainee> trainees;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "coach")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sport")
+    @JsonIgnore
     private Set<Coach> coaches;
 
 }
