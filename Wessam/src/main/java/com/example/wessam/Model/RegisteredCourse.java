@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,13 +33,11 @@ public class RegisteredCourse {
     private Trainee trainee;
 
 
-    @OneToOne(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
-    @PrimaryKeyJoinColumn
-    private CoachReviews coachReviews;
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "traineeFeedback")
+    private Set<TraineeFeedback> traineeFeedbacks;
 
 
-    @ManyToOne
-    @JoinColumn(name = "traineeFeedback", referencedColumnName = "id")
-    @JsonIgnore
-    private TraineeFeedback traineeFeedback;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "coachReviews")
+    private Set<CoachReviews> coachReviewses;
 }

@@ -36,4 +36,19 @@ public class Trainee {
     private Set<RegisteredCourse> registeredCourses;
 
 
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    private Set<Tournament> tournaments;
+
+
+    @ManyToOne
+    @JoinColumn(name = "sport_id_int", referencedColumnName = "id")
+    @JsonIgnore
+    private Sport sport;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredTournament")
+    private Set<RegisteredTournament> registeredTournaments;
+
+
+
 }
