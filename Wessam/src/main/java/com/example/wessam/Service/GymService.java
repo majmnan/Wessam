@@ -23,7 +23,7 @@ public class GymService {
     //Auth: any
     public void register(GymDTOIn dto){
         User user = authRepository.save(new User(dto.getUsername(), passwordEncoder.encode(dto.getPassword()), "GYM"));
-        gymRepository.save(new Gym(null, user, dto.getName(), dto.getBusinessCertificateId(), "InActive", dto.getDescription(), null));
+        gymRepository.save(new Gym(null,  dto.getName(), dto.getBusinessCertificateId(), "InActive", dto.getDescription(), null,user));
     }
 
     //Auth: Admin

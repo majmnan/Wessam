@@ -30,12 +30,12 @@ public class CourseRegistration {
 
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "courseRegistration")
     @JsonIgnore
     private Set<TraineeFeedback> traineeFeedbacks;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registration")
     @JsonIgnore
     private Set<CoachReview> coachReviewses;
 }
