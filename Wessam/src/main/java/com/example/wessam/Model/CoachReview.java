@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CoachReviews {
+public class CoachReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
