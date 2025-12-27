@@ -25,9 +25,6 @@ public class Trainee {
     private String gender;
     private Integer height;
     private Integer weight;
-
-    @Pattern(regexp = "^(beginners|intermediate|advanced)$")
-    @Column(nullable = false)
     private String level;
 
     @OneToOne

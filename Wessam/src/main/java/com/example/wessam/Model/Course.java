@@ -45,6 +45,4 @@ public class Course {
 
     @ManyToOne
     private Coach coach;
-
-
 }
