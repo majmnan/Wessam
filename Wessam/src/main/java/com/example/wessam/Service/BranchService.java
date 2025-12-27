@@ -18,8 +18,8 @@ public class BranchService {
     private final BranchRepository branchRepository;
 
     //Auth: Gym
-    public List<Branch> getByGym(Integer gymId){
-        List<Branch> branches = branchRepository.findBranchByGymId(gymId);
-
+    public List<BranchDTOOut> getByGym(Integer gymId){
+        return branchRepository.findBranchByGymId(gymId)
+                .stream().map(b->mapper.map(b, BranchDTOOut.class)).toList();
     }
 }
