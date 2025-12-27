@@ -30,17 +30,17 @@ public class Sport {
     @Column(columnDefinition = "varchar(25) not null")
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sport")
     @JsonIgnore
     private Set<Tournament> tournaments;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sport")
     @JsonIgnore
     private Set<Trainee> trainees;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "coach")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sport")
     @JsonIgnore
     private Set<Coach> coaches;
 

@@ -32,11 +32,11 @@ public class Trainee {
     @JsonIgnore
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
     @JsonIgnore
     private Set<RegisteredCourse> registeredCourses;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "champion")
     @JsonIgnore
     private Set<Tournament> tournaments;
 
@@ -45,7 +45,7 @@ public class Trainee {
     private Sport sport;
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredTournament")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
     @JsonIgnore
     private Set<RegisteredTournament> registeredTournaments;
 

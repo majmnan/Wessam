@@ -38,5 +38,5 @@ public class TraineeFeedback {
 
 
     @ManyToOne
-    private RegisteredCourse register;
+    private RegisteredCourse registeredCourse;
 }

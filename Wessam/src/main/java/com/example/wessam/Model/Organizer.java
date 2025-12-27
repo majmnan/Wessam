@@ -39,6 +39,6 @@ public class Organizer {
     @JsonIgnore
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "tournament")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "organizer")
     private Set<Tournament> tournaments;
 }
