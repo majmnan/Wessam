@@ -19,10 +19,11 @@ public class CoachReviews {
     private Integer id;
 
     @NotNull
-    @Min(1)
-    @Max(5)
+    @Min(value = 1,message = "min rate must be 1")
+    @Max(value = 5,message = "max rate must be 5")
     private Integer rate;
 
+    @NotEmpty(message = "description must be entered")
     private String description;
 
     @ManyToOne

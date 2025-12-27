@@ -21,13 +21,13 @@ public class Coach {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "coach name must be entered")
-    @Pattern(regexp = "^9665\\d{8}$", message = "phone number must start with 05")
+    @NotEmpty(message = "coach phone number must be entered")
+    @Pattern(regexp = "^05\\d{8}$", message = "phone number must start with 05")
     @Column(columnDefinition = "varchar(10) not null unique")
     private String phoneNumber;
 
-    @NotNull
-    @Past
+    @NotNull(message = "birth date must be entered")
+    @Past(message = "birth date must be on the past")
     private LocalDate birthDate;
 
 
