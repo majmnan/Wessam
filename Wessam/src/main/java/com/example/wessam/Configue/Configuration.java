@@ -1,5 +1,6 @@
 package com.example.wessam.Configue;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -40,5 +41,10 @@ public class Configuration {
                 .build();
 
     }
+
+    @Bean
+    public ModelMapper modelMapper(){
+        return new ModelMapper();
+    };
 
 }

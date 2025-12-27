@@ -19,19 +19,25 @@ public class CoachController {
 
     private final CoachService coachService;
 
-
+    //Auth: admin
     @GetMapping("/get")
-    public ResponseEntity<?> getCoachs(){
+    public ResponseEntity<?> getCoaches(){
         return ResponseEntity.status(200).body(coachService.getCoaches());
     }
 
-
-    @PostMapping("/add")
-    public ResponseEntity<?> addCoach(@RequestBody @Valid CoachDTOIn coachDTOIn){
-        coachService.addCoach(coachDTOIn);
-        return ResponseEntity.status(200).body(new ApiResponse("Coach is addeed successfully"));
+    //Auth: any
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody @Valid CoachDTOIn coachDTOIn){
+        coachService.register(coachDTOIn);
+        return ResponseEntity.status(200).body(new ApiResponse("Coach is registered successfully"));
     }
 
+    //Auth: gym
+    @PutMapping("/activate")
+    public ResponseEntity<?> activateCoach(@AuthenticationPrincipal User user, Integer coachId){
+        coachService.activateCoach(user.getId(),coachId);
+        return ResponseEntity.status(200).body(new ApiResponse("coach activated successfully"));
+    }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateCoach(@AuthenticationPrincipal User user,@RequestBody @Valid CoachDTOIn coachDTOIn) {
@@ -41,7 +47,7 @@ public class CoachController {
 
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCoach(@AuthenticationPrincipal User user,@PathVariable Integer id) {
+    public ResponseEntity<?> deleteCoach(@AuthenticationPrincipal User user) {
         coachService.deleteCoach(user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("Coach is deleted successfully"));
     }

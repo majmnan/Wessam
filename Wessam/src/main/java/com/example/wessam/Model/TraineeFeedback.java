@@ -1,6 +1,5 @@
 package com.example.wessam.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -38,5 +36,5 @@ public class TraineeFeedback {
 
 
     @ManyToOne
-    private RegisteredCourse registration;
+    private CourseRegistration registration;
 }

@@ -25,6 +25,6 @@ public class CoachReview {
     private String description;
 
     @ManyToOne
-    private RegisteredCourse registration;
+    private CourseRegistration registration;
 
 }

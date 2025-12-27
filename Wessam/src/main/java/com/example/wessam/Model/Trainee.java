@@ -3,7 +3,6 @@ package com.example.wessam.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +37,7 @@ public class Trainee {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
     @JsonIgnore
-    private Set<RegisteredCourse> registeredCourses;
+    private Set<CourseRegistration> coursRegistrations;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "champion")
     @JsonIgnore
