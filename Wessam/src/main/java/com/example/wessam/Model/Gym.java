@@ -23,10 +23,6 @@ public class Gym {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne
-    @JsonIgnore
-    @MapsId
-    private User user;
 
     @NotEmpty(message = "business certificate id must be entered")
     @Size(max = 10,message = "business certificate id  must be maximum  size of 10")
@@ -44,4 +40,9 @@ public class Gym {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "gym")
     @JsonIgnore
     private Set<Branch> branches;
+
+    @OneToOne
+    @JsonIgnore
+    @MapsId
+    private User user;
 }

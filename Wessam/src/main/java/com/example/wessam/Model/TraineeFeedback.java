@@ -26,14 +26,14 @@ public class TraineeFeedback {
     private Integer id;
 
     @NotNull
-    @Min(1)
-    @Max(5)
+    @Min(value = 1,message = "min rate must be 1")
+    @Max(value = 5,message = "max rate must be 5")
     private Integer rate;
 
-    @NotEmpty
+    @NotEmpty(message = "description must be entered")
     private String description;
 
-    @NotNull
+    @NotNull(message = "date must be entered")
     private LocalDate date;
 
 

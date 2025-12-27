@@ -9,6 +9,7 @@ import com.example.wessam.Repository.CoachRepository;
 import com.example.wessam.Repository.CourseRepository;
 import com.example.wessam.Repository.GymRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,8 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     public void addCourse(Integer gymId ,Course course, Integer coachId) {
         Coach coach = coachRepository.findCoachById(coachId);
         Gym gym = gymRepository.findGymById(gymId);
@@ -38,6 +41,7 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void updateCourse(Integer gymId,Course course,Integer courseId,Integer coachId){
         Course oldCourse = courseRepository.findCourseById(courseId);
         if (oldCourse == null) {
@@ -59,6 +63,8 @@ public class CourseService {
         oldCourse.setCoach(coach);
         courseRepository.save(oldCourse);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCourse(Integer gymId, Integer courseId) {
         Course course = courseRepository.findCourseById(courseId);
         if (course == null) {
