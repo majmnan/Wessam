@@ -24,12 +24,15 @@ public class Gym {
     private Integer id;
 
 
+    @NotEmpty
+    private String name;
+
     @NotEmpty(message = "business certificate id must be entered")
     @Size(max = 10,message = "business certificate id  must be maximum  size of 10")
     @Column(columnDefinition = "varchar(10) not null unique")
-    private String businuissCertificateId;
+    private String businessCertificateId;
 
-    @Pattern(regexp = "^(inActive|Active)$")
+    @Pattern(regexp = "^(InActive|Active)$")
     private String status;
 
     @NotEmpty(message = "gym description must be entered")

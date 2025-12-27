@@ -21,13 +21,15 @@ public class Coach {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotEmpty(message = "coach phone number must be entered")
-    @Pattern(regexp = "^05\\d{8}$", message = "phone number must start with 05")
+    private String name;
+
+    @NotEmpty(message = "coach name must be entered")
+    @Pattern(regexp = "^9665\\d{8}$", message = "phone number must start with 05")
     @Column(columnDefinition = "varchar(10) not null unique")
     private String phoneNumber;
 
-    @NotNull(message = "birth date must be entered")
-    @Past(message = "birth date must be on the past")
+    @NotNull
+    @Past
     private LocalDate birthDate;
 
 
@@ -35,6 +37,10 @@ public class Coach {
     @Positive(message = "years of experience must be positive number")
     @Column(columnDefinition = "int not null")
     private Integer yearsOfExperience;
+
+    @NotNull
+    @Pattern(regexp = "^(InActive|Active)$")
+    private String status;
 
     @OneToOne
     @MapsId

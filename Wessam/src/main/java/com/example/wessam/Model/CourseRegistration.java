@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 //todo: unique(course_id, trainee_id)
-public class RegisteredCourse {
+public class CourseRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

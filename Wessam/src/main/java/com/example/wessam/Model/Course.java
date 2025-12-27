@@ -1,12 +1,10 @@
 package com.example.wessam.Model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +23,9 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotNull
+    private String name;
+
     @Pattern(regexp = "^(beginners|intermediate|advanced)$")
     @Column(nullable = false)
     private String entryLevel;
@@ -41,7 +42,7 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
     @JsonIgnore
-    private Set<RegisteredCourse> registeredCourses;
+    private Set<CourseRegistration> coursRegistrations;
 
     @ManyToOne
     private Coach coach;

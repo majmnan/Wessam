@@ -11,6 +11,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"trainee_id","tournament_id"})})
 public class RegisteredTournament {
 
     @Id

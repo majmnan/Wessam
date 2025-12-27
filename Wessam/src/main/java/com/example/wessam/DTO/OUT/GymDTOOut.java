@@ -9,12 +9,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class GymDTOOut {
-    private String userName;
-
-
-    private String businuissCertificateId;
-
-    private String status;
-
-    private String description;
+        private String name;
+        private String description;
 }

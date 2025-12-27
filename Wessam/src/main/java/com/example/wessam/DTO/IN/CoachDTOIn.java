@@ -20,10 +20,17 @@ public class CoachDTOIn {
     @Past(message = "birth date must be on the past")
     private LocalDate birthDate;
 
+    private String name;
 
     @NotNull(message = "years of experience must be entered")
     @Positive(message = "years of experience must be positive number")
     private Integer yearsOfExperience;
+
+    @NotNull
+    private Integer sportId;
+
+    @NotNull
+    private Integer branchId;
 
     @NotEmpty(message = "username must be filled")
     @Size(min = 4, max = 20, message = "username size must be at least 4 maximum 20")
