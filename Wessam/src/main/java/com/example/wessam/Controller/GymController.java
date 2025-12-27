@@ -18,7 +18,6 @@ public class GymController {
 
     private final GymService gymService;
 
-        // ================== CRUD ==================
 
     // Auth: ANY
     @PostMapping("/register")
