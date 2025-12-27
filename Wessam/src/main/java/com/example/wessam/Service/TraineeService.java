@@ -9,6 +9,7 @@ import com.example.wessam.Repository.AuthRepository;
 import com.example.wessam.Repository.TraineeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +21,9 @@ public class TraineeService {
 
     private final TraineeRepository traineeRepository;
     private final AuthRepository authRepository;
+    private final PasswordEncoder passwordEncoder;
 
+    //Auth: Admin
     public List<TraineeDTOOut> getAllTrainees(){
         List<Trainee> trainees = traineeRepository.findAll();
         List<TraineeDTOOut> traineeDTOOuts = new ArrayList<>();
@@ -30,31 +33,33 @@ public class TraineeService {
         return traineeDTOOuts;
     }
 
-    public void addTrainee(TraineeDTOIn traineeDTOIn){
-        String hashed = new BCryptPasswordEncoder().encode(traineeDTOIn.getPassword());
-        User user = new User(null,traineeDTOIn.getUserName(),hashed,"TRAINEE",null,null,null,null);
+    //Auth: any
+    public void register(TraineeDTOIn traineeDTOIn){
+        User user = new User(traineeDTOIn.getUsername(),passwordEncoder.encode(traineeDTOIn.getPassword()),"TRAINEE");
         authRepository.save(user);
-        Trainee trainee = new Trainee(null,traineeDTOIn.getBirthDate(), traineeDTOIn.getGender(), traineeDTOIn.getHeight(), traineeDTOIn.getWeight(),traineeDTOIn.getLevel(),user,null,null,null,null);
+        Trainee trainee = new Trainee(null,traineeDTOIn.getBirthDate(), traineeDTOIn.getGender(), traineeDTOIn.getHeight(), traineeDTOIn.getWeight(),traineeDTOIn.getLevel(),user,traineeDTOIn.getName(),null,null,null,null);
         traineeRepository.save(trainee);
     }
 
+    //Auth: Trainee
     public void updateTrainee(Integer traineeId,TraineeDTOIn traineeDTOIn){
         Trainee trainee = traineeRepository.findTraineeById(traineeId);
         if (trainee == null) {
             throw new ApiException("Trainee not found");
         }
-        String hashed = new BCryptPasswordEncoder().encode(traineeDTOIn.getPassword());
         trainee.setBirthDate(traineeDTOIn.getBirthDate());
         trainee.setGender(traineeDTOIn.getGender());
         trainee.setHeight(traineeDTOIn.getHeight());
         trainee.setWeight(traineeDTOIn.getWeight());
         trainee.setLevel(traineeDTOIn.getLevel());
         User user = trainee.getUser();
-        user.setUsername(traineeDTOIn.getUserName());
-        user.setPassword(hashed);
+        user.setUsername(traineeDTOIn.getUsername());
+        user.setPassword(passwordEncoder.encode(traineeDTOIn.getPassword()));
         authRepository.save(user);
         traineeRepository.save(trainee);
     }
+
+    //Auth: Trainee
     public void deleteTrainee(Integer id) {
         Trainee trainee = traineeRepository.findTraineeById(id);
         if (trainee == null) {

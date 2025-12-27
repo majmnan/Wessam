@@ -1,6 +1,8 @@
 package com.example.wessam.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +21,19 @@ import java.util.List;
 @Getter
 @Setter
 public class User implements UserDetails{
-    //123
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotEmpty
+    @Column(unique = true)
     private String username;
 
+    @NotEmpty
     private String password;
 
+    @NotEmpty
+    @Pattern(regexp = "^(ADMIN|GYM|COACH|TRAINEE|ORGANIZER)$")
     private String role;
 
     @OneToOne(cascade = CascadeType.ALL,mappedBy = "user")
@@ -45,6 +51,12 @@ public class User implements UserDetails{
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
     @PrimaryKeyJoinColumn
     private Gym gym;
+
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

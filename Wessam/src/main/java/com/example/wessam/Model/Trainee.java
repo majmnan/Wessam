@@ -2,6 +2,7 @@ package com.example.wessam.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,9 @@ public class Trainee {
     @MapsId
     @JsonIgnore
     private User user;
+
+    @NotEmpty
+    private String name;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
     @JsonIgnore

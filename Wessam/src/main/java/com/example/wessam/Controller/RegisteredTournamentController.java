@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/v1/registeredTournament")
+@RequestMapping("/api/v1/registeredTournament")
 public class RegisteredTournamentController {
 
     private final RegisteredTournamentService registeredTournamentService;

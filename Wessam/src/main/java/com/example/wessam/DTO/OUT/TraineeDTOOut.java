@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class TraineeDTOOut {
-    private String userName;
+    private String name;
     private LocalDate birthDate;
     private String gender;
     private Integer height;

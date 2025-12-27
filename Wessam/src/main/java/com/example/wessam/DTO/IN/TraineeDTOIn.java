@@ -15,13 +15,15 @@ public class TraineeDTOIn {
     @NotEmpty(message = "username must be filled")
     @Size(min = 4, max = 20, message = "username size must be at least 4 maximum 20")
     @Pattern(regexp = "^[A-Za-z0-9]*$", message = "username must contain only letters and numbers")
-    private String userName;
+    private String username;
 
     @NotEmpty(message = "password must be filled")
     @Size(min = 8, message = "password must be at least 8 characters")
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$",
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!_]).{8,}$",
             message = "password must contain at least one uppercase, one lowercase, one number and one special character")
     private String password;
+
+    private String name;
 
     @NotNull(message = "birth date must be entered")
     @Past(message = "birth date must be in the past")
