@@ -28,22 +28,21 @@ public class Course {
     @Pattern(regexp = "^(beginners|intermediate|advanced)$")
     @Column(nullable = false)
     private String entryLevel;
+
     @FutureOrPresent(message = "start date can't be in the past")
     @NotNull(message = "start date must be entered")
     @Column(nullable = false)
     private LocalDate startDate;
+
     @FutureOrPresent(message = "end date can't be in the past")
     @NotNull(message = "end date must be entered")
     @Column(nullable = false)
     private LocalDate endDate;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registeredCourse")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
+    @JsonIgnore
     private Set<RegisteredCourse> registeredCourses;
 
     @ManyToOne
-    @JoinColumn(name = "coach_id_int", referencedColumnName = "id")
-    @JsonIgnore
     private Coach coach;
-
-
 }

@@ -1,6 +1,5 @@
 package com.example.wessam.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CoachReviews {
+public class CoachReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,11 +24,7 @@ public class CoachReviews {
 
     private String description;
 
-
-
     @ManyToOne
-    @JoinColumn(name = "registeredCourse_id_int", referencedColumnName = "id")
-    @JsonIgnore
-    private RegisteredCourse registeredCourse;
+    private RegisteredCourse registration;
 
 }
