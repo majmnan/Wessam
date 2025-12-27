@@ -1,6 +1,7 @@
 package com.example.wessam.DTO.IN;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,14 +36,16 @@ public class TraineeDTOIn {
     @Positive(message = "height must be a positive number")
     @Min(value = 50, message = "height is too low (min 50 cm)")
     @Max(value = 250, message = "height is too high (max 250 cm)")
-    private Double height;
+    private Integer height;
 
     @NotNull(message = "weight must be entered")
     @Positive(message = "weight must be a positive number")
     @Min(value = 20, message = "weight is too low (min 20 kg)")
     @Max(value = 300, message = "weight is too high (max 300 kg)")
-    private Double weight;
+    private Integer weight;
 
-    @NotEmpty(message = "belt must be filled")
-    private String belt;
+    @NotEmpty
+    @Pattern(regexp = "^(beginners|intermediate|advanced)$")
+    private String level;
+
 }

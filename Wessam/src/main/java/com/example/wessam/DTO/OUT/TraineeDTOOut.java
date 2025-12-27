@@ -1,5 +1,7 @@
 package com.example.wessam.DTO.OUT;
 
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,7 +13,7 @@ public class TraineeDTOOut {
     private String userName;
     private LocalDate birthDate;
     private String gender;
-    private Double height;
-    private Double weight;
-    private String belt;
+    private Integer height;
+    private Integer weight;
+    private String level;
 }
