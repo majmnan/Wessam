@@ -28,7 +28,7 @@ public class CourseRegistrationService {
         if(!course.getCoach().getId().equals(coachId))
             throw new ApiException("unAuthorized");
 
-        return courseRegistrationRepository.findRegisteredCoursesByCourseId(courseId)
+        return courseRegistrationRepository.findCourseRegistrationByCourseId(courseId)
                 .stream().map( rc ->
                         new CourseRegistrationDTOOut(rc.getTrainee().getName(), rc.getCourse().getName())
                 ).toList();
@@ -50,7 +50,7 @@ public class CourseRegistrationService {
 
     //Auth: Trainee
     public void deleteRegistration(Integer traineeId, Integer registeredCourseId){
-        CourseRegistration courseRegistration = courseRegistrationRepository.findRegisteredCourseById(registeredCourseId);
+        CourseRegistration courseRegistration = courseRegistrationRepository.findCourseRegistrationById(registeredCourseId);
         if(courseRegistration == null)
             throw new ApiException("no registration found");
 

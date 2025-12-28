@@ -1,30 +1,19 @@
-package com.example.wessam.Model;
+package com.example.wessam.DTO.IN;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import com.example.wessam.Model.CourseRegistration;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.Set;
 
-@Entity
+@Data
 @AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"register_id","date"})})
-public class TraineeFeedback {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class TraineeFeedbackDTOIn {
     @NotNull
     @Min(value = 1,message = "min rate must be 1")
     @Max(value = 5,message = "max rate must be 5")
@@ -36,6 +25,6 @@ public class TraineeFeedback {
     @NotNull(message = "date must be entered")
     private LocalDate date;
 
-    @ManyToOne
-    private CourseRegistration courseRegistration;
+    @NotNull
+    private Integer registrationId;
 }

@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface CourseRegistrationRepository extends JpaRepository<CourseRegistration, Integer> {
-    CourseRegistration findRegisteredCourseById(Integer id);
-    List<CourseRegistration> findRegisteredCoursesByCourseId(Integer courseId);
+    CourseRegistration findCourseRegistrationById(Integer id);
+    List<CourseRegistration> findCourseRegistrationByCourseId(Integer courseId);
 }
