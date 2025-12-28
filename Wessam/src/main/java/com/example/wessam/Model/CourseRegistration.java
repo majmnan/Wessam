@@ -15,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 //todo: unique(course_id, trainee_id)
-public class RegisteredCourse {
+public class CourseRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,12 +30,12 @@ public class RegisteredCourse {
 
 
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "registration")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "courseRegistration")
     @JsonIgnore
     private Set<TraineeFeedback> traineeFeedbacks;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "registration")
     @JsonIgnore
-    private Set<CoachReview> coachReviews;
+    private Set<CourseReview> courseReviews;
 }

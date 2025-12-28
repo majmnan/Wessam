@@ -28,7 +28,7 @@ public class Organizer {
     @Column(columnDefinition = "varchar(25) not null")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "business certificate id must be entered")
     private String businessCertificateId;
 
     @Pattern(regexp = "^(inActive|Active)$")

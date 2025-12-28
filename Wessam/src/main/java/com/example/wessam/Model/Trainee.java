@@ -2,7 +2,7 @@ package com.example.wessam.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,13 +32,16 @@ public class Trainee {
     @JsonIgnore
     private User user;
 
+    @NotEmpty
+    private String name;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "trainee")
     @JsonIgnore
-    private Set<RegisteredCourse> registeredCourses;
+    private Set<CourseRegistration> coursRegistrations;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "champion")
     @JsonIgnore
-    private Set<Tournament> championships;
+    private Set<Tournament> tournaments;
 
 
     @ManyToOne

@@ -16,23 +16,27 @@ import org.springframework.web.bind.annotation.*;
 public class TraineeController {
     private final TraineeService traineeService;
 
-    @GetMapping("/get")//todo: admin only auth
+    //Auth: Admin
+    @GetMapping("/get")
     public ResponseEntity<?> getAllTrainees(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(200).body(traineeService.getAllTrainees());
     }
 
+    //Auth: any
     @PostMapping("/register")
     public ResponseEntity<?> registerTrainee(@RequestBody @Valid TraineeDTOIn traineeDTOIn) {
-        traineeService.addTrainee(traineeDTOIn);
+        traineeService.register(traineeDTOIn);
         return ResponseEntity.status(200).body(new ApiResponse("Trainee registered successfully"));
     }
 
+    //Auth: Trainee
     @PutMapping("/update")
     public ResponseEntity<?> updateTrainee(@AuthenticationPrincipal User user, @RequestBody @Valid TraineeDTOIn traineeDTOIn) {
         traineeService.updateTrainee(user.getId(), traineeDTOIn);
         return ResponseEntity.status(200).body(new ApiResponse("Trainee profile updated successfully"));
     }
 
+    //Auth: Trainee
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteTrainee(@AuthenticationPrincipal User user) {
         traineeService.deleteTrainee(user.getId());

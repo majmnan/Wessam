@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CoachReview {
+public class CourseReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -25,6 +25,6 @@ public class CoachReview {
     private String description;
 
     @ManyToOne
-    private RegisteredCourse registration;
+    private CourseRegistration registration;
 
 }
