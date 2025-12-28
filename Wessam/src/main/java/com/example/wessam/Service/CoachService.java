@@ -28,7 +28,7 @@ public class CoachService {
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
 
-
+    //Auth: any
     public List<CoachDTOOut> getCoaches() {
         List<Coach> coaches = coachRepository.findAll();
         List<CoachDTOOut> coachDTOOuts = new ArrayList<>();
@@ -92,5 +92,19 @@ public class CoachService {
         coachRepository.delete(coach);
     }
 
+    //Auth: any
+    //get active coaches by gym
+
+    //Auth: any
+    //get active coaches by branch
+
+    //Auth: gym
+    //get InActive coaches by gym
+
+    //Auth: coach
+    //transfer branch request
+
+    //Auth: Gym
+    //accept transfer branch
 
 }

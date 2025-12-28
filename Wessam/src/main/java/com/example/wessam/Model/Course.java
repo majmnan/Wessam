@@ -42,7 +42,7 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "course")
     @JsonIgnore
-    private Set<CourseRegistration> coursRegistrations;
+    private Set<CourseRegistration> courseRegistrations;
 
     @ManyToOne
     private Coach coach;

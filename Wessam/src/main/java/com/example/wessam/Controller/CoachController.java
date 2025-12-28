@@ -33,19 +33,20 @@ public class CoachController {
     }
 
     //Auth: gym
-    @PutMapping("/activate")
-    public ResponseEntity<?> activateCoach(@AuthenticationPrincipal User user, Integer coachId){
+    @PutMapping("/activate/{coachId}")
+    public ResponseEntity<?> activateCoach(@AuthenticationPrincipal User user,@PathVariable Integer coachId){
         coachService.activateCoach(user.getId(),coachId);
         return ResponseEntity.status(200).body(new ApiResponse("coach activated successfully"));
     }
 
+    //Auth: Coach
     @PutMapping("/update")
     public ResponseEntity<?> updateCoach(@AuthenticationPrincipal User user,@RequestBody @Valid CoachDTOIn coachDTOIn) {
         coachService.updateCoach(user.getId(), coachDTOIn);
         return ResponseEntity.status(200).body(new ApiResponse("Coach is updated successfully"));
     }
 
-
+    //Auth: Coach
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteCoach(@AuthenticationPrincipal User user) {
         coachService.deleteCoach(user.getId());

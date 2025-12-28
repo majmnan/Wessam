@@ -51,4 +51,13 @@ public class GymService {
     public void deleteGym(Integer gymId){
         authRepository.deleteById(gymId);
     }
+
+    //Auth: Admin
+    //get all gyms
+
+    //Auth: Admin
+    //get InActive gyms
+
+    //Auth: any
+    //get active gyms
 }

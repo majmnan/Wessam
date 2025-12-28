@@ -37,5 +37,5 @@ public class CourseRegistration {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "registration")
     @JsonIgnore
-    private Set<CoachReview> coachReviewses;
+    private Set<CourseReview> courseReviews;
 }

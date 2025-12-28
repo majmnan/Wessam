@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import tools.jackson.databind.ObjectMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -37,5 +38,28 @@ public class AiService {
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
+    }
+
+    public String toJson(Object obj) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException("JSON serialization failed", e);
+        }
+    }
+
+    String extractJsonArray(String text) {
+
+        text = text.replace("```json", "").replace("```", "").trim();
+
+        int start = text.indexOf('[');
+        int end = text.lastIndexOf(']');
+
+        if (start == -1 || end == -1 || end <= start) {
+            throw new RuntimeException("AI response does not contain a JSON array");
+        }
+
+        return text.substring(start, end + 1);
     }
 }
