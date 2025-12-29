@@ -28,7 +28,7 @@ public class TraineeService {
         List<Trainee> trainees = traineeRepository.findAll();
         List<TraineeDTOOut> traineeDTOOuts = new ArrayList<>();
         for (Trainee t : trainees) {
-            traineeDTOOuts.add(new TraineeDTOOut(t.getUser().getUsername(),t.getBirthDate(),t.getGender(),t.getHeight(),t.getWeight(),t.getLevel()));
+            traineeDTOOuts.add(new TraineeDTOOut(t.getUser().getUsername(),t.getBirthDate(),t.getGender(),t.getHeight(),t.getWeight(),t.getLevel(),t.getEmail()));
         }
         return traineeDTOOuts;
     }
@@ -37,7 +37,7 @@ public class TraineeService {
     public void register(TraineeDTOIn traineeDTOIn){
         User user = new User(traineeDTOIn.getUsername(),passwordEncoder.encode(traineeDTOIn.getPassword()),"TRAINEE");
         authRepository.save(user);
-        Trainee trainee = new Trainee(null,traineeDTOIn.getBirthDate(), traineeDTOIn.getGender(), traineeDTOIn.getHeight(), traineeDTOIn.getWeight(),traineeDTOIn.getLevel(),user,traineeDTOIn.getName(),null,null,null,null);
+        Trainee trainee = new Trainee(null,traineeDTOIn.getBirthDate(), traineeDTOIn.getGender(), traineeDTOIn.getHeight(), traineeDTOIn.getWeight(),traineeDTOIn.getLevel(),traineeDTOIn.getEmail(),user,traineeDTOIn.getName(),null,null,null,null);
         traineeRepository.save(trainee);
     }
 

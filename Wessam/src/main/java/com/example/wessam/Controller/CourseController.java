@@ -2,7 +2,6 @@ package com.example.wessam.Controller;
 
 import com.example.wessam.Api.ApiResponse;
 import com.example.wessam.DTO.IN.CourseDTOIn;
-import com.example.wessam.Model.Course;
 import com.example.wessam.Model.User;
 import com.example.wessam.Service.CourseService;
 import jakarta.validation.Valid;
@@ -37,6 +36,17 @@ public class CourseController {
     public ResponseEntity<?> deleteCourse(@AuthenticationPrincipal User user, @PathVariable Integer courseId) {
         courseService.deleteCourse(courseId, user.getId());
         return ResponseEntity.status(200).body(new ApiResponse("course deleted successfully"));
+    }
+
+    @GetMapping("/next-level-courses")
+    public ResponseEntity<?> nextLevelCourses(@AuthenticationPrincipal User user) {
+        return ResponseEntity.status(200).body(courseService.nextLevelCourses(user.getId()));
+    }
+
+    @PostMapping("/certificates/{courseId}")
+    public ResponseEntity<?> generateCertificate(@AuthenticationPrincipal User user,@PathVariable Integer courseId) {
+        courseService.generateCertificate(user.getId(), courseId);
+        return ResponseEntity.status(200).body(new ApiResponse("Certificate was generated and sent successfully"));
     }
 
 

@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/coach")
@@ -53,5 +55,9 @@ public class CoachController {
         return ResponseEntity.status(200).body(new ApiResponse("Coach is deleted successfully"));
     }
 
+    @GetMapping("/available/{date}")
+    public ResponseEntity<?> getAvailableCoaches(@PathVariable LocalDate date) {
+        return ResponseEntity.status(200).body(coachService.getAvailableCoaches(date));
+    }
 
 }

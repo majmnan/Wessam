@@ -3,16 +3,21 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.CourseDTOIn;
+import com.example.wessam.DTO.IN.N8nPdfCertGenDTOIn;
 import com.example.wessam.DTO.OUT.CourseDTOOut;
+import com.example.wessam.DTO.OUT.N8nPdfCertGenDtoOUT;
 import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Course;
+import com.example.wessam.Model.Trainee;
 import com.example.wessam.Repository.CoachRepository;
 import com.example.wessam.Repository.CourseRepository;
 import com.example.wessam.Repository.GymRepository;
+import com.example.wessam.Repository.TraineeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -22,6 +27,8 @@ public class CourseService {
     private final CoachRepository coachRepository;
     private final GymRepository gymRepository;
     private final ModelMapper mapper;
+    private final TraineeRepository traineeRepository;
+    private final N8nService n8nService;
 
     //Auth: any
     public List<CourseDTOOut> getAllCourses() {
@@ -83,6 +90,40 @@ public class CourseService {
             throw new ApiException("you do not have permission to delete this course");
         }
         courseRepository.delete(course);
+    }
+
+    //trainee auth
+    public List<CourseDTOOut> nextLevelCourses(Integer traineeId) {
+        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+        if (trainee == null)
+            throw new ApiException("Trainee not found");
+
+        String currentLevel = trainee.getLevel();
+        String nextLevel;
+
+        if ("beginner".equalsIgnoreCase(currentLevel))
+            nextLevel = "intermediate";
+        else if ("intermediate".equalsIgnoreCase(currentLevel))
+            nextLevel = "advanced";
+        else return List.of();
+
+        List<Course> nextCourses = courseRepository.findCoursesByEntryLevelAndStartDateAfter(nextLevel, LocalDate.now());
+        return nextCourses.stream().map(c -> mapper.map(c, CourseDTOOut.class)).toList();
+    }
+
+    //trainee auth
+    public void generateCertificate(Integer traineeId, Integer courseId){
+        Course course = courseRepository.findCourseById(courseId);
+        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+
+        if (course.getEndDate().isAfter(LocalDate.now())) {
+            throw new RuntimeException("Cannot issue certificate: Course is not yet completed.");
+        }
+
+        N8nPdfCertGenDTOIn n8nRequest = new N8nPdfCertGenDTOIn(trainee.getName(),trainee.getEmail(),course.getName(),course.getEndDate().toString());
+        N8nPdfCertGenDtoOUT response = n8nService.triggerPdf(n8nRequest);
+        if(!"Certificate was generated and sent successfully".equalsIgnoreCase(response.getMessage()))
+            throw new ApiException("something went wrong "+response.getMessage());
     }
 
 }

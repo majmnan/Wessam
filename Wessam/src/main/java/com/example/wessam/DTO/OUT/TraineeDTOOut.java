@@ -16,4 +16,6 @@ public class TraineeDTOOut {
     private Integer height;
     private Integer weight;
     private String level;
+    private String email;
+
 }

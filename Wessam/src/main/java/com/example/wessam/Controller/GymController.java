@@ -46,4 +46,10 @@ public class GymController {
         gymService.deleteGym(user.getId());
         return ResponseEntity.status(HttpStatus.OK).body("Gym deleted successfully");
     }
+
+    @PostMapping("/report")
+    public ResponseEntity<?> reportIncident(@AuthenticationPrincipal User user, @RequestBody String message) {
+        gymService.reportIncident(user.getId(), message);
+        return ResponseEntity.status(200).body(new ApiResponse("Incident reported successfully"));
+    }
 }

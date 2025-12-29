@@ -26,7 +26,7 @@ public class Trainee {
     private Integer height;
     private Integer weight;
     private String level;
-
+    private String email;
     @OneToOne
     @MapsId
     @JsonIgnore

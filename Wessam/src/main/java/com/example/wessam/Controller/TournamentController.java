@@ -39,4 +39,9 @@ public class TournamentController {
         return ResponseEntity.status(200).body(new ApiResponse("Tournament deleted successfully"));
     }
 
+    @GetMapping("/generate-post/{tournamentId}")
+    public ResponseEntity<?> generateSocialPost(@PathVariable Integer tournamentId) {
+        return ResponseEntity.status(200).body(new ApiResponse(tournamentService.generateSocialPost(tournamentId)));
+    }
+
 }

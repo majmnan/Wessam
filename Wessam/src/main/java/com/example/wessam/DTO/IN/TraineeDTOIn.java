@@ -31,7 +31,7 @@ public class TraineeDTOIn {
     private LocalDate birthDate;
 
     @NotEmpty(message = "gender must be filled")
-    @Pattern(regexp = "^(MALE|FEMALE)$", message = "gender must be either 'Male' or 'Female'")
+    @Pattern(regexp = "^(MALE|FEMALE)$", message = "gender must be either 'MALE' or 'FEMALE'")
     private String gender;
 
     @NotNull(message = "height must be entered")
@@ -49,5 +49,9 @@ public class TraineeDTOIn {
     @NotEmpty
     @Pattern(regexp = "^(beginners|intermediate|advanced)$")
     private String level;
+
+    @NotEmpty
+    @Email
+    private String email;
 
 }

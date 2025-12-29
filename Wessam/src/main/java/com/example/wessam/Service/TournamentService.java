@@ -19,6 +19,7 @@ public class TournamentService {
     private final TournamentRepository tournamentRepository;
     private final OrganizerRepository organizerRepository;
     private final SportRepository sportRepository;
+    private final AiService aiService;
 
     public List<Tournament> getAllTournaments() {
         return tournamentRepository.findAll();
@@ -65,6 +66,15 @@ public class TournamentService {
             throw new ApiException("you do not have permission to delete this tournament");
         }
         tournamentRepository.delete(tournament);
+    }
+
+    // trainee auth
+    public String generateSocialPost(Integer tournamentId) {
+        Tournament tournament = tournamentRepository.findTournamentById(tournamentId);
+        if (tournament == null) throw new ApiException("Tournament not found");
+
+        String prompt = "Write in arabic, an exciting Instagram caption with hashtags for a player who just joined the " + tournament.getName() + " tournament";
+        return aiService.chat(prompt);
     }
 
 }

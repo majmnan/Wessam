@@ -13,6 +13,7 @@ import java.util.List;
 public class SportService {
 
     private final SportRepository sportRepository;
+    private final AiService aiService;
 
     //Auth: all
     public List<Sport> getSports() {
@@ -42,6 +43,24 @@ public class SportService {
             throw new ApiException("Sport is not found");
         }
         sportRepository.delete(sport);
+    }
+
+    //trainee auth
+    public String getNutritionTip(Integer sportId) {
+        Sport sport = sportRepository.findSportById(sportId);
+        if (sport == null) throw new ApiException("Sport not found");
+
+        String prompt = "Give me one specific, healthy snack recommendation to eat 30 minutes before a " + sport.getName() + " training session. Keep it under 20 words, answer in arabic.";
+        return aiService.chat(prompt);
+    }
+
+    //trainee auth
+    public String getHomeWorkout(Integer sportId) {
+        Sport sport = sportRepository.findSportById(sportId);
+        if (sport == null) throw new ApiException("Sport not found");
+
+        String prompt = "Describe one simple " + sport.getName() + " workout I can do at home in 5 minutes without equipment, answer in arabic";
+        return aiService.chat(prompt);
     }
 
 

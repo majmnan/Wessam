@@ -12,10 +12,12 @@ import com.example.wessam.Repository.AuthRepository;
 import com.example.wessam.Repository.CoachRepository;
 import com.example.wessam.Repository.SportRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class CoachService {
     private final CoachRepository coachRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper mapper;
+
 
     //Auth: any
     public List<CoachDTOOut> getCoaches() {
@@ -92,6 +96,25 @@ public class CoachService {
         coachRepository.delete(coach);
     }
 
+    //gym auth
+    public List<CoachDTOOut> getAvailableCoaches(LocalDate targetDate) {
+        List<Coach> allCoaches = coachRepository.findAll();
+        List<Coach> availableCoaches = new ArrayList<>();
+
+        for (Coach coach : allCoaches) {
+            boolean isBusy = false;
+            for (Course course : coach.getCourses()) {
+                if (!targetDate.isBefore(course.getStartDate()) && !targetDate.isAfter(course.getEndDate())) {
+                    isBusy = true;
+                    break;
+                }
+            }
+            if (!isBusy) {
+                availableCoaches.add(coach);
+            }
+        }
+        return availableCoaches.stream().map(c -> mapper.map(c, CoachDTOOut.class)).toList();
+    }
     //Auth: any
     //get active coaches by gym
 

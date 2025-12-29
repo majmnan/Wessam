@@ -43,4 +43,14 @@ public class SportController {
         sportService.deleteSport(id);
         return ResponseEntity.status(200).body(new ApiResponse("Sport deleted successfully"));
     }
+
+    @GetMapping("/nutrition-tip/{sportId}")
+    public ResponseEntity<?> getNutritionTip(@PathVariable Integer sportId) {
+        return ResponseEntity.status(200).body(new ApiResponse(sportService.getNutritionTip(sportId)));
+    }
+
+    @GetMapping("/home-workout/{sportId}")
+    public ResponseEntity<?> getHomeDrill(@PathVariable Integer sportId) {
+        return ResponseEntity.status(200).body(new ApiResponse(sportService.getHomeWorkout(sportId)));
+    }
 }

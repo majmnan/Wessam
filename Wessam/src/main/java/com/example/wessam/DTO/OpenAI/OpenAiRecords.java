@@ -5,7 +5,7 @@ import java.util.List;
 public record OpenAiRecords() {
     public record AiRequest(String model, List<Message> messages, Double temperature) {
         public AiRequest(String model, String prompt) {
-            this(model, List.of(new Message("user", prompt)), 0.0);
+            this(model, List.of(new Message("user", prompt)), 1.0);
         }
     }
     public record Message(String role, String content) {}
