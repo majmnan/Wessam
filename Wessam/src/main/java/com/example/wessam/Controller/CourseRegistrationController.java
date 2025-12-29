@@ -1,5 +1,6 @@
 package com.example.wessam.Controller;
 
+import com.example.wessam.Api.ApiResponse;
 import com.example.wessam.Model.User;
 import com.example.wessam.Service.CourseRegistrationService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,28 @@ public class CourseRegistrationController {
     public ResponseEntity<?> deleteRegistration(@AuthenticationPrincipal User user, @PathVariable Integer registrationId) {
         courseRegistrationService.deleteRegistration(user.getId(), registrationId);
         return ResponseEntity.status(HttpStatus.OK).body("Registration deleted successfully");
+    }
+
+    @PutMapping("/complete/{registrationId}")
+    public ResponseEntity<?> markAsCompleted(@AuthenticationPrincipal User user, @PathVariable Integer registrationId) {
+        courseRegistrationService.markAsCompleted(user.getId(), registrationId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course marked as COMPLETED"));
+    }
+
+    @PutMapping("/drop/{registrationId}")
+    public ResponseEntity<?> markAsDropped(@AuthenticationPrincipal User user, @PathVariable Integer registrationId) {
+        courseRegistrationService.markAsDropped(user.getId(), registrationId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course marked as DROPPED"));
+    }
+
+    @GetMapping("/completed")
+    public ResponseEntity<?> getCompletedRegistrations() {
+        return ResponseEntity.status(HttpStatus.OK).body(courseRegistrationService.getCompletedRegistrations());
+    }
+
+    @GetMapping("/dropped")
+    public ResponseEntity<?> getDroppedRegistrations() {
+        return ResponseEntity.status(HttpStatus.OK).body(courseRegistrationService.getDroppedRegistrations());
     }
 }
 

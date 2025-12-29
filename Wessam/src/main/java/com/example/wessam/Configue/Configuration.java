@@ -2,6 +2,7 @@ package com.example.wessam.Configue;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,7 +20,14 @@ public class Configuration {
     }
     @Bean
     public RestClient restClient() {
-        return RestClient.create();
+        // Create a factory to configure timeouts
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(5000);
+        factory.setReadTimeout(60000);
+
+        return RestClient.builder()
+                .requestFactory(factory)
+                .build();
     }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception{
