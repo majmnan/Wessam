@@ -56,7 +56,7 @@ public class CoachService {
         authRepository.save(user);
         Sport sport = sportRepository.findSportById(coachDTOIn.getSportId());
         Branch branch = branchRepository.findBranchById(coachDTOIn.getBranchId());
-        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),"InActive",user,branch,null,sport);
+        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),"InActive",user,branch,null,sport, coachDTOIn.getEmail());
         coachRepository.save(coach);
     }
 
@@ -86,6 +86,7 @@ public class CoachService {
         coach.setName(coachDTOIn.getName());
         coach.setPhoneNumber(coachDTOIn.getPhoneNumber());
         coach.setBirthDate(coachDTOIn.getBirthDate());
+        coach.setEmail(coachDTOIn.getEmail());
         coach.setYearsOfExperience(coachDTOIn.getYearsOfExperience());
         user.setUsername(coachDTOIn.getUsername());
         user.setPassword(passwordEncoder.encode(coachDTOIn.getPassword()));
@@ -116,7 +117,11 @@ public class CoachService {
                 availableCoaches.add(coach);
             }
         }
-        return availableCoaches.stream().map(c -> mapper.map(c, CoachDTOOut.class)).toList();
+        return availableCoaches.stream().map(c -> {
+            CoachDTOOut dto = mapper.map(c, CoachDTOOut.class);
+            dto.setSportName(c.getSport().getName());
+            return dto;
+        }).toList();
     }
     //Auth: any
     //get active coaches by gym

@@ -4,6 +4,7 @@ import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.BranchDTOIn;
 import com.example.wessam.DTO.OUT.BranchDTOOut;
 import com.example.wessam.Model.Branch;
+import com.example.wessam.Model.Gym;
 import com.example.wessam.Repository.BranchRepository;
 import com.example.wessam.Repository.GymRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,16 @@ public class BranchService {
 
     //Auth: Gym
     public List<BranchDTOOut> getByGym(Integer gymId){
+        Gym gym = gymRepository.findGymById(gymId);
+        if(gym == null)
+            throw new ApiException("gym not found");
         return branchRepository.findBranchByGymId(gymId)
-                .stream().map(b->mapper.map(b, BranchDTOOut.class)).toList();
+                .stream().map(b->{
+                    BranchDTOOut dto = mapper.map(b, BranchDTOOut.class);
+                    dto.setName(gym.getName());
+                    dto.setDescription(gym.getDescription());
+                    return dto;
+                }).toList();
     }
 
     //Auth: Gym

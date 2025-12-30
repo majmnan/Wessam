@@ -23,7 +23,7 @@ public class Organizer {
     private Integer id;
 
     @NotEmpty(message = "organizer name must be entered")
-    @Pattern(regexp = "^[a-zA-Z]$",message = "organizer name must be only letters")
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "organizer name must be only letters")
     @Size(min = 2,max = 25,message = "organizer name must be at least size of 2 and maximum size of 25")
     @Column(columnDefinition = "varchar(25) not null")
     private String name;
@@ -40,5 +40,6 @@ public class Organizer {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "organizer")
+    @JsonIgnore
     private Set<Tournament> tournaments;
 }

@@ -6,47 +6,49 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 import tools.jackson.databind.ObjectMapper;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AiService {
-    private final RestClient restClient;
+
+    private final WebClient openaiClient;
 
     @Value("${openai.api.key}")
     private String apiKey;
 
-    private final String API_URL = "https://api.openai.com/v1/chat/completions";
+    @Value("${openai.model}")
+    private String model;
 
-    public String chat(String prompt) {
-        try {
+    @Value("${openai.temperature}")
+    private Double temperature;
 
-            OpenAiRecords.AiRequest request = new OpenAiRecords.AiRequest("gpt-5", prompt);
+    public String callAi(String prompt) {
 
-            OpenAiRecords.AiResponse response = restClient.post()
-                    .uri(API_URL)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .header("Authorization", "Bearer " + apiKey)
-                    .body(request)
-                    .retrieve()
-                    .body(OpenAiRecords.AiResponse.class);
+        Map<String, Object> body = Map.of(
+                "model", model,
+                "messages", List.of(
+                        Map.of("role", "user", "content", prompt)
+                ),
+                "temperature", temperature
+        );
 
-            if (response != null && !response.choices().isEmpty()) {
-                return response.choices().get(0).message().content();
-            }
-            return "No response";
-        } catch (Exception e) {
-            return "Error: " + e.getMessage();
-        }
-    }
-
-    public String toJson(Object obj) {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException("JSON serialization failed", e);
-        }
+        return openaiClient.post()
+                .uri("/v1/chat/completions")
+                .header("Authorization", "Bearer "+apiKey)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(body)
+                .retrieve()
+                .bodyToMono(Map.class)
+                .map(response ->
+                        ((Map) ((Map) ((List) response.get("choices"))
+                                .get(0)).get("message")).get("content").toString()
+                )
+                .block();
     }
 
     String extractJsonArray(String text) {

@@ -10,6 +10,7 @@ public class CardDTOIn {
     @NotNull
     private String name;
     @NotNull
+    @Size(min = 16, max = 16)
     private String number;
     @NotNull
     @Pattern(regexp = "^\\d{3}$")
@@ -20,4 +21,5 @@ public class CardDTOIn {
     private String month;
     @NotNull
     private String year;
+
 }

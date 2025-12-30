@@ -18,7 +18,7 @@ public class ChatController {
 
     @PostMapping("/ask")
     public ResponseEntity<?> ask(@RequestBody String userMessage) {
-        String aiResponse = aiService.chat(userMessage);
+        String aiResponse = aiService.callAi(userMessage);
         return ResponseEntity.status(200).body(aiResponse);
     }
 }

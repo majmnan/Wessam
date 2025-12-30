@@ -46,6 +46,8 @@ public class GymService {
     //todo: change the logic
     public void activateGym(Integer gymId){
         Gym gym = gymRepository.findGymById(gymId);
+        if(gym == null)
+            throw new ApiException("gym not found");
         if(gym.getStatus().equals("Active"))
             throw new ApiException("gym is already active");
         gym.setStatus("Pending");
@@ -70,9 +72,9 @@ public class GymService {
     }
 
 
-    //trainee auth
-    public void reportIncident(Integer traineeId, String message) {
-        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+    //auth: any
+    public void reportIncident(Integer userId, String message) {
+        User user = authRepository.findUserById(userId);
         if (message == null)
             throw new ApiException("Message cannot be empty");
 
@@ -81,7 +83,7 @@ public class GymService {
                 "Then provide a one-sentence recommended action for the admin. " +
                 "Format your answer exactly like this: 'PRIORITY: [Level] - [Action]'. " +
                 "the report: " + message;
-        String aiAnalysis = aiService.chat(prompt);
+        String aiAnalysis = aiService.callAi(prompt);
         String subject;
         if (aiAnalysis.toUpperCase().contains("HIGH")) {
             subject = "HIGH priority incident report";
@@ -91,7 +93,7 @@ public class GymService {
             subject = "LOW priority incident  report";
         }
 
-        String emailBody = "Reporter: " + trainee.getUser().getUsername() + " ID: " + trainee.getId() +
+        String emailBody = "Reporter: " + user.getUsername() + " ID: " + user.getId() +
                 "\n---  ORIGINAL REPORT ---\n" +message+
                 "\n--- AI ANALYSIS & RECOMMENDATION ---\n" +aiAnalysis +
                 "\nPlease take appropriate action.";
@@ -110,17 +112,17 @@ public class GymService {
     public ResponseEntity<PaymentResponseDTO> subscribe(Integer gymId, CardDTOIn card, Integer months, Integer price){
         if(gymRepository.findGymById(gymId).getStatus().equals("InActive"))
             throw new ApiException("gym waits approve from admin");
-        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, price, "SAR", String.valueOf(gymId), "http://localhost:8080/api/v1/gym/complete-payment/"+months));
+        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, price, "SAR", "Pay 1 year subscription", "http://localhost:8080/api/v1/gym/complete-payment/"+gymId+"/"+months));
         if(!response.getStatusCode().is2xxSuccessful())
             throw new ResponseStatusException(response.getStatusCode(),response.hasBody() ? response.getBody().toString() : "");
 
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
 
-    public void checkPayment(Integer months, String paymentId){
+    public void checkPayment(String paymentId, Integer gymId, Integer months){
         ResponseEntity<PaymentResponseDTO> response = paymentService.getPayment(paymentId);
         if("paid".equals(response.getBody().getStatus())){
-            Gym gym = gymRepository.findGymById(Integer.valueOf(response.getBody().getDescription()));
+            Gym gym = gymRepository.findGymById(gymId);
             if(gym.getStatus().equals("Pending")) {
                 gym.setSubscriptionEndDate(LocalDate.now().plusMonths(months));
             }
@@ -128,7 +130,8 @@ public class GymService {
             gym.setStatus("Active");
             gymRepository.save(gym);
         }
-        throw new ResponseStatusException(response.getStatusCode(),response.getBody().getSource().getMessage());
+        else
+            throw new ResponseStatusException(response.getStatusCode(),response.getBody().getSource().getMessage());
     }
 
     //Auth: Admin

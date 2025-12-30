@@ -43,11 +43,7 @@ public class CourseController {
         return ResponseEntity.status(200).body(courseService.nextLevelCourses(user.getId()));
     }
 
-    @PostMapping("/certificates/{courseId}")
-    public ResponseEntity<?> generateCertificate(@AuthenticationPrincipal User user,@PathVariable Integer courseId) {
-        courseService.generateCertificate(user.getId(), courseId);
-        return ResponseEntity.status(200).body(new ApiResponse("Certificate was generated and sent successfully"));
-    }
+
 
 
 

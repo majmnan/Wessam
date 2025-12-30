@@ -3,11 +3,13 @@ package com.example.wessam.DTO.OUT;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CoachDTOOut {
     private String name;
 
@@ -17,5 +19,5 @@ public class CoachDTOOut {
 
     private Integer yearsOfExperience;
 
-    private String sport;
+    private String sportName;
 }

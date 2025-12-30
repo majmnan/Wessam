@@ -51,7 +51,7 @@ public class SportService {
         if (sport == null) throw new ApiException("Sport not found");
 
         String prompt = "Give me one specific, healthy snack recommendation to eat 30 minutes before a " + sport.getName() + " training session. Keep it under 20 words, answer in arabic.";
-        return aiService.chat(prompt);
+        return aiService.callAi(prompt);
     }
 
     //trainee auth
@@ -60,7 +60,7 @@ public class SportService {
         if (sport == null) throw new ApiException("Sport not found");
 
         String prompt = "Describe one simple " + sport.getName() + " workout I can do at home in 5 minutes without equipment, answer in arabic";
-        return aiService.chat(prompt);
+        return aiService.callAi(prompt);
     }
 
 

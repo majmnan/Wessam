@@ -10,25 +10,24 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @org.springframework.context.annotation.Configuration
 @EnableWebSecurity
 public class Configuration {
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    public RestClient restClient() {
-        // Create a factory to configure timeouts
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        factory.setConnectTimeout(5000);
-        factory.setReadTimeout(60000);
 
-        return RestClient.builder()
-                .requestFactory(factory)
+    @Bean
+    public WebClient openaiClient() {
+        return WebClient.builder()
+                .baseUrl("https://api.openai.com")
                 .build();
     }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception{
         return security

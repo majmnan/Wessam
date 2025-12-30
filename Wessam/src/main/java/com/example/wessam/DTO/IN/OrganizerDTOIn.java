@@ -12,7 +12,7 @@ import lombok.Data;
 public class OrganizerDTOIn {
 
     @NotEmpty(message = "organizer name must be entered")
-    @Pattern(regexp = "^[a-zA-Z]$",message = "organizer name must be only letters")
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "organizer name must be only letters")
     @Size(min = 2,max = 25,message = "organizer name must be at least size of 2 and maximum size of 25")
     private String name;
 

@@ -74,7 +74,7 @@ public class TournamentService {
         if (tournament == null) throw new ApiException("Tournament not found");
 
         String prompt = "Write in arabic, an exciting Instagram caption with hashtags for a player who just joined the " + tournament.getName() + " tournament";
-        return aiService.chat(prompt);
+        return aiService.callAi(prompt);
     }
 
 }

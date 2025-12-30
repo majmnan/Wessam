@@ -111,27 +111,4 @@ public class CourseService {
         return nextCourses.stream().map(c -> mapper.map(c, CourseDTOOut.class)).toList();
     }
 
-    //trainee auth
-    public void generateCertificate(Integer traineeId, Integer courseRegId){
-        CourseRegistration courseReg = courseRegistrationRepository.findCourseRegistrationById(courseRegId);
-        Trainee trainee = traineeRepository.findTraineeById(traineeId);
-
-        if (courseReg == null) {
-            throw new ApiException("Course registration not found");
-        }
-        if (courseReg.getCourse().getEndDate().isAfter(LocalDate.now())) {
-            throw new ApiException("Cannot issue certificate: course is not yet completed.");
-        }
-        if(!courseReg.getTrainee().getUser().getId().equals(traineeId)){
-            throw new ApiException("UnAuthorized request ");
-        }
-        if(!"COMPLETED".equalsIgnoreCase(courseReg.getStatus())){
-            throw new ApiException("course is not completed yet");
-        }
-        N8nPdfCertGenDTOIn n8nRequest = new N8nPdfCertGenDTOIn(trainee.getName(),trainee.getEmail(),courseReg.getCourse().getName(),courseReg.getCourse().getEndDate().toString());
-        N8nPdfCertGenDtoOUT response = n8nService.triggerPdf(n8nRequest);
-        if(!"Certificate was generated and sent successfully".equalsIgnoreCase(response.getMessage()))
-            throw new ApiException("something went wrong "+response.getMessage());
-    }
-
 }

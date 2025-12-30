@@ -56,5 +56,7 @@ public class Coach {
     @ManyToOne
     private Sport sport;
 
+    @Email
+    private String email;
 
 }

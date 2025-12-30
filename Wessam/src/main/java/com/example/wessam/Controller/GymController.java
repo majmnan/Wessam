@@ -31,7 +31,7 @@ public class GymController {
     @PutMapping("/activate/{gymId}")
     public ResponseEntity<?> activateGym(@PathVariable Integer gymId) {
         gymService.activateGym(gymId);
-        return ResponseEntity.status(HttpStatus.OK).body("Gym activated successfully");
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Gym activated successfully"));
     }
 
     //Auth: gym
@@ -56,9 +56,9 @@ public class GymController {
         return gymService.subscribe(user.getId(),card,12,400);
     }
 
-    @PutMapping("/complete-payment/{months}")
-    public ResponseEntity<?> checkPayment(@PathVariable Integer months, @RequestParam("id") String id){
-        gymService.checkPayment(months, id);
+    @GetMapping("/complete-payment/{gymId}/{months}")
+    public ResponseEntity<?> checkPayment(@RequestParam("id") String id, @PathVariable Integer gymId, @PathVariable Integer months){
+        gymService.checkPayment(id,gymId,months);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("paid successfully and subscription activated"));
     }
 

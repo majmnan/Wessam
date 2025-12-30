@@ -40,7 +40,7 @@ public class CourseRegistrationController {
     @PutMapping("/complete/{registrationId}")
     public ResponseEntity<?> markAsCompleted(@AuthenticationPrincipal User user, @PathVariable Integer registrationId) {
         courseRegistrationService.markAsCompleted(user.getId(), registrationId);
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course marked as COMPLETED"));
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course marked as completed"));
     }
 
     @PutMapping("/drop/{registrationId}")
@@ -65,10 +65,16 @@ public class CourseRegistrationController {
         return courseRegistrationService.payPendingRegistration(user.getId(),registrationId,card);
     }
 
-    @PutMapping("/complete-payment")
-    public ResponseEntity<?> checkPayment(@RequestParam("id") String id){
-        courseRegistrationService.checkPayment(id);
+    @GetMapping("/complete-payment/{registrationId}")
+    public ResponseEntity<?> checkPayment(@PathVariable Integer registrationId, @RequestParam("id") String id){
+        courseRegistrationService.checkPayment(registrationId, id);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("paid successfully and class activated"));
+    }
+
+    @PostMapping("/certificates/{courseId}")
+    public ResponseEntity<?> generateCertificate(@AuthenticationPrincipal User user,@PathVariable Integer courseId) {
+        courseRegistrationService.generateCertificate(user.getId(), courseId);
+        return ResponseEntity.status(200).body(new ApiResponse("Certificate was generated and sent successfully"));
     }
 }
 

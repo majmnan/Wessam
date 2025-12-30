@@ -3,8 +3,10 @@ package com.example.wessam.Service;
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.Api.ApiResponse;
 import com.example.wessam.DTO.IN.CardDTOIn;
+import com.example.wessam.DTO.IN.N8nPdfCertGenDTOIn;
 import com.example.wessam.DTO.IN.PaymentRequestDTO;
 import com.example.wessam.DTO.OUT.CourseRegistrationDTOOut;
+import com.example.wessam.DTO.OUT.N8nPdfCertGenDtoOUT;
 import com.example.wessam.DTO.OUT.PaymentResponseDTO;
 import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Course;
@@ -30,6 +32,7 @@ public class CourseRegistrationService {
     private final CourseRepository courseRepository;
     private final TraineeRepository traineeRepository;
     private final PaymentService paymentService;
+    private final N8nService n8nService;
 
 
     //Auth: Coach
@@ -57,7 +60,7 @@ public class CourseRegistrationService {
 
         CourseRegistration registration = courseRegistrationRepository.save(new CourseRegistration(null,course,trainee,"Pending",null,null));
 
-        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, course.getPrice(), "SAR", String.valueOf(registration.getId()), "http://localhost:8080/api/v1/course-registration/complete-payment"));
+        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, course.getPrice(), "SAR", String.valueOf(registration.getId()), "http://localhost:8080/api/v1/course-registration/complete-payment/"+registration.getId()));
         if(!response.getStatusCode().is2xxSuccessful())
             throw new ResponseStatusException(response.getStatusCode(),response.hasBody() ? response.getBody().toString() : "");
 
@@ -74,21 +77,22 @@ public class CourseRegistrationService {
         if(!courseRegistration.getTrainee().getId().equals(traineeId))
             throw new ApiException("unAuthorized");
 
-        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, courseRegistration.getCourse().getPrice(), "SAR", String.valueOf(registrationId), "http://localhost:8080/api/v1/complete-payment"));
+        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, courseRegistration.getCourse().getPrice(), "SAR", "pay", "http://localhost:8080/api/v1/course-registration/complete-payment/"+registrationId));
         if(!response.getStatusCode().is2xxSuccessful())
             throw new ResponseStatusException(response.getStatusCode(),response.hasBody() ? response.getBody().toString() : "");
 
         return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
     }
 
-    public void checkPayment(String paymentId){
+    public void checkPayment(Integer registrationId, String paymentId){
         ResponseEntity<PaymentResponseDTO> response = paymentService.getPayment(paymentId);
         if("paid".equals(response.getBody().getStatus())){
-            CourseRegistration registration = courseRegistrationRepository.findCourseRegistrationById(Integer.valueOf(response.getBody().getDescription()));
+            CourseRegistration registration = courseRegistrationRepository.findCourseRegistrationById(registrationId);
             registration.setStatus("Registered");
             courseRegistrationRepository.save(registration);
         }
-        throw new ResponseStatusException(response.getStatusCode(),response.getBody().getSource().getMessage());
+        else
+            throw new ResponseStatusException(response.getStatusCode(),response.getBody().getSource().getMessage());
     }
 
     //Auth: Trainee
@@ -112,7 +116,7 @@ public class CourseRegistrationService {
         }
         if(reg.getCourse().getEndDate().isAfter(LocalDate.now()))
             throw new ApiException("course is not completed yet, end date is: "+reg.getCourse().getEndDate().toString());
-        reg.setStatus("COMPLETED");
+        reg.setStatus("Complete");
         courseRegistrationRepository.save(reg);
     }
 
@@ -126,6 +130,31 @@ public class CourseRegistrationService {
 
         reg.setStatus("DROPPED");
         courseRegistrationRepository.save(reg);
+    }
+
+    //trainee auth
+    public void generateCertificate(Integer traineeId, Integer courseRegId){
+        CourseRegistration courseReg = courseRegistrationRepository.findCourseRegistrationById(courseRegId);
+        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+        if(trainee == null)
+            throw new ApiException("trainee not found");
+        if (courseReg == null) {
+            throw new ApiException("Course registration not found");
+        }
+        if (courseReg.getCourse().getEndDate().isAfter(LocalDate.now())) {
+            throw new ApiException("Cannot issue certificate: course is not yet completed.");
+        }
+        if(!courseReg.getTrainee().getUser().getId().equals(traineeId)){
+            throw new ApiException("UnAuthorized request ");
+        }
+        if(!"Complete".equalsIgnoreCase(courseReg.getStatus())){
+            throw new ApiException("trainee doesn't complete the course");
+        }
+        N8nPdfCertGenDTOIn n8nRequest = new N8nPdfCertGenDTOIn(trainee.getName(),trainee.getEmail(),courseReg.getCourse().getName(),courseReg.getCourse().getEndDate().toString());
+        System.out.println(n8nRequest);
+        N8nPdfCertGenDtoOUT response = n8nService.triggerPdf(n8nRequest);
+        if(!"Certificate was generated and sent successfully".equalsIgnoreCase(response.getMessage()))
+            throw new ApiException("something went wrong "+response.getMessage());
     }
 
     public List<CourseRegistrationDTOOut> getCompletedRegistrations() {
