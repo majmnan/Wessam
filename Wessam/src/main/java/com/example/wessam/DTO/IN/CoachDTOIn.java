@@ -32,6 +32,10 @@ public class CoachDTOIn {
     @NotNull
     private Integer branchId;
 
+    @NotEmpty
+    @Email
+    private String email;
+
     @NotEmpty(message = "username must be filled")
     @Size(min = 4, max = 20, message = "username size must be at least 4 maximum 20")
     @Pattern(regexp = "^[A-Za-z0-9]*$", message = "username must contain only letters and numbers")

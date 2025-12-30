@@ -2,6 +2,7 @@ package com.example.wessam.Service;
 
 import com.example.wessam.DTO.IN.N8nPdfCertGenDTOIn;
 import com.example.wessam.DTO.OUT.N8nPdfCertGenDtoOUT;
+import com.example.wessam.DTO.OUT.UrlDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,5 +16,10 @@ public class N8nService {
     public N8nPdfCertGenDtoOUT triggerPdf(N8nPdfCertGenDTOIn dto) {
         String url = "https://d7-ak.app.n8n.cloud/webhook/certificate1";
         return restTemplate.postForObject(url,dto, N8nPdfCertGenDtoOUT.class);
+    }
+    public UrlDTO triggerZoom(Integer sessionId) {
+        String url = "https://d7-ak.app.n8n.cloud/webhook/zoom-create";
+        UrlDTO result = restTemplate.postForObject(url,sessionId,UrlDTO.class);
+        return result;
     }
 }

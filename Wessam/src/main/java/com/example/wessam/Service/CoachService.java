@@ -32,6 +32,9 @@ public class CoachService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final BranchRepository branchRepository;
+    private final EmailService emailService;
+    private final N8nService n8nService;
+
 
 
     //Auth: any
@@ -56,8 +59,20 @@ public class CoachService {
         authRepository.save(user);
         Sport sport = sportRepository.findSportById(coachDTOIn.getSportId());
         Branch branch = branchRepository.findBranchById(coachDTOIn.getBranchId());
-        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),"InActive",user,branch,null,sport);
+        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(), coachDTOIn.getEmail(), "InActive",user,branch,null,sport);
         coachRepository.save(coach);
+        emailService.sendEmail(
+                coach.getEmail(),
+                "مقابلة شخصية لشاغر مدرب في نادي"+coach.getBranch().getGym().getName(),
+                "دعوة للأنضمام لمقابلة شخصية مجدولة " +
+                        "الوقت:" + " الساعة 1 مساءا\n" +
+                        "\n" +
+                        "رابط المقابلة الشخصية:\n" +
+                        n8nService.triggerZoom(coach.getId()).getJoin_url()+
+                        "\n" +
+                        "مع أطيب التحيات،\n" +
+                        "فريق  "+coach.getBranch().getGym().getName()
+        );
     }
 
     //Auth: gym
