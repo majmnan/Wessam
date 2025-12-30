@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class GymServiceTest {
     void setUp() {
         user = new User(1, "gymUser", "pass", "GYM", null, null, null, null);
 
-        gym = new Gym(1, "Iron Gym", "12345", "Active", "Desc", null, user);
+        gym = new Gym(1, "Iron Gym", "12345", "Active",LocalDate.of(2026,10,10),"Desc", null, user);
         gyms = new ArrayList<>();
         gyms.add(gym);
     }

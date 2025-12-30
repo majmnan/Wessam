@@ -37,6 +37,10 @@ public class Coach {
     @Column(columnDefinition = "int not null")
     private Integer yearsOfExperience;
 
+    @NotEmpty
+    @Email
+    private String email;
+
     @NotNull
     @Pattern(regexp = "^(InActive|Active)$")
     private String status;
