@@ -59,5 +59,30 @@ public class CoachController {
     public ResponseEntity<?> getAvailableCoaches(@PathVariable LocalDate date) {
         return ResponseEntity.status(200).body(coachService.getAvailableCoaches(date));
     }
+    @GetMapping("/get/coach/status/{coachId}")
+    public ResponseEntity<?>getCoachDashboard(@PathVariable Integer coachId){
+        return ResponseEntity.status(200).body(coachService.getCoachDashboard(coachId));
 
+    }
+
+    @GetMapping("/get/feedback/{courseId}/{coachId}")
+    public ResponseEntity<?> analyzeFeedback(@PathVariable Integer courseId,@PathVariable Integer coachId) {
+        return ResponseEntity.status(200).body(coachService.coachFeedbackAiByCourse(coachId,coachId));
+
+    }
+
+    @GetMapping("/get/average/ratings/{coachId}")
+    public ResponseEntity<?> getAverageRatings(@PathVariable Integer coachId){
+        return ResponseEntity.status(200).body(coachService.getaveCoachRatings(coachId));
+    }
+
+    @GetMapping("/get/total/trainees/{coachId}")
+    public ResponseEntity<?> getTotalTrainees(@PathVariable Integer coachId){
+        return ResponseEntity.status(200).body(coachService.getCoachTotalTainees(coachId));
+    }
+
+    @GetMapping("/get/total/courses/{coachId}")
+    public ResponseEntity<?> getTotalCourses(@PathVariable Integer coachId){
+        return ResponseEntity.status(200).body(coachService.getCoachTotalCourses(coachId));
+    }
 }

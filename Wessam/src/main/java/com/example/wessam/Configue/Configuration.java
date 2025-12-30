@@ -29,30 +29,17 @@ public class Configuration {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception{
+
+    public SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
         return security
                 .csrf(csrf -> csrf.disable())
-
-                .sessionManagement(sm -> sm
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()  // <- allow all requests for testing
                 )
-
-                .authorizeHttpRequests( auth -> auth
-                        .anyRequest().permitAll()
-                )
-
-                .logout( logout -> logout
-                        .logoutUrl("/api/v1/auth/logout")
-                        .deleteCookies("JSESSIONID")
-                        .invalidateHttpSession(true)
-                )
-
-                .httpBasic(basic -> {})
-
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(basic -> {})  // optional
                 .build();
-
     }
-
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();

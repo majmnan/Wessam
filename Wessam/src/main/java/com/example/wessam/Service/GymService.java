@@ -7,6 +7,9 @@ import com.example.wessam.DTO.IN.PaymentRequestDTO;
 import com.example.wessam.DTO.OUT.PaymentResponseDTO;
 import com.example.wessam.Model.CourseRegistration;
 import com.example.wessam.DTO.OUT.GymDTOOut;
+import com.example.wessam.DTO.OUT.CoachDTOOut;
+import com.example.wessam.DTO.OUT.GymDTOOut;
+import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Gym;
 import com.example.wessam.Model.Trainee;
 import com.example.wessam.Model.User;
@@ -24,6 +27,9 @@ import java.time.LocalDate;
 
 import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GymService {
@@ -36,6 +42,18 @@ public class GymService {
     private final TraineeRepository traineeRepository;
     private final PaymentService paymentService;
 
+
+    public List<GymDTOOut> getGyms() {
+        List<Gym> gyms = gymRepository.findAll();
+        List<GymDTOOut> gymDTOOuts = new ArrayList<>();
+        for (Gym g : gyms) {
+            gymDTOOuts.add(new GymDTOOut(
+                   g.getName(),
+                    g.getDescription()
+            ));
+        }
+        return gymDTOOuts;
+    }
     //Auth: any
     public void register(GymDTOIn dto){
         User user = authRepository.save(new User(dto.getUsername(), passwordEncoder.encode(dto.getPassword()), "GYM"));
@@ -43,7 +61,6 @@ public class GymService {
     }
 
     //Auth: Admin
-    //todo: change the logic
     public void activateGym(Integer gymId){
         Gym gym = gymRepository.findGymById(gymId);
         if(gym == null)

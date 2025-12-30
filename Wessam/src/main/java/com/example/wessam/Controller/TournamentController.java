@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/v1/tournament")
 @RequiredArgsConstructor
@@ -43,5 +45,18 @@ public class TournamentController {
     public ResponseEntity<?> generateSocialPost(@PathVariable Integer tournamentId) {
         return ResponseEntity.status(200).body(new ApiResponse(tournamentService.generateSocialPost(tournamentId)));
     }
+
+    @GetMapping("/get/upcoming")
+    public ResponseEntity<?> getUpcomingTournaments() {
+        return ResponseEntity.status(200).body(tournamentService.getUpcomingTournament());
+    }
+
+    @GetMapping("/get/dateRange/{sportId}/{startDate}/{endDate}")
+    public ResponseEntity<?> getTournametByDateRange(@PathVariable Integer sportId, @PathVariable String startDate, @PathVariable String endDate){
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        return ResponseEntity.status(200).body(tournamentService.getTournamentByStartDateRange(sportId, start, end));
+    }
+
 
 }

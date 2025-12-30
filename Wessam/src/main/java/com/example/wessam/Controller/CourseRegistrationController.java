@@ -76,5 +76,17 @@ public class CourseRegistrationController {
         courseRegistrationService.generateCertificate(user.getId(), courseId);
         return ResponseEntity.status(200).body(new ApiResponse("Certificate was generated and sent successfully"));
     }
+
+    @GetMapping("/get/registerd/{traineeId}")
+    public ResponseEntity<?> getRegesteredCourses(@PathVariable Integer traineeId) {
+        return ResponseEntity.status(200).body(courseRegistrationService.getCoursesRegestered(traineeId));
+    }
+
+    @GetMapping("/get/totalTrainee/{id}")
+    public ResponseEntity<?> getTotalTrainees(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(courseRegistrationService.courseNumOfTrainees(id));
+    }
+
+
 }
 

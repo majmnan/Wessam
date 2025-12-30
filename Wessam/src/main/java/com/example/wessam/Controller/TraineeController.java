@@ -43,4 +43,11 @@ public class TraineeController {
         return ResponseEntity.status(200).body(new ApiResponse("Trainee account deleted successfully"));
     }
 
+
+    @GetMapping("/get/feedback/{traineeId}/{coachId}")
+    public ResponseEntity<?> analyzeFeedback(@PathVariable Integer traineeId,@PathVariable Integer coachId) {
+        return ResponseEntity.status(200).body(traineeService.coachFeedbackAi(traineeId,coachId));
+
+    }
+
 }

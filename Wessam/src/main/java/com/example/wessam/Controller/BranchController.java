@@ -53,4 +53,3 @@ public class BranchController {
         return ResponseEntity.status(HttpStatus.OK).body(branchService.getByGym(user.getId()));
     }
 }
-

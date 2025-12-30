@@ -53,4 +53,10 @@ public class SportController {
     public ResponseEntity<?> getHomeDrill(@PathVariable Integer sportId) {
         return ResponseEntity.status(200).body(new ApiResponse(sportService.getHomeWorkout(sportId)));
     }
+
+    @GetMapping("/analyze/sport/{sportId}")
+    public ResponseEntity<?> analyzeSport(@PathVariable Integer sportId) {
+        return ResponseEntity.status(200).body(sportService.sportAnalyze(sportId));
+    }
+
 }

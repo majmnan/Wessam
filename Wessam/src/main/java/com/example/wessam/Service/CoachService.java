@@ -5,6 +5,7 @@ import com.example.wessam.DTO.IN.CoachDTOIn;
 import com.example.wessam.DTO.IN.GymDTOIn;
 import com.example.wessam.DTO.IN.TraineeDTOIn;
 import com.example.wessam.DTO.OUT.CoachDTOOut;
+import com.example.wessam.DTO.OUT.CoachDashboardDTOOut;
 import com.example.wessam.DTO.OUT.GymDTOOut;
 import com.example.wessam.DTO.OUT.TraineeDTOOut;
 import com.example.wessam.Model.*;
@@ -12,6 +13,7 @@ import com.example.wessam.Repository.AuthRepository;
 import com.example.wessam.Repository.BranchRepository;
 import com.example.wessam.Repository.CoachRepository;
 import com.example.wessam.Repository.SportRepository;
+import com.example.wessam.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,14 +30,17 @@ public class CoachService {
 
     private final SportRepository sportRepository;
     private final CoachRepository coachRepository;
+    private final CourseRepository courseRepository;
+    private final TraineeFeedbackRepository traineeFeedbackRepository;
+    private final CourseRegistrationRepository courseRegistrationRepository;
+    private final CourseReviewRepository courseReviewRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
     private final BranchRepository branchRepository;
     private final EmailService emailService;
     private final N8nService n8nService;
-
-
+    private final AiService aiService;
 
     //Auth: any
     public List<CoachDTOOut> getCoaches() {
@@ -138,6 +143,79 @@ public class CoachService {
             return dto;
         }).toList();
     }
+
+    public CoachDashboardDTOOut getCoachDashboard(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Integer coursesCount=courseRepository.coachCount(coachId);
+        Integer traineeCount=courseRegistrationRepository.TraineeCount(coachId);
+        Double averatings=traineeFeedbackRepository.aveRatings(coachId);
+
+        return new CoachDashboardDTOOut(coursesCount,
+                traineeCount,
+                averatings,
+                coach.getYearsOfExperience());
+
+    }
+
+    public Double getaveCoachRatings(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Double ave=traineeFeedbackRepository.aveRatings(coachId);
+        return ave;
+    }
+
+    public Integer getCoachTotalTainees(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Integer traineeCount=courseRegistrationRepository.TraineeCount(coachId);
+        return  traineeCount;
+    }
+
+    public Integer getCoachTotalCourses(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Integer coursesCount=courseRepository.coachCount(coachId);
+        return coursesCount;
+    }
+
+    public String coachFeedbackAiByCourse( Integer courseId,Integer coachId) {
+        Coach coach=coachRepository.findCoachById(coachId);
+        Course course = courseRepository.findCourseById(courseId);
+        if (course == null || coach==null) {
+            throw new ApiException("course or coach not found");
+        }
+        List<CourseReview> reviews=courseReviewRepository.fiindAllReviewByCourse(courseId);
+        String prompt =
+                "You are an AI specialized in coach evaluation and sentiment analysis.\n\n" +
+
+                        "Course Name: " + course.getName() + "\n\n" +
+
+                        "Instructions:\n" +
+                        "- Analyze the coach quality based ONLY on the trainee course reviews provided.\n" +
+                        "- Be objective, concise, and practical.\n\n" +
+
+                        "Tasks:\n" +
+                        "1. Determine the overall sentiment of the coach (Positive / Neutral / Negative).\n" +
+                        "2. Summarize the overall sentiment in ONE clear sentence.\n" +
+                        "3. List the main strengths of the coach mentioned by trainees.\n" +
+                        "4. List the most common weaknesses or issues (if any).\n" +
+                        "5. Provide exactly 3 actionable suggestions to improve the coach quality.\n\n" +
+
+                        "Trainee Reviews:\n" +
+                        reviews;
+
+        return aiService.chat(prompt);
+    }
+
     //Auth: any
     //get active coaches by gym
 

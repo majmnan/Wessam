@@ -20,6 +20,11 @@ public class GymController {
     private final GymService gymService;
 
 
+    @GetMapping("/get")
+    public ResponseEntity<?> getGyms(){
+        return ResponseEntity.status(200).body(gymService.getGyms());
+    }
+
     // Auth: ANY
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid GymDTOIn dto) {

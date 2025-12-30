@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/api/v1/course")
 @RequiredArgsConstructor
@@ -46,5 +48,33 @@ public class CourseController {
 
 
 
+    @GetMapping("/get/top/{courseId}")
+    public ResponseEntity<?> getTopCourse(@PathVariable Integer courseId) {
+        return ResponseEntity.status(200).body(courseService.gettopCourses(courseId));
+    }
+
+    @GetMapping("/get/recommended/{traineeId}/{sportId}")
+    public ResponseEntity<?> getRecommendedCourse(@PathVariable Integer traineeId,@PathVariable Integer sportId) {
+        return ResponseEntity.status(200).body(courseService.getRecomendedCourses(traineeId, sportId));
+    }
+
+    @GetMapping("/get/dateRange/{sportId}/{startDate}/{endDate}")
+    public ResponseEntity<?> getCoursesByDateRange(@PathVariable Integer sportId, @PathVariable String startDate, @PathVariable String endDate){
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+        return ResponseEntity.status(200).body(courseService.getCoursesByStartDateRange(sportId, start, end));
+    }
+
+
+    @GetMapping("/get/feedback/{courseId}")
+    public ResponseEntity<?> analyzeFeedback(@PathVariable Integer courseId) {
+        return ResponseEntity.status(200).body(courseService.courseFeedbackAi(courseId));
+
+    }
+
+    @GetMapping("/get/upcoming")
+    public ResponseEntity<?> getUpcomingTournaments() {
+        return ResponseEntity.status(200).body(courseService.getUpcomingCourses());
+    }
 
 }

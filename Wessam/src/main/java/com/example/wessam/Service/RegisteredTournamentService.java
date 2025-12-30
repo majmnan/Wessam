@@ -1,6 +1,7 @@
 package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
+import com.example.wessam.DTO.OUT.TraineeCountDTOOut;
 import com.example.wessam.Model.RegisteredTournament;
 import com.example.wessam.Model.Tournament;
 import com.example.wessam.Model.Trainee;
@@ -70,4 +71,12 @@ public class RegisteredTournamentService {
         registeredTournamentRepository.delete(registeredTournament);
     }
 
+    public TraineeCountDTOOut tournamentNumOfTrainees(Integer id){
+        RegisteredTournament registeredTournament = registeredTournamentRepository.findRegisteredTournamentById(id);
+        if (registeredTournament == null) {
+            throw new ApiException("Registration not found");
+        }
+        Integer traineeCount= registeredTournamentRepository.TraineeRegisteredTournamentCount(id);
+        return new TraineeCountDTOOut(traineeCount);
+    }
 }

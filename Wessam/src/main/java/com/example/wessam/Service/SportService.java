@@ -2,6 +2,7 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.Model.Sport;
+import com.example.wessam.Repository.CourseRegistrationRepository;
 import com.example.wessam.Repository.SportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SportService {
 
+    private final CourseRegistrationRepository courseRegistrationRepository;
     private final SportRepository sportRepository;
     private final AiService aiService;
 
@@ -62,6 +64,22 @@ public class SportService {
         String prompt = "Describe one simple " + sport.getName() + " workout I can do at home in 5 minutes without equipment, answer in arabic";
         return aiService.callAi(prompt);
     }
+
+    public String sportAnalyze( Integer sportId) {
+        Sport sport = sportRepository.findSportById(sportId);
+        if(sport ==null){
+            throw new ApiException("Sport is not found");
+        }
+        Integer taineeCount=courseRegistrationRepository.countTraineesBySport(sportId);
+        Double ave=courseRegistrationRepository.avgRatingBySport(sportId);
+        String prompt = "Analyze the popularity of the sport " + sport.getName() +
+                " based on " + taineeCount + " registered trainees and an average rating of " +
+                ave + ". " +
+                "Provide a short analysis and advise gym owners whether investing in this sport would be beneficial.";
+
+        return aiService.callAi(prompt);
+    }
+
 
 
 }
