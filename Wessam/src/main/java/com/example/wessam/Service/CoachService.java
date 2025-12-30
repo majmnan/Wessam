@@ -59,7 +59,7 @@ public class CoachService {
         authRepository.save(user);
         Sport sport = sportRepository.findSportById(coachDTOIn.getSportId());
         Branch branch = branchRepository.findBranchById(coachDTOIn.getBranchId());
-        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),"InActive",user,branch,null,sport, coachDTOIn.getEmail());
+        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),coachDTOIn.getEmail(),"InActive",user,branch,null,sport);
         coachRepository.save(coach);
         emailService.sendEmail(
                 coach.getEmail(),

@@ -47,8 +47,4 @@ public class CoachDTOIn {
             message = "password must contain at least one uppercase, one lowercase, one number and one special character")
     private String password;
 
-    @Email
-    @NotNull
-    private String email;
-
 }
