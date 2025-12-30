@@ -21,7 +21,6 @@ public class CourseRegistration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String status;
     @ManyToOne
     private Course course;
 

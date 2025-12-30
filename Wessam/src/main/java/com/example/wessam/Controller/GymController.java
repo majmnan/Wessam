@@ -100,12 +100,6 @@ public class GymController {
     }
 
     // Auth: ADMIN
-    @PutMapping("/activate/{gymId}")
-    public ResponseEntity<?> activateGym(@PathVariable Integer gymId) {
-        gymService.activateGym(gymId);
-        return ResponseEntity.status(HttpStatus.OK).body("Gym activated successfully");
-    }
-    // Auth: ADMIN
     @PutMapping("/deactivate/{gymId}")
     public ResponseEntity<?> deactivateGym(@PathVariable Integer gymId) {
         gymService.deactivateGym(gymId);

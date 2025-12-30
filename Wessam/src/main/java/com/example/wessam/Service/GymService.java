@@ -102,7 +102,7 @@ public class GymService {
     //Auth: Any
     public List<GymDTOOut> getAllGyms() {
         return gymRepository.findAll().stream()
-                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription()))
+                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription(), gym.getSubscriptionEndDate()))
                 .toList();
     }
 
@@ -136,14 +136,14 @@ public class GymService {
     // Auth: Admin
     public List<GymDTOOut> getInactiveGyms() {
         return gymRepository.findAllByStatus("InActive").stream()
-                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription()))
+                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription(),gym.getSubscriptionEndDate()))
                 .toList();
     }
 
     // Auth: Any
     public List<GymDTOOut> getActiveGyms() {
         return gymRepository.findAllByStatus("Active").stream()
-                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription()))
+                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription(),gym.getSubscriptionEndDate()))
                 .toList();
     }
 
