@@ -2,6 +2,7 @@ package com.example.wessam.Service;
 
 
 import com.example.wessam.Api.ApiException;
+import com.example.wessam.Model.Course;
 import com.example.wessam.Model.Organizer;
 import com.example.wessam.Model.Sport;
 import com.example.wessam.Model.Tournament;
@@ -11,6 +12,7 @@ import com.example.wessam.Repository.TournamentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -66,5 +68,15 @@ public class TournamentService {
         }
         tournamentRepository.delete(tournament);
     }
+
+    public List<Tournament> getUpcomingTournament(){
+        LocalDate today=LocalDate.now();
+        return tournamentRepository.findAllTournamentByStartDate(today);
+    }
+
+    public List<Tournament> getTournamentByStartDateRange(Integer sportId, LocalDate startDate, LocalDate endDate) {
+        return tournamentRepository.findTournamentByDate(sportId, startDate, endDate);
+    }
+
 
 }

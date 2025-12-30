@@ -2,6 +2,9 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.GymDTOIn;
+import com.example.wessam.DTO.OUT.CoachDTOOut;
+import com.example.wessam.DTO.OUT.GymDTOOut;
+import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Gym;
 import com.example.wessam.Model.User;
 import com.example.wessam.Repository.AuthRepository;
@@ -12,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class GymService {
@@ -20,6 +26,18 @@ public class GymService {
     private final GymRepository gymRepository;
     private final AuthRepository authRepository;
 
+
+    public List<GymDTOOut> getGyms() {
+        List<Gym> gyms = gymRepository.findAll();
+        List<GymDTOOut> gymDTOOuts = new ArrayList<>();
+        for (Gym g : gyms) {
+            gymDTOOuts.add(new GymDTOOut(
+                   g.getName(),
+                    g.getDescription()
+            ));
+        }
+        return gymDTOOuts;
+    }
     //Auth: any
     public void register(GymDTOIn dto){
         User user = authRepository.save(new User(dto.getUsername(), passwordEncoder.encode(dto.getPassword()), "GYM"));

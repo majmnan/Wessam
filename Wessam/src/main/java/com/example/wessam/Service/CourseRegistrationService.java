@@ -2,8 +2,10 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.OUT.CourseRegistrationDTOOut;
+import com.example.wessam.DTO.OUT.TraineeCountDTOOut;
 import com.example.wessam.Model.Course;
 import com.example.wessam.Model.CourseRegistration;
+import com.example.wessam.Model.RegisteredTournament;
 import com.example.wessam.Model.Trainee;
 import com.example.wessam.Repository.CourseRepository;
 import com.example.wessam.Repository.CourseRegistrationRepository;
@@ -58,5 +60,23 @@ public class CourseRegistrationService {
             throw new ApiException("unAuthorized");
 
         courseRegistrationRepository.delete(courseRegistration);
+    }
+
+    public List<Course> getCoursesRegestered(Integer traineeId) {
+        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+        if (trainee == null) {
+            throw new ApiException("Trainee not found");
+        }
+        return courseRegistrationRepository.findRegestedCourses(traineeId);
+    }
+
+
+    public TraineeCountDTOOut courseNumOfTrainees(Integer id){
+        CourseRegistration courseRegistration = courseRegistrationRepository.findCourseRegistrationById(id);
+        if(courseRegistration == null){
+            throw new ApiException("no registration found");
+        }
+        Integer traineeCount= courseRegistrationRepository.TraineeCourseCount(id);
+        return new TraineeCountDTOOut(traineeCount);
     }
 }

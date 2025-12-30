@@ -3,9 +3,12 @@ package com.example.wessam.Service;
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.TraineeDTOIn;
 import com.example.wessam.DTO.OUT.TraineeDTOOut;
+import com.example.wessam.Model.Course;
+import com.example.wessam.Model.Sport;
 import com.example.wessam.Model.Trainee;
 import com.example.wessam.Model.User;
 import com.example.wessam.Repository.AuthRepository;
+import com.example.wessam.Repository.CourseRegistrationRepository;
 import com.example.wessam.Repository.TraineeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +25,8 @@ public class TraineeService {
     private final TraineeRepository traineeRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AiService aiService;
+    private final CourseRegistrationRepository courseRegistrationRepository;
 
     //Auth: Admin
     public List<TraineeDTOOut> getAllTrainees(){
@@ -67,4 +72,21 @@ public class TraineeService {
         }
         authRepository.delete(trainee.getUser());
     }
+
+    public String aiCoach( Integer traineeId) {
+        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+        if (trainee == null) {
+            throw new ApiException("Trainee not found");
+        }
+        List<Course> regested=courseRegistrationRepository.findRegestedCourses(traineeId);
+        String prompt = "Hello " + trainee.getName() + "! You are a professional coach. " +
+                "Provide personalized training advice for " + trainee.getName() +
+                ", who is an " + trainee.getLevel() + " level athlete in " + trainee.getSport().getName() +
+                ". Birth Date: " + trainee.getBirthDate()+
+                ". They have attended " + regested + " courses. " +
+                "Give short, practical recommendations for exercises, training focus, and next steps to improve their skills.";
+
+        return aiService.chat(prompt);     }
+
+
 }

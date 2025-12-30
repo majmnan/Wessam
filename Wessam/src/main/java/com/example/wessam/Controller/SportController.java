@@ -43,4 +43,10 @@ public class SportController {
         sportService.deleteSport(id);
         return ResponseEntity.status(200).body(new ApiResponse("Sport deleted successfully"));
     }
+
+    @GetMapping("/analyze/sport/{sportId}")
+    public ResponseEntity<?> analyzeSport(@PathVariable Integer sportId) {
+        return ResponseEntity.status(200).body(sportService.sportAnalyze(sportId));
+    }
+
 }

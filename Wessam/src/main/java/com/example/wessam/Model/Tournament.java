@@ -23,7 +23,7 @@ public class Tournament {
     private Integer id;
 
     @NotEmpty(message = "name must be filled")
-    @Pattern(regexp = "^[A-Z a-z]*$",message = "name must contain only litters")
+    @Pattern(regexp = "^[a-zA-Z]+$",message = "name must contain only litters")
     @Size(min = 2,max = 20,message = "name size must be at least 2 maximum 20")
     @Column(nullable = false,length = 20)
     private String name;

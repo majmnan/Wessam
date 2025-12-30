@@ -25,7 +25,7 @@ public class Coach {
     private String name;
 
     @NotEmpty(message = "coach name must be entered")
-    @Pattern(regexp = "^9665\\d{8}$", message = "phone number must start with 9665")
+    @Pattern(regexp = "^05\\d{8}$", message = "phone number must start with 9665")
     @Column(columnDefinition = "varchar(15) not null")
     private String phoneNumber;
 

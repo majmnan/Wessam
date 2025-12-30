@@ -5,12 +5,11 @@ import com.example.wessam.DTO.IN.CoachDTOIn;
 import com.example.wessam.DTO.IN.GymDTOIn;
 import com.example.wessam.DTO.IN.TraineeDTOIn;
 import com.example.wessam.DTO.OUT.CoachDTOOut;
+import com.example.wessam.DTO.OUT.CoachDashboardDTOOut;
 import com.example.wessam.DTO.OUT.GymDTOOut;
 import com.example.wessam.DTO.OUT.TraineeDTOOut;
 import com.example.wessam.Model.*;
-import com.example.wessam.Repository.AuthRepository;
-import com.example.wessam.Repository.CoachRepository;
-import com.example.wessam.Repository.SportRepository;
+import com.example.wessam.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,8 +24,12 @@ public class CoachService {
 
     private final SportRepository sportRepository;
     private final CoachRepository coachRepository;
+    private final CourseRepository courseRepository;
+    private final TraineeFeedbackRepository traineeFeedbackRepository;
+    private final CourseRegistrationRepository courseRegistrationRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AiService aiService;
 
     //Auth: any
     public List<CoachDTOOut> getCoaches() {
@@ -93,6 +96,43 @@ public class CoachService {
     }
 
 
+    public CoachDashboardDTOOut getCoachDashboard(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Integer coursesCount=courseRepository.coachCount(coachId);
+        Integer traineeCount=courseRegistrationRepository.TraineeCount(coachId);
+        Double averatings=traineeFeedbackRepository.aveRatings(coachId);
+
+        return new CoachDashboardDTOOut(coursesCount,
+                traineeCount,
+                averatings,
+                coach.getYearsOfExperience());
+
+    }
+
+    public String coachFeedbackAi( Integer coachId) {
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        List<TraineeFeedback> feedbacks=traineeFeedbackRepository.findAllTraineeFeedback(coachId);
+        String prompt =
+                "You are an AI specialized in coach performance evaluation and sentiment analysis.\n" +
+                        "Analyze the following trainee feedback for coach " + coach.getName() + ".\n\n" +
+
+                        "Tasks:\n" +
+                        "1. Perform sentiment analysis (Positive / Neutral / Negative).\n" +
+                        "2. Summarize overall sentiment in one sentence.\n" +
+                        "3. List key strengths mentioned by trainees.\n" +
+                        "4. List common weaknesses or complaints.\n" +
+                        "5. Provide 3 clear, actionable improvement suggestions.\n\n" +
+
+                        "Trainee Feedback:\n" +
+                        feedbacks;
+        return aiService.chat(prompt);
+    }
 
     //Auth: any
     //get active coaches by gym

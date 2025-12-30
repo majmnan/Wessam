@@ -24,7 +24,6 @@ public class OrganizerService {
     private final OrganizerRepository organizerRepository;
     private final AuthRepository authRepository;
 
-
     public List<OrganizerDTOOut> getOrganizers(){
         List<Organizer> organizers=organizerRepository.findAll();
         List<OrganizerDTOOut> organizerDTOOuts=new ArrayList<>();

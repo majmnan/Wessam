@@ -28,28 +28,28 @@ public class BranchController {
 
     //Auth: gym
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addBranch(@AuthenticationPrincipal User user, @RequestBody BranchDTOIn dto) {
-        branchService.addBranch(user.getId(), dto);
+    public ResponseEntity<ApiResponse> addBranch( @RequestBody BranchDTOIn dto) {
+        branchService.addBranch( dto);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Branch added successfully"));
     }
 
     //Auth: gym
     @PutMapping("/update/{branchId}")
-    public ResponseEntity<ApiResponse> updateBranch(@AuthenticationPrincipal User user, @PathVariable Integer branchId, @RequestBody BranchDTOIn dto) {
-        branchService.updateBranch(user.getId(), branchId, dto);
+    public ResponseEntity<ApiResponse> updateBranch( @PathVariable Integer branchId, @RequestBody BranchDTOIn dto) {
+        branchService.updateBranch( branchId, dto);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Branch updated successfully"));
     }
 
     //Auth: gym
     @DeleteMapping("/delete/{branchId}")
-    public ResponseEntity<ApiResponse> deleteBranch(@AuthenticationPrincipal User user, @PathVariable Integer branchId) {
-        branchService.deleteBranch(user.getId(), branchId);
+    public ResponseEntity<ApiResponse> deleteBranch( @PathVariable Integer branchId) {
+        branchService.deleteBranch(branchId);
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Branch deleted successfully"));
     }
 
     //Auth: gym
     @GetMapping("/get-gym")
-    public ResponseEntity<List<BranchDTOOut>> getByGym(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<BranchDTOOut>> getByGym() {
         return ResponseEntity.status(HttpStatus.OK).body(branchService.getByGym(user.getId()));
     }
 }

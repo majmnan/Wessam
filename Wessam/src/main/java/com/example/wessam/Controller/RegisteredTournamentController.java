@@ -37,4 +37,10 @@ public class RegisteredTournamentController {
         return ResponseEntity.status(200).body(new ApiResponse("Registration canceled successfully"));
     }
 
+    @GetMapping("/get/totalTrainee/{id}")
+    public ResponseEntity<?> getTotalTrainees(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(registeredTournamentService.tournamentNumOfTrainees(id));
+    }
+
+
 }

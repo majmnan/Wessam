@@ -34,5 +34,17 @@ public class CourseRegistrationController {
         courseRegistrationService.deleteRegistration(user.getId(), registrationId);
         return ResponseEntity.status(HttpStatus.OK).body("Registration deleted successfully");
     }
+
+    @GetMapping("/get/registerd/{traineeId}")
+    public ResponseEntity<?> getRegesteredCourses(@PathVariable Integer traineeId) {
+        return ResponseEntity.status(200).body(courseRegistrationService.getCoursesRegestered(traineeId));
+    }
+
+    @GetMapping("/get/totalTrainee/{id}")
+    public ResponseEntity<?> getTotalTrainees(@PathVariable Integer id){
+        return ResponseEntity.status(200).body(courseRegistrationService.courseNumOfTrainees(id));
+    }
+
+
 }
 

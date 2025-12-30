@@ -25,7 +25,7 @@ public class Sport {
 
 
     @NotEmpty(message = "sport name must be entered")
-    @Pattern(regexp = "^[a-zA-Z]$",message = "sport name must be only letters")
+    @Pattern(regexp =  "^[a-zA-Z]+$",message = "sport name must be only letters")
     @Size(min = 2,max = 25,message = "sport name must be at least size of 2 and maximum size of 25")
     @Column(columnDefinition = "varchar(25) not null")
     private String name;

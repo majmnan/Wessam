@@ -53,5 +53,16 @@ public class CoachController {
         return ResponseEntity.status(200).body(new ApiResponse("Coach is deleted successfully"));
     }
 
+    @GetMapping("/get/coach/status/{coachId}")
+    public ResponseEntity<?>getCoachDashboard(@PathVariable Integer coachId){
+        return ResponseEntity.status(200).body(coachService.getCoachDashboard(coachId));
+
+    }
+
+    @GetMapping("/get/feedback/{coachId}")
+    public ResponseEntity<?> analyzeFeedback(@PathVariable Integer coachId) {
+        return ResponseEntity.status(200).body(coachService.coachFeedbackAi(coachId));
+
+    }
 
 }
