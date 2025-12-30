@@ -27,6 +27,7 @@ public class CoachService {
     private final CourseRepository courseRepository;
     private final TraineeFeedbackRepository traineeFeedbackRepository;
     private final CourseRegistrationRepository courseRegistrationRepository;
+    private final CourseReviewRepository courseReviewRepository;
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final AiService aiService;
@@ -112,25 +113,59 @@ public class CoachService {
 
     }
 
-    public String coachFeedbackAi( Integer coachId) {
+    public Double getaveCoachRatings(Integer coachId){
         Coach coach=coachRepository.findCoachById(coachId);
         if(coach ==null){
             throw new ApiException("Coach is not found");
         }
-        List<TraineeFeedback> feedbacks=traineeFeedbackRepository.findAllTraineeFeedback(coachId);
+        Double ave=traineeFeedbackRepository.aveRatings(coachId);
+        return ave;
+    }
+
+    public Integer getCoachTotalTainees(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Integer traineeCount=courseRegistrationRepository.TraineeCount(coachId);
+        return  traineeCount;
+    }
+
+    public Integer getCoachTotalCourses(Integer coachId){
+        Coach coach=coachRepository.findCoachById(coachId);
+        if(coach ==null){
+            throw new ApiException("Coach is not found");
+        }
+        Integer coursesCount=courseRepository.coachCount(coachId);
+        return coursesCount;
+    }
+
+    public String coachFeedbackAiByCourse( Integer courseId,Integer coachId) {
+        Coach coach=coachRepository.findCoachById(coachId);
+        Course course = courseRepository.findCourseById(courseId);
+        if (course == null || coach==null) {
+            throw new ApiException("course or coach not found");
+        }
+        List<CourseReview> reviews=courseReviewRepository.fiindAllReviewByCourse(courseId);
         String prompt =
-                "You are an AI specialized in coach performance evaluation and sentiment analysis.\n" +
-                        "Analyze the following trainee feedback for coach " + coach.getName() + ".\n\n" +
+                "You are an AI specialized in coach evaluation and sentiment analysis.\n\n" +
+
+                        "Course Name: " + course.getName() + "\n\n" +
+
+                        "Instructions:\n" +
+                        "- Analyze the coach quality based ONLY on the trainee course reviews provided.\n" +
+                        "- Be objective, concise, and practical.\n\n" +
 
                         "Tasks:\n" +
-                        "1. Perform sentiment analysis (Positive / Neutral / Negative).\n" +
-                        "2. Summarize overall sentiment in one sentence.\n" +
-                        "3. List key strengths mentioned by trainees.\n" +
-                        "4. List common weaknesses or complaints.\n" +
-                        "5. Provide 3 clear, actionable improvement suggestions.\n\n" +
+                        "1. Determine the overall sentiment of the coach (Positive / Neutral / Negative).\n" +
+                        "2. Summarize the overall sentiment in ONE clear sentence.\n" +
+                        "3. List the main strengths of the coach mentioned by trainees.\n" +
+                        "4. List the most common weaknesses or issues (if any).\n" +
+                        "5. Provide exactly 3 actionable suggestions to improve the coach quality.\n\n" +
 
-                        "Trainee Feedback:\n" +
-                        feedbacks;
+                        "Trainee Reviews:\n" +
+                        reviews;
+
         return aiService.chat(prompt);
     }
 

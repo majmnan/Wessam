@@ -1,4 +1,5 @@
 package com.example.wessam.Controller;
+import com.example.wessam.DTO.OUT.CalenderDTOOut;
 import com.example.wessam.Model.Course;
 import com.example.wessam.Repository.CourseRepository;
 import com.example.wessam.Service.CalendarEventService;
@@ -36,4 +37,26 @@ public class CalendarController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+
+
+    @PostMapping("/test-reminder")
+    public ResponseEntity<?> testReminder(@RequestBody CalenderDTOOut request) {
+        try {
+            Date reminderDate = Date.from(
+                    request.getReminderDate()
+                            .atZone(java.time.ZoneId.systemDefault())
+                            .toInstant()
+            );
+
+            calendarEventService.createCourseReminder(
+                    request.getCourseName(),
+                    reminderDate
+            );
+
+            return ResponseEntity.ok("Test reminder added to Google Calendar");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
 }
