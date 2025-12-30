@@ -26,13 +26,6 @@ public class GymController {
         return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Gym registered successfully"));
     }
 
-    // Auth: ADMIN
-    @PutMapping("/activate/{gymId}")
-    public ResponseEntity<?> activateGym(@PathVariable Integer gymId) {
-        gymService.activateGym(gymId);
-        return ResponseEntity.status(HttpStatus.OK).body("Gym activated successfully");
-    }
-
     // Auth: GYM
     @PutMapping("/update")
     public ResponseEntity<?> updateGym(@AuthenticationPrincipal User user, @RequestBody @Valid GymDTOIn dto) {
@@ -52,4 +45,35 @@ public class GymController {
         gymService.reportIncident(user.getId(), message);
         return ResponseEntity.status(200).body(new ApiResponse("Incident reported successfully"));
     }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<?> getAllGyms() {
+        return ResponseEntity.status(200).body(gymService.getAllGyms());
+    }
+
+    // Auth: ADMIN
+    @GetMapping("/get-inactive")
+    public ResponseEntity<?> getInactiveGyms(@AuthenticationPrincipal User user) {
+        return ResponseEntity.status(200).body(gymService.getInactiveGyms());
+    }
+
+    // Auth: ANY
+    @GetMapping("/get-active")
+    public ResponseEntity<?> getActiveGyms() {
+        return ResponseEntity.status(200).body(gymService.getActiveGyms());
+    }
+
+    // Auth: ADMIN
+    @PutMapping("/activate/{gymId}")
+    public ResponseEntity<?> activateGym(@PathVariable Integer gymId) {
+        gymService.activateGym(gymId);
+        return ResponseEntity.status(HttpStatus.OK).body("Gym activated successfully");
+    }
+    // Auth: ADMIN
+    @PutMapping("/deactivate/{gymId}")
+    public ResponseEntity<?> deactivateGym(@PathVariable Integer gymId) {
+        gymService.deactivateGym(gymId);
+        return ResponseEntity.status(HttpStatus.OK).body("Gym deactivate successfully");
+    }
+
 }

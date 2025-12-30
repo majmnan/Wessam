@@ -2,6 +2,7 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.GymDTOIn;
+import com.example.wessam.DTO.OUT.GymDTOOut;
 import com.example.wessam.Model.Gym;
 import com.example.wessam.Model.Trainee;
 import com.example.wessam.Model.User;
@@ -11,6 +12,8 @@ import com.example.wessam.Repository.TraineeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -29,14 +32,6 @@ public class GymService {
         gymRepository.save(new Gym(null,  dto.getName(), dto.getBusinessCertificateId(), "InActive", dto.getDescription(), null,user));
     }
 
-    //Auth: Admin
-    public void activateGym(Integer gymId){
-        Gym gym = gymRepository.findGymById(gymId);
-        if(gym.getStatus().equals("Active"))
-            throw new ApiException("gym is already active");
-        gym.setStatus("Active");
-        gymRepository.save(gym);
-    }
 
     //Auth: gym
     public void updateGym(Integer gymId, GymDTOIn dto){
@@ -85,13 +80,45 @@ public class GymService {
         String adminEmail = "alshahrani996655@gmail.com";
         emailService.sendEmail(adminEmail, subject, emailBody);
     }
+    //Auth: Any
+    public List<GymDTOOut> getAllGyms() {
+        return gymRepository.findAll().stream()
+                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription()))
+                .toList();
+    }
+
+    // Auth: Admin
+    public List<GymDTOOut> getInactiveGyms() {
+        return gymRepository.findAllByStatus("InActive").stream()
+                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription()))
+                .toList();
+    }
+
+    // Auth: Any
+    public List<GymDTOOut> getActiveGyms() {
+        return gymRepository.findAllByStatus("Active").stream()
+                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription()))
+                .toList();
+    }
 
     //Auth: Admin
-    //get all gyms
+    public void activateGym(Integer gymId){
+        Gym gym = gymRepository.findGymById(gymId);
+        if(gym==null)
+            throw new ApiException("gym id not found");
+        if(gym.getStatus().equals("Active"))
+            throw new ApiException("gym is already active");
+        gym.setStatus("Active");
+        gymRepository.save(gym);
+    }
 
     //Auth: Admin
-    //get InActive gyms
+    public void deactivateGym(Integer gymId){
+        Gym gym = gymRepository.findGymById(gymId);
+        if(gym.getStatus().equals("InActive"))
+            throw new ApiException("gym is already InActive");
+        gym.setStatus("InActive");
+        gymRepository.save(gym);
+    }
 
-    //Auth: any
-    //get active gyms
 }

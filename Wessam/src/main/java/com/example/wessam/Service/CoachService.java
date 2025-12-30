@@ -9,6 +9,7 @@ import com.example.wessam.DTO.OUT.GymDTOOut;
 import com.example.wessam.DTO.OUT.TraineeDTOOut;
 import com.example.wessam.Model.*;
 import com.example.wessam.Repository.AuthRepository;
+import com.example.wessam.Repository.BranchRepository;
 import com.example.wessam.Repository.CoachRepository;
 import com.example.wessam.Repository.SportRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class CoachService {
     private final AuthRepository authRepository;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper mapper;
+    private final BranchRepository branchRepository;
 
 
     //Auth: any
@@ -53,7 +55,8 @@ public class CoachService {
         User user=new User(coachDTOIn.getUsername(), passwordEncoder.encode(coachDTOIn.getPassword()), "COACH");
         authRepository.save(user);
         Sport sport = sportRepository.findSportById(coachDTOIn.getSportId());
-        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),"InActive",user,null,null,sport);
+        Branch branch = branchRepository.findBranchById(coachDTOIn.getBranchId());
+        Coach coach=new Coach(null, coachDTOIn.getName(), coachDTOIn.getPhoneNumber(), coachDTOIn.getBirthDate(),coachDTOIn.getYearsOfExperience(),"InActive",user,branch,null,sport);
         coachRepository.save(coach);
     }
 
