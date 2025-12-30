@@ -8,11 +8,9 @@ import com.example.wessam.DTO.OUT.CourseDTOOut;
 import com.example.wessam.DTO.OUT.N8nPdfCertGenDtoOUT;
 import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Course;
+import com.example.wessam.Model.CourseRegistration;
 import com.example.wessam.Model.Trainee;
-import com.example.wessam.Repository.CoachRepository;
-import com.example.wessam.Repository.CourseRepository;
-import com.example.wessam.Repository.GymRepository;
-import com.example.wessam.Repository.TraineeRepository;
+import com.example.wessam.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -29,6 +27,7 @@ public class CourseService {
     private final ModelMapper mapper;
     private final TraineeRepository traineeRepository;
     private final N8nService n8nService;
+    private final CourseRegistrationRepository courseRegistrationRepository;
 
     //Auth: any
     public List<CourseDTOOut> getAllCourses() {
@@ -113,15 +112,23 @@ public class CourseService {
     }
 
     //trainee auth
-    public void generateCertificate(Integer traineeId, Integer courseId){
-        Course course = courseRepository.findCourseById(courseId);
+    public void generateCertificate(Integer traineeId, Integer courseRegId){
+        CourseRegistration courseReg = courseRegistrationRepository.findCourseRegistrationById(courseRegId);
         Trainee trainee = traineeRepository.findTraineeById(traineeId);
 
-        if (course.getEndDate().isAfter(LocalDate.now())) {
-            throw new RuntimeException("Cannot issue certificate: Course is not yet completed.");
+        if (courseReg == null) {
+            throw new ApiException("Course registration not found");
         }
-
-        N8nPdfCertGenDTOIn n8nRequest = new N8nPdfCertGenDTOIn(trainee.getName(),trainee.getEmail(),course.getName(),course.getEndDate().toString());
+        if (courseReg.getCourse().getEndDate().isAfter(LocalDate.now())) {
+            throw new ApiException("Cannot issue certificate: course is not yet completed.");
+        }
+        if(!courseReg.getTrainee().getUser().getId().equals(traineeId)){
+            throw new ApiException("UnAuthorized request ");
+        }
+        if(!"COMPLETED".equalsIgnoreCase(courseReg.getStatus())){
+            throw new ApiException("course is not completed yet");
+        }
+        N8nPdfCertGenDTOIn n8nRequest = new N8nPdfCertGenDTOIn(trainee.getName(),trainee.getEmail(),courseReg.getCourse().getName(),courseReg.getCourse().getEndDate().toString());
         N8nPdfCertGenDtoOUT response = n8nService.triggerPdf(n8nRequest);
         if(!"Certificate was generated and sent successfully".equalsIgnoreCase(response.getMessage()))
             throw new ApiException("something went wrong "+response.getMessage());

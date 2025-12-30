@@ -37,6 +37,28 @@ public class CourseRegistrationController {
         return ResponseEntity.status(HttpStatus.OK).body("Registration deleted successfully");
     }
 
+    @PutMapping("/complete/{registrationId}")
+    public ResponseEntity<?> markAsCompleted(@AuthenticationPrincipal User user, @PathVariable Integer registrationId) {
+        courseRegistrationService.markAsCompleted(user.getId(), registrationId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course marked as COMPLETED"));
+    }
+
+    @PutMapping("/drop/{registrationId}")
+    public ResponseEntity<?> markAsDropped(@AuthenticationPrincipal User user, @PathVariable Integer registrationId) {
+        courseRegistrationService.markAsDropped(user.getId(), registrationId);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("Course marked as DROPPED"));
+    }
+
+    @GetMapping("/completed")
+    public ResponseEntity<?> getCompletedRegistrations() {
+        return ResponseEntity.status(HttpStatus.OK).body(courseRegistrationService.getCompletedRegistrations());
+    }
+
+    @GetMapping("/dropped")
+    public ResponseEntity<?> getDroppedRegistrations() {
+        return ResponseEntity.status(HttpStatus.OK).body(courseRegistrationService.getDroppedRegistrations());
+    }
+
     //Auth: Trainee
     @PutMapping("/pay-pending/{registrationId}")
     public ResponseEntity<?> payPendingRegistration(@AuthenticationPrincipal User user, @PathVariable Integer registrationId, @RequestBody CardDTOIn card){

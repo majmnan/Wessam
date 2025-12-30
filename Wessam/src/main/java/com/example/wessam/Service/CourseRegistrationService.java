@@ -6,6 +6,7 @@ import com.example.wessam.DTO.IN.CardDTOIn;
 import com.example.wessam.DTO.IN.PaymentRequestDTO;
 import com.example.wessam.DTO.OUT.CourseRegistrationDTOOut;
 import com.example.wessam.DTO.OUT.PaymentResponseDTO;
+import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Course;
 import com.example.wessam.Model.CourseRegistration;
 import com.example.wessam.Model.Trainee;
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -99,5 +101,44 @@ public class CourseRegistrationService {
             throw new ApiException("unAuthorized");
 
         courseRegistrationRepository.delete(courseRegistration);
+    }
+    public void markAsCompleted(Integer userId, Integer regId) {
+        CourseRegistration reg = courseRegistrationRepository.findCourseRegistrationById(regId);
+        if (reg == null)
+            throw new ApiException("Registration not found");
+
+        if (!reg.getCourse().getCoach().getUser().getId().equals(userId)) {
+            throw new ApiException("Unauthorized, You cannot drop this course");
+        }
+        if(reg.getCourse().getEndDate().isAfter(LocalDate.now()))
+            throw new ApiException("course is not completed yet, end date is: "+reg.getCourse().getEndDate().toString());
+        reg.setStatus("COMPLETED");
+        courseRegistrationRepository.save(reg);
+    }
+
+    public void markAsDropped(Integer userId, Integer regId) {
+        CourseRegistration reg = courseRegistrationRepository.findCourseRegistrationById(regId);
+        if (reg == null)
+            throw new ApiException("Registration not found");
+
+        if (!reg.getCourse().getCoach().getUser().getId().equals(userId))
+            throw new ApiException("Unauthorized, You cannot drop this course");
+
+        reg.setStatus("DROPPED");
+        courseRegistrationRepository.save(reg);
+    }
+
+    public List<CourseRegistrationDTOOut> getCompletedRegistrations() {
+        return courseRegistrationRepository.findAllByStatus("COMPLETED")
+                .stream()
+                .map(rc -> new CourseRegistrationDTOOut(rc.getTrainee().getName(), rc.getCourse().getName()))
+                .toList();
+    }
+
+    public List<CourseRegistrationDTOOut> getDroppedRegistrations() {
+        return courseRegistrationRepository.findAllByStatus("DROPPED")
+                .stream()
+                .map(rc -> new CourseRegistrationDTOOut(rc.getTrainee().getName(), rc.getCourse().getName()))
+                .toList();
     }
 }
