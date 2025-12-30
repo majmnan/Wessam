@@ -1,16 +1,25 @@
 package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
+import com.example.wessam.DTO.IN.CardDTOIn;
 import com.example.wessam.DTO.IN.GymDTOIn;
+import com.example.wessam.DTO.IN.PaymentRequestDTO;
+import com.example.wessam.DTO.OUT.PaymentResponseDTO;
+import com.example.wessam.Model.CourseRegistration;
 import com.example.wessam.Model.Gym;
 import com.example.wessam.Model.Trainee;
 import com.example.wessam.Model.User;
 import com.example.wessam.Repository.AuthRepository;
 import com.example.wessam.Repository.GymRepository;
 import com.example.wessam.Repository.TraineeRepository;
+import io.netty.util.internal.IntegerHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -22,11 +31,12 @@ public class GymService {
     private final AiService aiService;
     private final EmailService emailService;
     private final TraineeRepository traineeRepository;
+    private final PaymentService paymentService;
 
     //Auth: any
     public void register(GymDTOIn dto){
         User user = authRepository.save(new User(dto.getUsername(), passwordEncoder.encode(dto.getPassword()), "GYM"));
-        gymRepository.save(new Gym(null,  dto.getName(), dto.getBusinessCertificateId(), "InActive", dto.getDescription(), null,user));
+        gymRepository.save(new Gym(null,  dto.getName(), dto.getBusinessCertificateId(), "InActive",null, dto.getDescription(), null,user));
     }
 
     //Auth: Admin
@@ -34,7 +44,7 @@ public class GymService {
         Gym gym = gymRepository.findGymById(gymId);
         if(gym.getStatus().equals("Active"))
             throw new ApiException("gym is already active");
-        gym.setStatus("Active");
+        gym.setStatus("Pending");
         gymRepository.save(gym);
     }
 
@@ -84,6 +94,31 @@ public class GymService {
 
         String adminEmail = "alshahrani996655@gmail.com";
         emailService.sendEmail(adminEmail, subject, emailBody);
+    }
+
+    //Auth: gym
+    public ResponseEntity<PaymentResponseDTO> subscribe(Integer gymId, CardDTOIn card, Integer months, Integer price){
+        if(gymRepository.findGymById(gymId).getStatus().equals("InActive"))
+            throw new ApiException("gym waits approve from admin");
+        ResponseEntity<PaymentResponseDTO> response = paymentService.processPayment(new PaymentRequestDTO(card, price, "SAR", String.valueOf(gymId), "http://localhost:8080/api/v1/gym/complete-payment/"+months));
+        if(!response.getStatusCode().is2xxSuccessful())
+            throw new ResponseStatusException(response.getStatusCode(),response.hasBody() ? response.getBody().toString() : "");
+
+        return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
+    }
+
+    public void checkPayment(Integer months, String paymentId){
+        ResponseEntity<PaymentResponseDTO> response = paymentService.getPayment(paymentId);
+        if("paid".equals(response.getBody().getStatus())){
+            Gym gym = gymRepository.findGymById(Integer.valueOf(response.getBody().getDescription()));
+            if(gym.getStatus().equals("Pending")) {
+                gym.setSubscriptionEndDate(LocalDate.now().plusMonths(months));
+            }
+            gym.setSubscriptionEndDate(gym.getSubscriptionEndDate().plusMonths(months));
+            gym.setStatus("Active");
+            gymRepository.save(gym);
+        }
+        throw new ResponseStatusException(response.getStatusCode(),response.getBody().getSource().getMessage());
     }
 
     //Auth: Admin

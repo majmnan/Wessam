@@ -1,6 +1,7 @@
 package com.example.wessam.Controller;
 
 import com.example.wessam.Api.ApiResponse;
+import com.example.wessam.DTO.IN.CardDTOIn;
 import com.example.wessam.DTO.IN.GymDTOIn;
 import com.example.wessam.Model.User;
 import com.example.wessam.Service.GymService;
@@ -31,6 +32,34 @@ public class GymController {
     public ResponseEntity<?> activateGym(@PathVariable Integer gymId) {
         gymService.activateGym(gymId);
         return ResponseEntity.status(HttpStatus.OK).body("Gym activated successfully");
+    }
+
+    //Auth: gym
+    @PutMapping("/subscribe/month")
+    public ResponseEntity<?> monthSubscribe(@AuthenticationPrincipal User user, @RequestBody@Valid CardDTOIn card){
+        return gymService.subscribe(user.getId(),card,1,50);
+    }
+
+    //Auth: gym
+    @PutMapping("/subscribe/quarter")
+    public ResponseEntity<?> quarterSubscribe(@AuthenticationPrincipal User user, @RequestBody@Valid CardDTOIn card){
+        return gymService.subscribe(user.getId(),card,3,120);
+    }
+
+    @PutMapping("/subscribe/half")
+    public ResponseEntity<?> halfYearSubscribe(@AuthenticationPrincipal User user, @RequestBody@Valid CardDTOIn card){
+        return gymService.subscribe(user.getId(),card,6,220);
+    }
+
+    @PutMapping("/subscribe/year")
+    public ResponseEntity<?> yearSubscribe(@AuthenticationPrincipal User user, @RequestBody@Valid CardDTOIn card){
+        return gymService.subscribe(user.getId(),card,12,400);
+    }
+
+    @PutMapping("/complete-payment/{months}")
+    public ResponseEntity<?> checkPayment(@PathVariable Integer months, @RequestParam("id") String id){
+        gymService.checkPayment(months, id);
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse("paid successfully and subscription activated"));
     }
 
     // Auth: GYM

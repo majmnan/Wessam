@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,6 +15,10 @@ import java.time.LocalDate;
 public class CourseDTOIn {
     @NotNull
     private String name;
+
+    @NotNull
+    @Positive
+    private Integer price;
 
     @Pattern(regexp = "^(beginners|intermediate|advanced)$")
     private String entryLevel;

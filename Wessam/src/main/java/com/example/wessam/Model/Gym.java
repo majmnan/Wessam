@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -32,8 +33,10 @@ public class Gym {
     @Column(columnDefinition = "varchar(10) not null unique")
     private String businessCertificateId;
 
-    @Pattern(regexp = "^(InActive|Active)$")
+    @Pattern(regexp = "^(InActive|Pending|Active)$")
     private String status;
+
+    private LocalDate subscriptionEndDate;
 
     @NotEmpty(message = "gym description must be entered")
     @Size(max = 250,message = "gym description must be maximum  size of 250")

@@ -26,4 +26,6 @@ public class CourseDTOOut {
     private String location;
 
     private String gymName;
+
+    private Integer price;
 }

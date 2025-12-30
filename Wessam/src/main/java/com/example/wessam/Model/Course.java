@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Null;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,9 @@ public class Course {
     @NotNull
     private String name;
 
+    @NotNull
+    private Integer price;
+
     @Pattern(regexp = "^(beginners|intermediate|advanced)$")
     @Column(nullable = false)
     private String entryLevel;
@@ -46,4 +50,5 @@ public class Course {
 
     @ManyToOne
     private Coach coach;
+
 }

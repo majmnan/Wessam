@@ -52,7 +52,7 @@ public class CourseService {
         if(!coach.getBranch().getGym().getId().equals(gymId)){
             throw new ApiException("unAuthorized");
         }
-        Course course = new Course(null, dto.getName(), dto.getEntryLevel(), dto.getStartDate(), dto.getEndDate(),null, coach);
+        Course course = new Course(null, dto.getName(), dto.getPrice(),dto.getEntryLevel(), dto.getStartDate(), dto.getEndDate(),null, coach);
         courseRepository.save(course);
     }
 
@@ -77,6 +77,7 @@ public class CourseService {
         oldCourse.setStartDate(dto.getStartDate());
         oldCourse.setEndDate(dto.getEndDate());
         oldCourse.setCoach(coach);
+        oldCourse.setPrice(dto.getPrice());
         courseRepository.save(oldCourse);
     }
 
@@ -92,7 +93,7 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
-    //trainee auth
+    //trainee auth  //Should review: Auth all ,get by lvl
     public List<CourseDTOOut> nextLevelCourses(Integer traineeId) {
         Trainee trainee = traineeRepository.findTraineeById(traineeId);
         if (trainee == null)

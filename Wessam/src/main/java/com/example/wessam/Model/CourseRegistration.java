@@ -2,6 +2,7 @@ package com.example.wessam.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,9 @@ public class CourseRegistration {
     @ManyToOne
     private Trainee trainee;
 
-
+    @Pattern(regexp = "^(Pending|Registered|Fail|Complete)$")
+    @Column(nullable = false)
+    private String status;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "courseRegistration")
     @JsonIgnore
