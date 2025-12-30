@@ -2,7 +2,6 @@ package com.example.wessam.Controller;
 
 import com.example.wessam.Api.ApiResponse;
 import com.example.wessam.DTO.IN.CardDTOIn;
-import com.example.wessam.DTO.OUT.PaymentResponseDTO;
 import com.example.wessam.Model.User;
 import com.example.wessam.Service.CourseRegistrationService;
 import jakarta.validation.Valid;
