@@ -65,31 +65,20 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | 🔄 Use Case Diagram | [Google Drive Link](https://drive.google.com/XXXXXXXX) |
 |  API documentation  | [postman link](https://documenter.getpostman.com/view/49815088/2sBXVbJZXe)  |
 
-
----
-
-## 👤 User Management (Admin)
-| Method | Endpoint | Description | Name |
-|------|--------|------------|------|
-| GET | `/api/v1/users` | Get all users | Mohannad |
-| GET | `/api/v1/users/{id}` | Get user by id | - |
-| PUT | `/api/v1/users/role/{id}` | Update user role | - |
-| PUT | `/api/v1/users/block/{id}` | Block or unblock user | - |
-
 ---
 
 ## 🏋️ Coach Registration & Management
 | Method | Endpoint | Description | Name |
 |------|--------|------------|------|
-| POST | `/api/v1/coach/register` | Coach registration | - |
-| GET | `/api/v1/coach/pending` | Get pending coaches (Admin) | - |
-| PUT | `/api/v1/coach/approve/{id}` | Approve coach (Admin) | - |
+| POST | `/api/v1/coach/register` | Coach registration | Mohannad ,Abdulrahman |
+| GET | `/api/v1/coach/pending` | Get pending coaches (Admin) | Mohannad |
+| PUT | `/api/v1/coach/approve/{id}` | Approve coach (Admin) | Mohannad |
 | GET | `/api/v1/coach/{id}` | Get coach profile | Leena |
-| GET | `/api/v1/coach/by-sport/{sportId}` | Get coaches by sport | - |
+| GET | `/api/v1/coach/by-sport/{sportId}` | Get coaches by sport | Mohannad |
 | GET | `/api/v1/coach/get` | Get all coaches | Leena |
 | PUT | `/api/v1/coach/update/{id}` | Update coach profile | Leena |
 | DELETE | `/api/v1/coach/delete/{id}` | Delete coach | Leena |
-| GET | `/get/coach/status/{coachId}` | Coach dashboard statistics | - |
+| GET | `/get/coach/status/{coachId}` | Coach dashboard statistics | Abdulrahman |
 | GET | `/{coachId}/total-trainees` | Total trainees per coach | Leena |
 | GET | `/{coachId}/total-courses` | Total courses per coach | Leena |
 | GET | `/{coachId}/average-rating` | Coach average rating | Leena |
@@ -101,11 +90,11 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 ## 🏢 Branch Management
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| GET | `/api/v1/branches/get-all` | Get all branches (Admin) | - |
-| POST | `/api/v1/branches/add` | Add new branch (Gym) | - |
-| PUT | `/api/v1/branches/update/{branchId}` | Update branch (Gym) | - |
-| DELETE | `/api/v1/branches/delete/{branchId}` | Delete branch (Gym) | - |
-| GET | `/api/v1/branches/get-gym` | Get branches by gym | - |
+| GET | `/api/v1/branches/get-all` | Get all branches (Admin) | Mohannad |
+| POST | `/api/v1/branches/add` | Add new branch (Gym) | Mohanand |
+| PUT | `/api/v1/branches/update/{branchId}` | Update branch (Gym) | Mohannad |
+| DELETE | `/api/v1/branches/delete/{branchId}` | Delete branch (Gym) | Mohannad |
+| GET | `/api/v1/branches/get-gym` | Get branches by gym | Mohannad |
 
 ---
 
@@ -113,25 +102,25 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
 | GET | `/api/v1/gym/get` | Get all gyms | Leena |
-| POST | `/api/v1/gym/register` | Register a new gym | - |
+| POST | `/api/v1/gym/register` | Register a new gym | Mohannad |
 | PUT | `/api/v1/gym/update/{gymId}` | Update gym profile | Leena |
-| PUT | `/api/v1/gym/activate/{gymId}` | Activate gym | - |
+| PUT | `/api/v1/gym/activate/{gymId}` | Activate gym | Mohannad |
 | DELETE | `/api/v1/gym/delete/{gymId}` | Delete gym | Leena |
-| GET | `/get-inactive` | Get inactive gyms (Admin) | - |
-| GET | `/get-active` | Get active gyms | - |
-| PUT | `/deactivate/{gymId}` | Deactivate gym (Admin) | - |
+| GET | `/get-inactive` | Get inactive gyms (Admin) | Abdulrahman |
+| GET | `/get-active` | Get active gyms | Abdulrahman |
+| PUT | `/deactivate/{gymId}` | Deactivate gym (Admin) | Abdulrahman |
 
 ---
 
 ## 🧑‍🎓 Trainee & AI Coach
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| POST | `/api/v1/trainee/register` | Trainee registration | - |
-| GET | `/api/v1/trainee/profile/{id}` | Get trainee profile | - |
-| PUT | `/api/v1/trainee/update/{id}` | Update trainee profile | - |
-| DELETE | `/api/v1/trainee/delete/{id}` | Delete trainee | - |
+| POST | `/api/v1/trainee/register` | Trainee registration | Mohannad |
+| GET | `/api/v1/trainee/profile/{id}` | Get trainee profile | Mohannad |
+| PUT | `/api/v1/trainee/update/{id}` | Update trainee profile | Mohannad |
+| DELETE | `/api/v1/trainee/delete/{id}` | Delete trainee | Abdulrahman |
 | GET | `/coach/{traineeId}` | AI personalized coach advice | Leena |
-| GET | `/api/v1/trainee/my-courses` | Get trainee courses | - |
+| GET | `/api/v1/trainee/my-courses` | Get trainee courses | Abdulrahman |
 | GET | `/get/registerd/{traineeId}` | Trainee registered courses | Leena |
 
 ---
@@ -139,35 +128,35 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 ## 📚 Courses & AI Analytics
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| POST | `/api/v1/course/add` | Add new course | - |
-| PUT | `/api/v1/course/update/{id}` | Update course | - |
-| DELETE | `/api/v1/course/delete/{id}` | Delete course | - |
-| GET | `/api/v1/course/{id}` | Get course details | - |
-| GET | `/api/v1/course/by-coach/{coachId}` | Get courses by coach | - |
-| GET | `/api/v1/course/by-sport/{sportId}` | Get courses by sport | - |
+| POST | `/api/v1/course/add` | Add new course | Mohannad |
+| PUT | `/api/v1/course/update/{id}` | Update course | Mohannad |
+| DELETE | `/api/v1/course/delete/{id}` | Delete course | Mohannad |
+| GET | `/api/v1/course/{id}` | Get course details | Mohannad |
+| GET | `/api/v1/course/by-coach/{coachId}` | Get courses by coach | Andulrahman, Mohanand |
+| GET | `/api/v1/course/by-sport/{sportId}` | Get courses by sport | Andulrahman, Mohanand |
 | GET | `/get/top/{courseId}` | Get top courses | Leena |
 | GET | `/get/recommended/{traineeId}/{sportId}` | AI recommended courses | Leena |
 | GET | `/get/dateRange/{sportId}/{startDate}/{endDate}` | Courses by date range | Leena |
 | GET | `/get/upcoming` | Upcoming courses | Leena |
 | GET | `/get/totalTrainee/{id}` | Total trainees per course | Leena |
 | GET | `/get/feedback/{courseId}` | AI course feedback analysis | Leena |
-| GET | `/next-level-courses` | Get next level courses for trainee | - |
-| PUT | `/complete/{registrationId}` | Mark course as completed | - |
-| PUT | `/drop/{registrationId}` | Drop course (Coach) | - |
-| GET | `/completed` | Get completed registrations | - |
-| GET | `/dropped` | Get dropped registrations (Admin) | - |
+| GET | `/next-level-courses` | Get next level courses for trainee | Andulrahman, Mohanand |
+| PUT | `/complete/{registrationId}` | Mark course as completed | Andulrahman |
+| PUT | `/drop/{registrationId}` | Drop course (Coach) | Abdulrahman |
+| GET | `/completed` | Get completed registrations | Mohannad |
+| GET | `/dropped` | Get dropped registrations (Admin) | Abdulrahman |
 
 ---
 
 ## 💳 Payments & Registration
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| POST | `/registration/enroll/{courseId}` | Enroll in course | - |
-| DELETE | `/registration/cancel/{id}` | Cancel registration | - |
-| PUT | `/pay-pending/{registrationId}` | Pay pending registration | - |
-| GET | `/complete-payment/{registrationId}` | Complete payment callback | - |
-| POST | `/pay` | Test payment | - |
-| GET | `/callback/{n}/{nn}` | Payment gateway callback | - |
+| POST | `/registration/enroll/{courseId}` | Enroll in course | Mohannad |
+| DELETE | `/registration/cancel/{id}` | Cancel registration | Mohannad |
+| PUT | `/pay-pending/{registrationId}` | Pay pending registration | Mohannad |
+| GET | `/complete-payment/{registrationId}` | Complete payment callback | Mohannad |
+| POST | `/pay` | Test payment | Mohannad |
+| GET | `/callback/{n}/{nn}` | Payment gateway callback | Mohannad |
 
 ---
 
@@ -175,11 +164,11 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
 | POST | `/certificates/{courseId}` | Generate course certificate | Abdulrahman |
-| POST | `/review/add` | Add review | - |
-| PUT | `/review/update/{id}` | Update review | - |
-| DELETE | `/review/delete/{id}` | Delete review | - |
-| GET | `/review/course/{courseId}` | Get course reviews | - |
-| GET | `/review/coach/{coachId}` | Get coach reviews | - |
+| POST | `/review/add` | Add review | Mohannad |
+| PUT | `/review/update/{id}` | Update review | Mohannad, Abdulrahman |
+| DELETE | `/review/delete/{id}` | Delete review | Mohannad |
+| GET | `/review/course/{courseId}` | Get course reviews | Mohannad |
+| GET | `/review/coach/{coachId}` | Get coach reviews | Mohanand |
 
 ---
 
@@ -209,17 +198,14 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 
 ---
 
-
----
-
 ### 📚 Courses & Registrations
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| GET | `/api/v1/course-registration/get-by-course/{courseId}` | Get registrations of a course | - |
-| POST | `/api/v1/course-registration/register/{courseId}` | Register in course | - |
-| DELETE | `/api/v1/course-registration/delete/{registrationId}` | Delete registration | - |
-| GET | `/api/v1/course-registration/get/registerd/{traineeId}` | Get trainee registered courses | - |
-| GET | `/api/v1/course-registration/get/totalTrainee/{id}` | Get total trainees of a course | - |
+| GET | `/api/v1/course-registration/get-by-course/{courseId}` | Get registrations of a course | Mohannad |
+| POST | `/api/v1/course-registration/register/{courseId}` | Register in course | Mohannad |
+| DELETE | `/api/v1/course-registration/delete/{registrationId}` | Delete registration | Mohannad |
+| GET | `/api/v1/course-registration/get/registerd/{traineeId}` | Get trainee registered courses | Mohannad, Abdulrahman |
+| GET | `/api/v1/course-registration/get/totalTrainee/{id}` | Get total trainees of a course | Avdulrahman |
 
 ---
 
