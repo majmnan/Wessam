@@ -214,6 +214,52 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 
 ---
 
+
+---
+
+### 📚 Courses & Registrations
+| Method | Endpoint | Description | Name |
+|--------|---------|-------------|------|
+| GET | `/api/v1/course-registration/get-by-course/{courseId}` | Get registrations of a course | - |
+| POST | `/api/v1/course-registration/register/{courseId}` | Register in course | - |
+| DELETE | `/api/v1/course-registration/delete/{registrationId}` | Delete registration | - |
+| GET | `/api/v1/course-registration/get/registerd/{traineeId}` | Get trainee registered courses | - |
+| GET | `/api/v1/course-registration/get/totalTrainee/{id}` | Get total trainees of a course | - |
+
+---
+
+### 🏆 Tournament Registration
+| Method | Endpoint | Description | Name |
+|--------|---------|-------------|------|
+| GET | `/api/v1/registeredTournament/get` | Get all registered tournaments | - |
+| POST | `/api/v1/registeredTournament/add/{tournamentId}` | Add registered tournament | - |
+| PUT | `/api/v1/registeredTournament/update/{oldTournamentId}/{newTournamentId}` | Update tournament registration | - |
+| DELETE | `/api/v1/registeredTournament/delete/{id}` | Delete tournament registration | - |
+| GET | `/api/v1/registeredTournament/get/totalTrainee/{id}` | Get total trainees per tournament | - |
+
+---
+
+### 🏅 Sport Management
+| Method | Endpoint | Description | Name |
+|--------|---------|-------------|------|
+| GET | `/api/v1/sport/get` | Get all sports | Leena |
+| POST | `/api/v1/sport/add` | Add new sport | Leena |
+| PUT | `/api/v1/sport/update/{id}` | Update sport | Leena |
+| DELETE | `/api/v1/sport/delete/{id}` | Delete sport | Leena |
+| GET | `/api/v1/sport/analyze/sport/{sportId}` | Analyze sport popularity | Leena |
+
+---
+
+### 🏢 Organizer Management
+| Method | Endpoint | Description | Name |
+|--------|---------|-------------|------|
+| GET | `/api/v1/organizer/get` | Get all organizers | Leena |
+| POST | `/api/v1/organizer/add` | Add new organizer | Leena |
+| PUT | `/api/v1/organizer/update/{id}` | Update organizer | Leena |
+| DELETE | `/api/v1/organizer/delete/{id}` | Delete organizer | Leena |
+
+---
+
 ## 🧠 Technologies Used
 - Java  
 - Spring Boot  
