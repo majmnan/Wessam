@@ -27,30 +27,34 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 ## 🧩 Contributions (Leena)
 | Contribution | Description |
 |-------------|-------------|
-| 💡 AI Features | تنفيذ الميزات المتعلقة بالذكاء الاصطناعي |
-| 📊 Analytics & Dashboards | تنفيذ التحليلات، اللوحات، والنقاط الإضافية |
-| 📝 ER Diagram | تصميم ER Diagram |
-| 🎨 Figma Interfaces | تصميم واجهات Figma |
-| 🔄 Use Case Diagram | تصميم Use Case Diagram |
-| 📚 Documentation | توثيق النظام |
-
+|  AI Features | تنفيذ الميزات المتعلقة بالذكاء الاصطناعي |
+|  Analytics & Dashboards | تنفيذ التحليلات، اللوحات، والنقاط الإضافية |
+|  ER Diagram | تصميم ER Diagram |
+|  Figma Interfaces | تصميم واجهات Figma |
+|  Use Case Diagram | تصميم Use Case Diagram |
+|  Documentation | توثيق النظام |
 ---
 ## 🧩 Contributions (Abdulrahman)
 | Contribution | Description |
 |-------------|-------------|
-|  |  |
-|  |  |
-|  |  |
-
+|  N8N Workflows |  انشاء وارسال شهادة اتمام الدورة & zoom URL |
+|  AI Features| اضافة الذكاء الاصطناعي وبعض مميزاتة |
+|  JUnit | انشاء وحدات الاختبار  |
+|  Testing | اختبار النظام Postman  |
+|  ERD Diagram  |  انشاء وتصميم Diagram |
+|  Figma Interfaces | تصميم واجهات Figma |
+|  Email integration | اضافة ميزة اشعارات البريد الالكتروني |
 ---
-
 ## 🧩 Contributions (Mohannad)
 | Contribution | Description |
 |-------------|-------------|
-|  |  |
-|  |  |
-|  |  |
-
+|  AWS | رفع ونشر المشروع على سيرفرات امزون |
+|  Moyassar | اضافة ميزة الدفع ميسر |
+|  ER Diagram | تصميم ER Diagram |
+|  TESTING |   Postman اختبار النظام بالكامل |
+|  Documentation | توثيق النظام |
+|  DTO Fix  |  اصلاح وتعديل  |
+|  AI Features | المشاركة في انشاء ميزات متعلقة بالذكاء الاصطناعي | 
 ---
 
 ## 🔗 System Diagrams
@@ -59,24 +63,15 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | 🎨 Figma UI Design | [Figma Link](https://www.figma.com/design/JB0Gov46coABiU4SIsEtbm/Gym-landing-page-website--Community-?node-id=0-1&t=aV0c2TGbKTqVvj1E-1) |
 | 🧩 ER Diagram (ERD) | [Mermaid Live Link](https://mermaid.live/view#pako:eNqtVttu4jAQ_...) |
 | 🔄 Use Case Diagram | [Google Drive Link](https://drive.google.com/XXXXXXXX) |
+|  API documentation  | [postman link](https://documenter.getpostman.com/view/49815088/2sBXVbJZXe)  |
 
----
-## 📡  Endpoints 
-## 🔐 Authentication & Authorization
-| Method | Endpoint | Description | Name |
-|------|--------|------------|------|
-| POST | `/api/v1/auth/register` | Register new user | - |
-| POST | `/api/v1/auth/login` | User login | - |
-| POST | `/api/v1/auth/logout` | User logout | - |
-| GET | `/api/v1/auth/me` | Get current authenticated user | - |
-| PUT | `/api/v1/auth/change-password` | Change password | - |
 
 ---
 
 ## 👤 User Management (Admin)
 | Method | Endpoint | Description | Name |
 |------|--------|------------|------|
-| GET | `/api/v1/users` | Get all users | - |
+| GET | `/api/v1/users` | Get all users | Mohannad |
 | GET | `/api/v1/users/{id}` | Get user by id | - |
 | PUT | `/api/v1/users/role/{id}` | Update user role | - |
 | PUT | `/api/v1/users/block/{id}` | Block or unblock user | - |
@@ -179,7 +174,7 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 ## 🎓 Certificates & Reviews
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| POST | `/certificates/{courseId}` | Generate course certificate | - |
+| POST | `/certificates/{courseId}` | Generate course certificate | Abdulrahman |
 | POST | `/review/add` | Add review | - |
 | PUT | `/review/update/{id}` | Update review | - |
 | DELETE | `/review/delete/{id}` | Delete review | - |
@@ -191,8 +186,8 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 ## 🥗 AI Health & Training Content
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| GET | `/nutrition-tip/{sportId}` | Get AI nutrition tip | - |
-| GET | `/home-workout/{sportId}` | Get AI home workout | - |
+| GET | `/nutrition-tip/{sportId}` | Get AI nutrition tip | Abdulrahman |
+| GET | `/home-workout/{sportId}` | Get AI home workout | Abdulrahman |
 | GET | `/analyze/sport/{sportId}` | AI sport analysis | Leena |
 
 ---
@@ -203,14 +198,14 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | GET | `/get/upcoming` | Upcoming tournaments | Leena |
 | GET | `/get/dateRange/{sportId}/{startDate}/{endDate}` | Tournaments by date range | Leena |
 | GET | `/get/totalTrainee/{id}` | Total trainees per tournament | Leena |
-| GET | `/generate-post/{tournamentId}` | Generate AI social media post | - |
+| GET | `/generate-post/{tournamentId}` | Generate AI social media post | Abdulrahman |
 
 ---
 
 ## 🎥 Online Meetings (Zoom)
 | Method | Endpoint | Description | Name |
 |--------|---------|-------------|------|
-| POST | `/create` | Create online meeting | - |
+| POST | `/create` | Create online meeting | Abdulrahman |
 
 ---
 
