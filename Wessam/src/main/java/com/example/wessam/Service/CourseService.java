@@ -3,27 +3,21 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.CourseDTOIn;
-import com.example.wessam.DTO.IN.N8nPdfCertGenDTOIn;
 import com.example.wessam.DTO.OUT.CourseDTOOut;
-import com.example.wessam.DTO.OUT.N8nPdfCertGenDtoOUT;
 import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.Course;
-import com.example.wessam.Model.CourseRegistration;
 import com.example.wessam.Model.Trainee;
 import com.example.wessam.Repository.*;
 import com.example.wessam.DTO.OUT.RecommendedDTOOut;
 import com.example.wessam.DTO.OUT.TopCoursesDTOOut;
 import com.example.wessam.Model.*;
-import com.example.wessam.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -37,9 +31,7 @@ public class CourseService {
     private final AiService aiService;
     private final GymRepository gymRepository;
     private final ModelMapper mapper;
-    private final TraineeRepository traineeRepository;
     private final N8nService n8nService;
-    private final CourseRegistrationRepository courseRegistrationRepository;
 
     //Auth: any
     public List<CourseDTOOut> getAllCourses() {
@@ -55,6 +47,11 @@ public class CourseService {
 
     //Auth: Gym
     public void addCourse(Integer gymId , CourseDTOIn dto) {
+        Gym gym =  gymRepository.findGymById(gymId);
+        if(gym == null)
+            throw new ApiException("gym not found");
+        if(!gym.getStatus().equals("Active"))
+            throw new ApiException("gym is inactive yet");
         Coach coach = coachRepository.findCoachById(dto.getCoachId());
 
         if (coach == null) {
@@ -69,6 +66,11 @@ public class CourseService {
 
     //Auth: gym
     public void updateCourse(Integer gymId, Integer courseId, CourseDTOIn dto){
+        Gym gym =  gymRepository.findGymById(gymId);
+        if(gym == null)
+            throw new ApiException("gym not found");
+        if(!gym.getStatus().equals("Active"))
+            throw new ApiException("gym is inactive yet");
         Course oldCourse = courseRepository.findCourseById(courseId);
         if (oldCourse == null) {
             throw new ApiException("course not found");
@@ -104,7 +106,13 @@ public class CourseService {
         courseRepository.delete(course);
     }
 
-    //trainee auth  //Should review: Auth all ,get by lvl
+    //Auth: any
+    public List<CourseDTOOut> getCoursesByLevel(String level){
+        List<Course> nextCourses = courseRepository.findCoursesByEntryLevelAndStartDateAfter(level, LocalDate.now());
+        return nextCourses.stream().map(c -> mapper.map(c, CourseDTOOut.class)).toList();
+    }
+
+    //Auth: trainee
     public List<CourseDTOOut> nextLevelCourses(Integer traineeId) {
         Trainee trainee = traineeRepository.findTraineeById(traineeId);
         if (trainee == null)
@@ -123,29 +131,25 @@ public class CourseService {
         return nextCourses.stream().map(c -> mapper.map(c, CourseDTOOut.class)).toList();
     }
 
-
-    public List<TopCoursesDTOOut> gettopCourses(Integer courseId){
-        Course course = courseRepository.findCourseById(courseId);
-        if (course == null) {
-            throw new ApiException("course not found");
-        }
+    //Auth: any
+    public List<TopCoursesDTOOut> getTopCourses(){
         List<Course> courses = courseRepository.findAll();
         List<TopCoursesDTOOut> top = new ArrayList<>();
         for(Course c:courses){
-            Integer traineeCount=courseRegistrationRepository.TraineeCount(courseId);
-            Double averating=courseReviewRepository.aveRatings(courseId);
+            Integer traineeCount=courseRegistrationRepository.TraineeCount(c.getId());
+            Double avgRating=courseReviewRepository.aveRatings(c.getId());
             top.add(new TopCoursesDTOOut(
                     c.getName(),
                     c.getCoach().getName(),
                     traineeCount,
-                    averating
+                    avgRating
             ));
         }
         return top.stream().sorted(Comparator.comparing(TopCoursesDTOOut::getTraineesCount).reversed()).limit(5).toList();
     }
 
 
-
+    //Auth: Trainee
     public List<RecommendedDTOOut> getRecomendedCourses(Integer traineeId, Integer sportId){
         Trainee trainee=traineeRepository.findTraineeById(traineeId);
         if (trainee == null) {
@@ -165,18 +169,18 @@ public class CourseService {
         return recommendedDTOOuts;
     }
 
-
+    //Auth: any
     public List<Course> getCoursesByStartDateRange(Integer sportId, LocalDate startDate, LocalDate endDate) {
         return courseRepository.findCoursesByDate(sportId, startDate, endDate);
     }
 
-
+    //Auth: any
     public String courseFeedbackAi( Integer courseId) {
         Course course = courseRepository.findCourseById(courseId);
         if (course == null) {
             throw new ApiException("course not found");
         }
-        List<CourseReview> reviews=courseReviewRepository.fiindAllReviewByCourse(courseId);
+        List<CourseReview> reviews=courseReviewRepository.findAllReviewByCourse(courseId);
         String prompt =
                 "You are an AI specialized in course evaluation and sentiment analysis.\n\n" +
 
@@ -196,9 +200,10 @@ public class CourseService {
                         "Trainee Reviews:\n" +
                         reviews;
 
-        return aiService.chat(prompt);
+        return aiService.callAi(prompt);
     }
 
+    //Auth: any
     public List<Course> getUpcomingCourses(){
         LocalDate today=LocalDate.now();
         return courseRepository.findCoursesByStartDate(today);

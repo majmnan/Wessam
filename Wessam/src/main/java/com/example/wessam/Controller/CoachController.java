@@ -2,8 +2,6 @@ package com.example.wessam.Controller;
 
 import com.example.wessam.Api.ApiResponse;
 import com.example.wessam.DTO.IN.CoachDTOIn;
-import com.example.wessam.DTO.IN.TraineeDTOIn;
-import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.User;
 import com.example.wessam.Service.CoachService;
 import jakarta.validation.Valid;
@@ -21,7 +19,7 @@ public class CoachController {
 
     private final CoachService coachService;
 
-    //Auth: admin
+    //Auth: any
     @GetMapping("/get")
     public ResponseEntity<?> getCoaches(){
         return ResponseEntity.status(200).body(coachService.getCoaches());
@@ -56,32 +54,32 @@ public class CoachController {
     }
 
     @GetMapping("/available/{date}")
-    public ResponseEntity<?> getAvailableCoaches(@PathVariable LocalDate date) {
-        return ResponseEntity.status(200).body(coachService.getAvailableCoaches(date));
+    public ResponseEntity<?> getAvailableCoaches(@AuthenticationPrincipal User user, @PathVariable LocalDate date) {
+        return ResponseEntity.status(200).body(coachService.getAvailableCoaches(user.getId(), date));
     }
-    @GetMapping("/get/coach/status/{coachId}")
+    @GetMapping("/dashboard/{coachId}")
     public ResponseEntity<?>getCoachDashboard(@PathVariable Integer coachId){
         return ResponseEntity.status(200).body(coachService.getCoachDashboard(coachId));
 
     }
 
-    @GetMapping("/get/feedback/{courseId}/{coachId}")
+    @GetMapping("/review-summary/{courseId}/{coachId}")
     public ResponseEntity<?> analyzeFeedback(@PathVariable Integer courseId,@PathVariable Integer coachId) {
         return ResponseEntity.status(200).body(coachService.coachFeedbackAiByCourse(coachId,coachId));
 
     }
 
-    @GetMapping("/get/average/ratings/{coachId}")
+    @GetMapping("/avg-rating/{coachId}")
     public ResponseEntity<?> getAverageRatings(@PathVariable Integer coachId){
-        return ResponseEntity.status(200).body(coachService.getaveCoachRatings(coachId));
+        return ResponseEntity.status(200).body(coachService.getAvgCoachRatings(coachId));
     }
 
-    @GetMapping("/get/total/trainees/{coachId}")
+    @GetMapping("/total-trainee/{coachId}")
     public ResponseEntity<?> getTotalTrainees(@PathVariable Integer coachId){
-        return ResponseEntity.status(200).body(coachService.getCoachTotalTainees(coachId));
+        return ResponseEntity.status(200).body(coachService.getCoachTotalTrainees(coachId));
     }
 
-    @GetMapping("/get/total/courses/{coachId}")
+    @GetMapping("/total-courses/{coachId}")
     public ResponseEntity<?> getTotalCourses(@PathVariable Integer coachId){
         return ResponseEntity.status(200).body(coachService.getCoachTotalCourses(coachId));
     }

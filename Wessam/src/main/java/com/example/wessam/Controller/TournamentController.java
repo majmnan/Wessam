@@ -45,7 +45,6 @@ public class TournamentController {
     public ResponseEntity<?> generateSocialPost(@PathVariable Integer tournamentId) {
         return ResponseEntity.status(200).body(new ApiResponse(tournamentService.generateSocialPost(tournamentId)));
     }
-
     @GetMapping("/get/upcoming")
     public ResponseEntity<?> getUpcomingTournaments() {
         return ResponseEntity.status(200).body(tournamentService.getUpcomingTournament());

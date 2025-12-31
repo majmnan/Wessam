@@ -19,5 +19,5 @@ public interface CourseReviewRepository extends JpaRepository<CourseReview, Inte
     Double aveRatings(@Param("courseId")Integer courseId);
 
     @Query("select rev from CourseReview rev where rev.registration.course.id=:courseId ")
-    List<CourseReview> fiindAllReviewByCourse(@Param("courseId")Integer courseId);
+    List<CourseReview> findAllReviewByCourse(@Param("courseId")Integer courseId);
 }

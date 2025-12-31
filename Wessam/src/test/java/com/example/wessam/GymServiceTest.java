@@ -78,7 +78,7 @@ public class GymServiceTest {
 
         gymService.activateGym(gym.getId());
 
-        Assertions.assertEquals("Active", gym.getStatus());
+        Assertions.assertEquals("Pending", gym.getStatus());
         verify(gymRepository, times(1)).save(gym);
     }
 

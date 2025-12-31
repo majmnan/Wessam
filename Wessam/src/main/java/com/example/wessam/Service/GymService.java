@@ -48,8 +48,7 @@ public class GymService {
         List<GymDTOOut> gymDTOOuts = new ArrayList<>();
         for (Gym g : gyms) {
             gymDTOOuts.add(new GymDTOOut(
-                   g.getName(),
-                    g.getDescription()
+                   g.getName(), g.getDescription(), g.getSubscriptionEndDate()
             ));
         }
         return gymDTOOuts;
@@ -65,8 +64,8 @@ public class GymService {
         Gym gym = gymRepository.findGymById(gymId);
         if(gym == null)
             throw new ApiException("gym not found");
-        if(gym.getStatus().equals("Active"))
-            throw new ApiException("gym is already active");
+        if(gym.getStatus().equals("Pending"))
+            throw new ApiException("gym is wait for payment");
         gym.setStatus("Pending");
         gymRepository.save(gym);
     }

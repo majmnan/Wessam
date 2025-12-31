@@ -29,4 +29,5 @@ public interface CourseRepository extends JpaRepository<Course,Integer> {
 
     @Query("select c from Course c where c.startDate>:startDate")
     List<Course> findCoursesByStartDate(@Param("startDate")LocalDate startDate);
+
 }

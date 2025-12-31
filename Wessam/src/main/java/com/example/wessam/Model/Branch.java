@@ -27,7 +27,6 @@ public class Branch {
     private String city;
 
     @URL
-    @Pattern(regexp = "^https://www.google.com/maps.*$")
     private String Location;
 
 

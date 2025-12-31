@@ -40,26 +40,6 @@ public class RegisteredTournamentService {
         registeredTournamentRepository.save(registeredTournament);
     }
 
-    public void updateRegisteredTournament(Integer traineeId, Integer oldTournamentRegId, Integer newTournamentId) {
-        RegisteredTournament oldTournamentReg = registeredTournamentRepository.findRegisteredTournamentById(oldTournamentRegId);
-
-        if (oldTournamentReg == null)
-            throw new ApiException("registration not found");
-
-        if (!oldTournamentReg.getTrainee().getId().equals(traineeId))
-            throw new ApiException("you do not have permission to update this registration");
-
-        Tournament newTournament = tournamentRepository.findTournamentById(newTournamentId);
-        if (newTournament == null)
-            throw new ApiException("new tournament not found");
-
-        if (newTournament.getStartDate().isBefore(LocalDate.now()))
-            throw new ApiException("cannot register for a past tournament");
-
-        oldTournamentReg.setTournament(newTournament);
-        registeredTournamentRepository.save(oldTournamentReg);
-    }
-
     public void deleteRegisteredTournament(Integer traineeId, Integer id) {
         RegisteredTournament registeredTournament = registeredTournamentRepository.findRegisteredTournamentById(id);
         if (registeredTournament == null) {

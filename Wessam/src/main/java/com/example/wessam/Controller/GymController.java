@@ -20,6 +20,7 @@ public class GymController {
     private final GymService gymService;
 
 
+    //Auth: ADMIN
     @GetMapping("/get")
     public ResponseEntity<?> getGyms(){
         return ResponseEntity.status(200).body(gymService.getGyms());
@@ -81,15 +82,11 @@ public class GymController {
         return ResponseEntity.status(HttpStatus.OK).body("Gym deleted successfully");
     }
 
+    //any
     @PostMapping("/report")
     public ResponseEntity<?> reportIncident(@AuthenticationPrincipal User user, @RequestBody String message) {
         gymService.reportIncident(user.getId(), message);
         return ResponseEntity.status(200).body(new ApiResponse("Incident reported successfully"));
-    }
-
-    @GetMapping("/get-all")
-    public ResponseEntity<?> getAllGyms() {
-        return ResponseEntity.status(200).body(gymService.getAllGyms());
     }
 
     // Auth: ADMIN

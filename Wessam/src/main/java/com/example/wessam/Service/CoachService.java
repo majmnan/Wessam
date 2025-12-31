@@ -2,21 +2,16 @@ package com.example.wessam.Service;
 
 import com.example.wessam.Api.ApiException;
 import com.example.wessam.DTO.IN.CoachDTOIn;
-import com.example.wessam.DTO.IN.GymDTOIn;
-import com.example.wessam.DTO.IN.TraineeDTOIn;
 import com.example.wessam.DTO.OUT.CoachDTOOut;
 import com.example.wessam.DTO.OUT.CoachDashboardDTOOut;
-import com.example.wessam.DTO.OUT.GymDTOOut;
-import com.example.wessam.DTO.OUT.TraineeDTOOut;
 import com.example.wessam.Model.*;
+import com.example.wessam.Repository.*;
 import com.example.wessam.Repository.AuthRepository;
 import com.example.wessam.Repository.BranchRepository;
 import com.example.wessam.Repository.CoachRepository;
 import com.example.wessam.Repository.SportRepository;
-import com.example.wessam.Repository.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +36,7 @@ public class CoachService {
     private final EmailService emailService;
     private final N8nService n8nService;
     private final AiService aiService;
+    private final GymRepository gymRepository;
 
     //Auth: any
     public List<CoachDTOOut> getCoaches() {
@@ -82,6 +78,11 @@ public class CoachService {
 
     //Auth: gym
     public void activateCoach(Integer gymId, Integer coachId){
+        Gym gym =  gymRepository.findGymById(gymId);
+        if(gym == null)
+            throw new ApiException("gym not found");
+        if(!gym.getStatus().equals("Active"))
+            throw new ApiException("gym is inactive yet");
         Coach coach = coachRepository.findCoachById(coachId);
         if(coach == null)
             throw new ApiException("coach not found");
@@ -121,8 +122,8 @@ public class CoachService {
     }
 
     //gym auth
-    public List<CoachDTOOut> getAvailableCoaches(LocalDate targetDate) {
-        List<Coach> allCoaches = coachRepository.findAll();
+    public List<CoachDTOOut> getAvailableCoaches(Integer gymId, LocalDate targetDate) {
+        List<Coach> allCoaches = coachRepository.findCoachByBranch_Gym_Id(gymId);
         List<Coach> availableCoaches = new ArrayList<>();
 
         for (Coach coach : allCoaches) {
@@ -144,6 +145,7 @@ public class CoachService {
         }).toList();
     }
 
+    //Auth: coach
     public CoachDashboardDTOOut getCoachDashboard(Integer coachId){
         Coach coach=coachRepository.findCoachById(coachId);
         if(coach ==null){
@@ -160,7 +162,8 @@ public class CoachService {
 
     }
 
-    public Double getaveCoachRatings(Integer coachId){
+    //Auth: any
+    public Double getAvgCoachRatings(Integer coachId){
         Coach coach=coachRepository.findCoachById(coachId);
         if(coach ==null){
             throw new ApiException("Coach is not found");
@@ -169,7 +172,8 @@ public class CoachService {
         return ave;
     }
 
-    public Integer getCoachTotalTainees(Integer coachId){
+    //Auth: any
+    public Integer getCoachTotalTrainees(Integer coachId){
         Coach coach=coachRepository.findCoachById(coachId);
         if(coach ==null){
             throw new ApiException("Coach is not found");
@@ -178,6 +182,7 @@ public class CoachService {
         return  traineeCount;
     }
 
+    //Auth: any
     public Integer getCoachTotalCourses(Integer coachId){
         Coach coach=coachRepository.findCoachById(coachId);
         if(coach ==null){
@@ -187,13 +192,14 @@ public class CoachService {
         return coursesCount;
     }
 
+    //Auth: any
     public String coachFeedbackAiByCourse( Integer courseId,Integer coachId) {
         Coach coach=coachRepository.findCoachById(coachId);
         Course course = courseRepository.findCourseById(courseId);
         if (course == null || coach==null) {
             throw new ApiException("course or coach not found");
         }
-        List<CourseReview> reviews=courseReviewRepository.fiindAllReviewByCourse(courseId);
+        List<CourseReview> reviews=courseReviewRepository.findAllReviewByCourse(courseId);
         String prompt =
                 "You are an AI specialized in coach evaluation and sentiment analysis.\n\n" +
 
@@ -213,7 +219,7 @@ public class CoachService {
                         "Trainee Reviews:\n" +
                         reviews;
 
-        return aiService.chat(prompt);
+        return aiService.callAi(prompt);
     }
 
     //Auth: any
@@ -224,11 +230,5 @@ public class CoachService {
 
     //Auth: gym
     //get InActive coaches by gym
-
-    //Auth: coach
-    //transfer branch request
-
-    //Auth: Gym
-    //accept transfer branch
 
 }

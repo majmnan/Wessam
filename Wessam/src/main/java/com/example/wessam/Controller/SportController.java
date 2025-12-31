@@ -49,14 +49,14 @@ public class SportController {
         return ResponseEntity.status(200).body(new ApiResponse(sportService.getNutritionTip(sportId)));
     }
 
-    @GetMapping("/home-workout/{sportId}")
-    public ResponseEntity<?> getHomeDrill(@PathVariable Integer sportId) {
-        return ResponseEntity.status(200).body(new ApiResponse(sportService.getHomeWorkout(sportId)));
-    }
-
     @GetMapping("/analyze/sport/{sportId}")
     public ResponseEntity<?> analyzeSport(@PathVariable Integer sportId) {
         return ResponseEntity.status(200).body(sportService.sportAnalyze(sportId));
+    }
+
+    @GetMapping("/home-workout/{sportId}")
+    public ResponseEntity<?> getHomeDrill(@PathVariable Integer sportId) {
+        return ResponseEntity.status(200).body(new ApiResponse(sportService.getHomeWorkout(sportId)));
     }
 
 }

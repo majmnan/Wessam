@@ -83,12 +83,11 @@ public class TraineeService {
                 ". They have attended " + regested + " courses. " +
                 "Give short, practical recommendations for exercises, training focus, and next steps to improve their skills.";
 
-        return aiService.chat(prompt);     }
+        return aiService.callAi(prompt);     }
 
 
-    public String coachFeedbackAi( Integer traineeId,Integer coachId) {
+    public String FeedBackSummary( Integer traineeId,Integer coachId) {
         Coach coach=coachRepository.findCoachById(coachId);
-        Trainee trainee=traineeRepository.findTraineeById(traineeId);
         if(traineeId ==null){
             throw new ApiException("Trainee or Coach is not found");
         }
@@ -106,6 +105,6 @@ public class TraineeService {
 
                         "coach ai Feedback for trainee:\n" +
                         feedbacks;
-        return aiService.chat(prompt);
+        return aiService.callAi(prompt);
     }
 }

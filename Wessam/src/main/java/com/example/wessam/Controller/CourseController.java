@@ -44,13 +44,9 @@ public class CourseController {
     public ResponseEntity<?> nextLevelCourses(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(200).body(courseService.nextLevelCourses(user.getId()));
     }
-
-
-
-
-    @GetMapping("/get/top/{courseId}")
-    public ResponseEntity<?> getTopCourse(@PathVariable Integer courseId) {
-        return ResponseEntity.status(200).body(courseService.gettopCourses(courseId));
+    @GetMapping("/top")
+    public ResponseEntity<?> getTopCourse() {
+        return ResponseEntity.status(200).body(courseService.getTopCourses());
     }
 
     @GetMapping("/get/recommended/{traineeId}/{sportId}")
@@ -66,10 +62,9 @@ public class CourseController {
     }
 
 
-    @GetMapping("/get/feedback/{courseId}")
+    @GetMapping("/review-summary/{courseId}")
     public ResponseEntity<?> analyzeFeedback(@PathVariable Integer courseId) {
         return ResponseEntity.status(200).body(courseService.courseFeedbackAi(courseId));
-
     }
 
     @GetMapping("/get/upcoming")

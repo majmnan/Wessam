@@ -16,7 +16,7 @@ public class RegisteredTournamentController {
 
     private final RegisteredTournamentService registeredTournamentService;
 
-    @GetMapping("/get")//todo: admin only auth
+    @GetMapping("/get")
     public ResponseEntity<?> getAllRegisteredTournaments(@AuthenticationPrincipal User user) {
         return ResponseEntity.status(200).body(registeredTournamentService.getAllRegisteredTournaments());
     }
@@ -24,11 +24,6 @@ public class RegisteredTournamentController {
     public ResponseEntity<?> addRegisteredTournament(@AuthenticationPrincipal User user, @PathVariable Integer tournamentId) {
         registeredTournamentService.addRegisteredTournament(user.getId(), tournamentId);
         return ResponseEntity.status(200).body(new ApiResponse("registration successful"));
-    }
-    @PutMapping("/update/{oldTournamentId}/{newTournamentId}")
-    public ResponseEntity<?> updateRegisteredTournament(@AuthenticationPrincipal User user, @PathVariable Integer oldTournamentId, @PathVariable Integer newTournamentId) {
-        registeredTournamentService.updateRegisteredTournament(user.getId(), oldTournamentId, newTournamentId);
-        return ResponseEntity.status(200).body(new ApiResponse("registration updated successfully"));
     }
 
     @DeleteMapping("/delete/{id}")

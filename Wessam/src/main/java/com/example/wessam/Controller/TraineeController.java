@@ -44,9 +44,10 @@ public class TraineeController {
     }
 
 
-    @GetMapping("/get/feedback/{traineeId}/{coachId}")
-    public ResponseEntity<?> analyzeFeedback(@PathVariable Integer traineeId,@PathVariable Integer coachId) {
-        return ResponseEntity.status(200).body(traineeService.coachFeedbackAi(traineeId,coachId));
+    //Auth: Trainee
+    @GetMapping("/get/feedback/{coachId}")
+    public ResponseEntity<?> analyzeFeedback(@AuthenticationPrincipal User user,@PathVariable Integer coachId) {
+        return ResponseEntity.status(200).body(traineeService.FeedBackSummary(user.getId(),coachId));
 
     }
 
