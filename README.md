@@ -62,7 +62,7 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 |--------|------|
 | 🎨 Figma UI Design | [Figma Link](https://www.figma.com/design/JB0Gov46coABiU4SIsEtbm/Gym-landing-page-website--Community-?node-id=0-1&t=aV0c2TGbKTqVvj1E-1) |
 | 🧩 ER Diagram (ERD) | [Mermaid Live Link](https://mermaid.live/view#pako:eNqtVttu4jAQ_...) |
-| 🔄 Use Case Diagram | [Google Drive Link](https://drive.google.com/XXXXXXXX) |
+| 🔄 Use Case Diagram |[ [Google Drive Link](https://drive.google.com/XXXXXXXX)](https://drive.google.com/file/d/1ZX58tYyVYizoSxi4GZqc3QLax3pZ9bxb/view?usp=drivesdk) |
 |  API documentation  | [postman link](https://documenter.getpostman.com/view/49815088/2sBXVbJZXe)  |
 
 ---
