@@ -61,7 +61,7 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | 🔄 Use Case Diagram | [Google Drive Link](https://drive.google.com/XXXXXXXX) |
 
 ---
-## 📡 PI Endpoints (Implemented by Leena)
+## 📡  Endpoints 
 ## 🔐 Authentication & Authorization
 | Method | Endpoint | Description | Name |
 |------|--------|------------|------|
@@ -90,11 +90,11 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | GET | `/api/v1/coach/pending` | Get pending coaches (Admin) | - |
 | PUT | `/api/v1/coach/approve/{id}` | Approve coach (Admin) | - |
 | GET | `/api/v1/coach/{id}` | Get coach profile | Leena |
-| GET | `/api/v1/coach/by-sport/{sportId}` | Get coaches by sport | Leena |
+| GET | `/api/v1/coach/by-sport/{sportId}` | Get coaches by sport | - |
 | GET | `/api/v1/coach/get` | Get all coaches | Leena |
 | PUT | `/api/v1/coach/update/{id}` | Update coach profile | Leena |
 | DELETE | `/api/v1/coach/delete/{id}` | Delete coach | Leena |
-| GET | `/get/coach/status/{coachId}` | Coach dashboard statistics | Leena |
+| GET | `/get/coach/status/{coachId}` | Coach dashboard statistics | - |
 | GET | `/{coachId}/total-trainees` | Total trainees per coach | Leena |
 | GET | `/{coachId}/total-courses` | Total courses per coach | Leena |
 | GET | `/{coachId}/average-rating` | Coach average rating | Leena |
