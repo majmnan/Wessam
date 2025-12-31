@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-//todo: unique(course_id, trainee_id)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"course_id","trainee_user_id"}))
 public class CourseRegistration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
