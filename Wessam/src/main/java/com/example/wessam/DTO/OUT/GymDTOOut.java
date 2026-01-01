@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GymDTOOut {
+    private Integer id;
         private String name;
         private String description;
         private LocalDate subscriptionEndDate;

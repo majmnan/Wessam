@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseDTOOut {
+    private Integer id;
     private String name;
 
     private String entryLevel;

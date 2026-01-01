@@ -16,5 +16,5 @@ public class CourseReviewDTOIn {
 
     private String description;
 
-    private Integer CourseRegistrationId;
+    private Integer courseRegistrationId;
 }

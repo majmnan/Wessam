@@ -44,8 +44,10 @@ public class CourseReviewService {
         if(registration == null)
             throw new ApiException("course registration not found");
 
-        if(!registration.getTrainee().getId().equals(traineeId))
+        if(!registration.getTrainee().getId().equals(traineeId)) {
+            System.out.println(registration.getTrainee().getId() + " " + traineeId);
             throw new ApiException("unAuthorized");
+        }
 
         courseReviewRepository.save(new CourseReview(null,dto.getRate(),dto.getDescription(),registration));
     }

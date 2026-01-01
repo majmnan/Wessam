@@ -63,6 +63,7 @@ public class Configuration {
                         .requestMatchers("/api/v1/trainee-feedback/add").hasAuthority("COACH")
                         .requestMatchers("/api/v1/trainee-feedback/get").hasAuthority("TRAINEE")
                         .requestMatchers("/api/v1/trainee/nutrition").hasAuthority("TRAINEE")
+                        .requestMatchers("/api/v1/course-review/add").hasAuthority("TRAINEE")
 
 
 

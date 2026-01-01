@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BranchDTOOut {
+    private Integer id;
     private String name;
     private String description;
     private String city;

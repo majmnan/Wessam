@@ -44,6 +44,7 @@ public class CoachService {
         List<CoachDTOOut> coachDTOOuts = new ArrayList<>();
         for (Coach c : coaches) {
             coachDTOOuts.add(new CoachDTOOut(
+                    c.getId(),
                     c.getName(),
                     c.getPhoneNumber(),
                     c.getBirthDate(),

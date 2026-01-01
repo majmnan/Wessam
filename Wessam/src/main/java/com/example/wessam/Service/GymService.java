@@ -48,7 +48,7 @@ public class GymService {
         List<GymDTOOut> gymDTOOuts = new ArrayList<>();
         for (Gym g : gyms) {
             gymDTOOuts.add(new GymDTOOut(
-                   g.getName(), g.getDescription(), g.getSubscriptionEndDate()
+                   g.getId(), g.getName(), g.getDescription(), g.getSubscriptionEndDate()
             ));
         }
         return gymDTOOuts;
@@ -120,7 +120,7 @@ public class GymService {
     //Auth: Any
     public List<GymDTOOut> getAllGyms() {
         return gymRepository.findAll().stream()
-                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription(), gym.getSubscriptionEndDate()))
+                .map(gym -> new GymDTOOut(gym.getId(), gym.getName(), gym.getDescription(), gym.getSubscriptionEndDate()))
                 .toList();
     }
 
@@ -155,14 +155,14 @@ public class GymService {
     // Auth: Admin
     public List<GymDTOOut> getInactiveGyms() {
         return gymRepository.findAllByStatus("InActive").stream()
-                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription(),gym.getSubscriptionEndDate()))
+                .map(gym -> new GymDTOOut(gym.getId(), gym.getName(), gym.getDescription(),gym.getSubscriptionEndDate()))
                 .toList();
     }
 
     // Auth: Any
     public List<GymDTOOut> getActiveGyms() {
         return gymRepository.findAllByStatus("Active").stream()
-                .map(gym -> new GymDTOOut(gym.getName(), gym.getDescription(),gym.getSubscriptionEndDate()))
+                .map(gym -> new GymDTOOut(gym.getId(), gym.getName(), gym.getDescription(),gym.getSubscriptionEndDate()))
                 .toList();
     }
 

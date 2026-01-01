@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CoachDTOOut {
+    private Integer id;
     private String name;
 
     private String phoneNumber;

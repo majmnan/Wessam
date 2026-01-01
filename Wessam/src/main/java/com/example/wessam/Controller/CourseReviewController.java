@@ -1,6 +1,8 @@
 package com.example.wessam.Controller;
 
+import com.example.wessam.Api.ApiResponse;
 import com.example.wessam.DTO.IN.CourseReviewDTOIn;
+import com.example.wessam.Model.User;
 import com.example.wessam.Service.CourseReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,32 +28,32 @@ public class CourseReviewController {
 
     @PostMapping("/add")
     public ResponseEntity<?> reviewACourse(
-            @AuthenticationPrincipal Integer traineeId,
+            @AuthenticationPrincipal User user,
             @RequestBody CourseReviewDTOIn dto
     ) {
-        courseReviewService.reviewACourse(traineeId, dto);
-        return ResponseEntity.ok("Course reviewed successfully");
+        courseReviewService.reviewACourse(user.getId(), dto);
+        return ResponseEntity.ok(new ApiResponse("Course reviewed successfully"));
     }
 
 
     @PutMapping("/update/{reviewId}")
     public ResponseEntity<?> updateReview(
-            @AuthenticationPrincipal Integer traineeId,
+            @AuthenticationPrincipal User user,
             @PathVariable Integer reviewId,
             @RequestBody CourseReviewDTOIn dto
     ) {
-        courseReviewService.updateReview(traineeId, reviewId, dto);
-        return ResponseEntity.ok("Review updated successfully");
+        courseReviewService.updateReview(user.getId(), reviewId, dto);
+        return ResponseEntity.ok(new ApiResponse("Review updated successfully"));
     }
 
 
     @DeleteMapping("/delete/{reviewId}")
     public ResponseEntity<?> deleteReview(
-            @AuthenticationPrincipal Integer traineeId,
+            @AuthenticationPrincipal User user,
             @PathVariable Integer reviewId
     ) {
-        courseReviewService.deleteReview(traineeId, reviewId);
-        return ResponseEntity.ok("Review deleted successfully");
+        courseReviewService.deleteReview(user.getId(), reviewId);
+        return ResponseEntity.ok(new ApiResponse("Review deleted successfully"));
     }
 
     @GetMapping("/summary/{courseId}")
