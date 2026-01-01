@@ -23,38 +23,15 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 - Mohannad  
 
 ---
-
-## 🧩 Contributions (Leena)
+## 🧩 My Contributions
 | Contribution | Description |
 |-------------|-------------|
-|  AI Features |  انشاء و تنفيذ الميزات المتعلقة بالذكاء الاصطناعي |
-|  Analytics & Dashboards | تنفيذ التحليلات، اللوحات، والنقاط الإضافية |
-|  ER Diagram | تصميم ER Diagram |
-|  Figma Interfaces | تصميم واجهات Figma |
-|  Use Case Diagram | تصميم Use Case Diagram |
-|  DTO creation  |  انشاء و تعديل   |
-|  Documentation | توثيق النظام |
----
-## 🧩 Contributions (Abdulrahman)
-| Contribution | Description |
-|-------------|-------------|
-|  N8N Workflows |  انشاء وارسال شهادة اتمام الدورة & zoom URL |
-|  AI Features| اضافة الذكاء الاصطناعي وبعض مميزاتة |
-|  JUnit | انشاء وحدات الاختبار  |
-|  Testing | اختبار النظام Postman  |
-|  ERD Diagram  |  انشاء وتصميم Diagram |
-|  Figma Interfaces | تصميم واجهات Figma |
-|  Email integration | اضافة ميزة اشعارات البريد الالكتروني |
----
-## 🧩 Contributions (Mohannad)
-| Contribution | Description |
-|-------------|-------------|
-|  AWS | رفع ونشر المشروع على سيرفرات امزون |
+|  AWS | رفع ونشر المشروع على سيرفرات امازون |
 |  Moyassar | اضافة ميزة الدفع ميسر |
 |  ER Diagram | تصميم ER Diagram |
 |  TESTING |   Postman اختبار النظام بالكامل |
 |  Documentation | توثيق النظام |
-|  DTO Fix  |  اصلاح وتعديل  |
+|  DTO   |  بناء المودلز  |
 |  AI Features | المشاركة في انشاء ميزات متعلقة بالذكاء الاصطناعي | 
 ---
 
@@ -68,156 +45,88 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 
 ---
 
+# My Work
 ## 🏋️ Coach Registration & Management
-| Method | Endpoint | Description | Name |
-|------|--------|------------|------|
-| POST | `/api/v1/coach/register` | Coach registration | Mohannad ,Abdulrahman |
-| GET | `/api/v1/coach/pending` | Get pending coaches (Admin) | Mohannad |
-| PUT | `/api/v1/coach/approve/{id}` | Approve coach (Admin) | Mohannad |
-| GET | `/api/v1/coach/{id}` | Get coach profile | Leena |
-| GET | `/api/v1/coach/by-sport/{sportId}` | Get coaches by sport | Mohannad |
-| GET | `/api/v1/coach/get` | Get all coaches | Leena |
-| PUT | `/api/v1/coach/update/{id}` | Update coach profile | Leena |
-| DELETE | `/api/v1/coach/delete/{id}` | Delete coach | Leena |
-| GET | `/get/coach/status/{coachId}` | Coach dashboard statistics | Abdulrahman |
-| GET | `/{coachId}/total-trainees` | Total trainees per coach | Leena |
-| GET | `/{coachId}/total-courses` | Total courses per coach | Leena |
-| GET | `/{coachId}/average-rating` | Coach average rating | Leena |
-| GET | `/get/feedback/{coachId}` | AI coach feedback analysis | Leena |
-| GET | `/dashboard/{coachId}` | Coach dashboard overview | Leena |
+path: /api/v1/coach
+
+| Method | Endpoint | Description |
+|------|--------|------------|
+| POST | `/register` | Coach registration |
+| PUT | `activate/{coachId}` | Activate a coach (Gym) | 
 
 ---
+
+---
+
 
 ## 🏢 Branch Management
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| GET | `/api/v1/branches/get-all` | Get all branches (Admin) | Mohannad |
-| POST | `/api/v1/branches/add` | Add new branch (Gym) | Mohanand |
-| PUT | `/api/v1/branches/update/{branchId}` | Update branch (Gym) | Mohannad |
-| DELETE | `/api/v1/branches/delete/{branchId}` | Delete branch (Gym) | Mohannad |
-| GET | `/api/v1/branches/get-gym` | Get branches by gym | Mohannad |
+path: /api/v1/branches
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| GET | `/get-all` | Get all branches (Admin) |
+| POST | `/add` | Add new branch (Gym) |
+| PUT | `/update/{branchId}` | Update branch (Gym) |
+| DELETE | `/delete/{branchId}` | Delete branch (Gym) |
+| GET | `/get-gym` | Get branches by gym |
 
 ---
 
-## 🏢 Gym Management (CRUD)
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| GET | `/api/v1/gym/get` | Get all gyms | Leena |
-| POST | `/api/v1/gym/register` | Register a new gym | Mohannad |
-| PUT | `/api/v1/gym/update/{gymId}` | Update gym profile | Leena |
-| PUT | `/api/v1/gym/activate/{gymId}` | Activate gym | Mohannad |
-| DELETE | `/api/v1/gym/delete/{gymId}` | Delete gym | Leena |
-| GET | `/get-inactive` | Get inactive gyms (Admin) | Abdulrahman |
-| GET | `/get-active` | Get active gyms | Abdulrahman |
-| PUT | `/deactivate/{gymId}` | Deactivate gym (Admin) | Abdulrahman |
+## 🏢 Gym Management 
+path: /api/v1/gym
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/register` | Register a new gym | 
+| PUT | `/activate/{gymId}` | Activate gym |
+| GET | `/subscibe/` (month\quarter\half\year) | Subsecribe and pay |
 
 ---
 
-## 🧑‍🎓 Trainee & AI Coach
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| POST | `/api/v1/trainee/register` | Trainee registration | Mohannad |
-| GET | `/api/v1/trainee/profile/{id}` | Get trainee profile | Mohannad |
-| PUT | `/api/v1/trainee/update/{id}` | Update trainee profile | Mohannad |
-| DELETE | `/api/v1/trainee/delete/{id}` | Delete trainee | Abdulrahman |
-| GET | `/coach/{traineeId}` | AI personalized coach advice | Leena |
-| GET | `/api/v1/trainee/my-courses` | Get trainee courses | Abdulrahman |
-| GET | `/get/registerd/{traineeId}` | Trainee registered courses | Leena |
+## 🧑‍🎓 Trainee
+path: /api/v1/trainee
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/register` | Trainee registration |
+| GET | `/nutrition` | generate a day nutrition with AI | 
+| PUT | `/update/{id}` | Update trainee profile |
 
 ---
 
 ## 📚 Courses & AI Analytics
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| POST | `/api/v1/course/add` | Add new course | Mohannad |
-| PUT | `/api/v1/course/update/{id}` | Update course | Mohannad |
-| DELETE | `/api/v1/course/delete/{id}` | Delete course | Mohannad |
-| GET | `/api/v1/course/{id}` | Get course details | Mohannad |
-| GET | `/api/v1/course/by-coach/{coachId}` | Get courses by coach | Andulrahman, Mohanand |
-| GET | `/api/v1/course/by-sport/{sportId}` | Get courses by sport | Andulrahman, Mohanand |
-| GET | `/get/top/{courseId}` | Get top courses | Leena |
-| GET | `/get/recommended/{traineeId}/{sportId}` | AI recommended courses | Leena |
-| GET | `/get/dateRange/{sportId}/{startDate}/{endDate}` | Courses by date range | Leena |
-| GET | `/get/upcoming` | Upcoming courses | Leena |
-| GET | `/get/totalTrainee/{id}` | Total trainees per course | Leena |
-| GET | `/get/feedback/{courseId}` | AI course feedback analysis | Leena |
-| GET | `/next-level-courses` | Get next level courses for trainee | Andulrahman, Mohanand |
-| PUT | `/complete/{registrationId}` | Mark course as completed | Andulrahman |
-| PUT | `/drop/{registrationId}` | Drop course (Coach) | Abdulrahman |
-| GET | `/completed` | Get completed registrations | Mohannad |
-| GET | `/dropped` | Get dropped registrations (Admin) | Abdulrahman |
+path: /api/v1/course/
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/add` | Add new course |
+| PUT | `/update/{id}` | Update course | 
+| GET | `/top` | Get course details |
 
 ---
 
-## 💳 Payments & Registration
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| POST | `/registration/enroll/{courseId}` | Enroll in course | Mohannad |
-| DELETE | `/registration/cancel/{id}` | Cancel registration | Mohannad |
-| PUT | `/pay-pending/{registrationId}` | Pay pending registration | Mohannad |
-| GET | `/complete-payment/{registrationId}` | Complete payment callback | Mohannad |
-| POST | `/pay` | Test payment | Mohannad |
-| GET | `/callback/{n}/{nn}` | Payment gateway callback | Mohannad |
+---
+
+### 📚 course registration
+path: /api/v1/course-registration/
+
+| Method | Endpoint | Description |
+|--------|---------|-------------|
+| POST | `/register/{courseId}` | Register in course and pay | 
+| DELETE | `/get-by-course/{courseId}` | get a course registration | 
+| GET | `/delete/registration` | delete registration | 
+| GET | `/complete/{registrationId}` | mark student complete a course |
 
 ---
 
-## 🎓 Certificates & Reviews
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| POST | `/certificates/{courseId}` | Generate course certificate | Abdulrahman |
-| POST | `/review/add` | Add review | Mohannad |
-| PUT | `/review/update/{id}` | Update review | Mohannad, Abdulrahman |
-| DELETE | `/review/delete/{id}` | Delete review | Mohannad |
-| GET | `/review/course/{courseId}` | Get course reviews | Mohannad |
-| GET | `/review/coach/{coachId}` | Get coach reviews | Mohanand |
+### Course Review
+path: /api/v1/reviews
+| HTTP Method | Endpoint | Auth    | Description|
+| ----------- | --------------------- | ------- | ---- |
+| GET | `/get/{courseId}`| Public  | Get all reviews for a specific course |
+| POST | `/add` | TRAINEE | Add a review for a completed course |
+| PUT | `/update/{reviewId}` | TRAINEE | Update an existing course review |
+| `DELETE`    | `/delete/{reviewId}`  | TRAINEE | Delete a course review                                       |
+| `GET`       | `/summary/{courseId}` | Public  | Get AI-generated summary and insights for a completed course |
 
----
-
-## 🥗 AI Health & Training Content
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| GET | `/nutrition-tip/{sportId}` | Get AI nutrition tip | Abdulrahman |
-| GET | `/home-workout/{sportId}` | Get AI home workout | Abdulrahman |
-| GET | `/analyze/sport/{sportId}` | AI sport analysis | Leena |
-
----
-
-## 🏆 Tournament & Social AI
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| GET | `/get/upcoming` | Upcoming tournaments | Leena |
-| GET | `/get/dateRange/{sportId}/{startDate}/{endDate}` | Tournaments by date range | Leena |
-| GET | `/get/totalTrainee/{id}` | Total trainees per tournament | Leena |
-| GET | `/generate-post/{tournamentId}` | Generate AI social media post | Abdulrahman |
-
----
-
-## 🎥 Online Meetings (Zoom)
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| POST | `/create` | Create online meeting | Abdulrahman |
-
----
-
-### 📚 Courses & Registrations
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| GET | `/api/v1/course-registration/get-by-course/{courseId}` | Get registrations of a course | Mohannad |
-| POST | `/api/v1/course-registration/register/{courseId}` | Register in course | Mohannad |
-| DELETE | `/api/v1/course-registration/delete/{registrationId}` | Delete registration | Mohannad |
-| GET | `/api/v1/course-registration/get/registerd/{traineeId}` | Get trainee registered courses | Mohannad, Abdulrahman |
-| GET | `/api/v1/course-registration/get/totalTrainee/{id}` | Get total trainees of a course | Avdulrahman |
-
----
-
-### 🏆 Tournament Registration
-| Method | Endpoint | Description | Name |
-|--------|---------|-------------|------|
-| GET | `/api/v1/registeredTournament/get` | Get all registered tournaments | - |
-| POST | `/api/v1/registeredTournament/add/{tournamentId}` | Add registered tournament | - |
-| PUT | `/api/v1/registeredTournament/update/{oldTournamentId}/{newTournamentId}` | Update tournament registration | - |
-| DELETE | `/api/v1/registeredTournament/delete/{id}` | Delete tournament registration | - |
-| GET | `/api/v1/registeredTournament/get/totalTrainee/{id}` | Get total trainees per tournament | Leena |
 
 ---
 
@@ -248,5 +157,7 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 - RESTful APIs  
 - JPA / Hibernate  
 - MySQL  
-- AI Prompt-based Analysis  
+- AI Prompt-based Analysis (Open Ai)
 - Figma (UI/UX)
+- junit
+- Moyassar payment
