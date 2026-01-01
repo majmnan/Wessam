@@ -27,11 +27,12 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 ## 🧩 Contributions (Leena)
 | Contribution | Description |
 |-------------|-------------|
-|  AI Features | تنفيذ الميزات المتعلقة بالذكاء الاصطناعي |
+|  AI Features |  انشاء و تنفيذ الميزات المتعلقة بالذكاء الاصطناعي |
 |  Analytics & Dashboards | تنفيذ التحليلات، اللوحات، والنقاط الإضافية |
 |  ER Diagram | تصميم ER Diagram |
 |  Figma Interfaces | تصميم واجهات Figma |
 |  Use Case Diagram | تصميم Use Case Diagram |
+|  DTO creation  |  انشاء و تعديل   |
 |  Documentation | توثيق النظام |
 ---
 ## 🧩 Contributions (Abdulrahman)
@@ -216,7 +217,7 @@ Wessam (وسام) هو منصة ذكية لإدارة الرياضة وتحلي�
 | POST | `/api/v1/registeredTournament/add/{tournamentId}` | Add registered tournament | - |
 | PUT | `/api/v1/registeredTournament/update/{oldTournamentId}/{newTournamentId}` | Update tournament registration | - |
 | DELETE | `/api/v1/registeredTournament/delete/{id}` | Delete tournament registration | - |
-| GET | `/api/v1/registeredTournament/get/totalTrainee/{id}` | Get total trainees per tournament | - |
+| GET | `/api/v1/registeredTournament/get/totalTrainee/{id}` | Get total trainees per tournament | Leena |
 
 ---
 
