@@ -57,5 +57,9 @@ public class TournamentController {
         return ResponseEntity.status(200).body(tournamentService.getTournamentByStartDateRange(sportId, start, end));
     }
 
+    @PostMapping("/ask")
+    public ResponseEntity<?> ask(@RequestBody String userMessage) {
+        return ResponseEntity.status(200).body(tournamentService.ask(userMessage));
+    }
 
 }

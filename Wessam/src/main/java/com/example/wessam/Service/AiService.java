@@ -51,6 +51,15 @@ public class AiService {
                 .block();
     }
 
+    public String toJson(Object obj) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException("JSON serialization failed", e);
+        }
+    }
+
     String extractJsonArray(String text) {
 
         text = text.replace("```json", "").replace("```", "").trim();

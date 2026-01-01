@@ -6,9 +6,11 @@ import com.example.wessam.DTO.OUT.CourseReviewDTOOut;
 import com.example.wessam.DTO.OUT.TraineeFeedbackDTOOut;
 import com.example.wessam.Model.Coach;
 import com.example.wessam.Model.CourseRegistration;
+import com.example.wessam.Model.Trainee;
 import com.example.wessam.Model.TraineeFeedback;
 import com.example.wessam.Repository.CourseRegistrationRepository;
 import com.example.wessam.Repository.TraineeFeedbackRepository;
+import com.example.wessam.Repository.TraineeRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ public class TraineeFeedbackService {
     private final TraineeFeedbackRepository traineeFeedbackRepository;
     private final CourseRegistrationRepository courseRegistrationRepository;
     private final ModelMapper mapper;
+    private final TraineeRepository traineeRepository;
 
     //Auth: trainee
     public List<TraineeFeedbackDTOOut> getFeedbacksByTraineeId(Integer traineeId){

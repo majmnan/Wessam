@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,5 +40,5 @@ public class CourseRegistration {
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "registration")
     @JsonIgnore
-    private Set<CourseReview> courseReviews;
+    private List<CourseReview> courseReviews;
 }

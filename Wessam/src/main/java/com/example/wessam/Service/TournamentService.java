@@ -6,6 +6,7 @@ import com.example.wessam.Model.Course;
 import com.example.wessam.Model.Organizer;
 import com.example.wessam.Model.Sport;
 import com.example.wessam.Model.Tournament;
+import com.example.wessam.Repository.CourseRepository;
 import com.example.wessam.Repository.OrganizerRepository;
 import com.example.wessam.Repository.SportRepository;
 import com.example.wessam.Repository.TournamentRepository;
@@ -22,6 +23,8 @@ public class TournamentService {
     private final OrganizerRepository organizerRepository;
     private final SportRepository sportRepository;
     private final AiService aiService;
+    private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
     public List<Tournament> getAllTournaments() {
         return tournamentRepository.findAll();
@@ -88,5 +91,9 @@ public class TournamentService {
         return tournamentRepository.findTournamentByDate(sportId, startDate, endDate);
     }
 
-
+    public String ask(String prompt){
+        prompt =  "you are a system admin you have list of tournaments, depends on these" + getAllTournaments() +"\nand list of courses:\n" + courseService.getAllCourses() +" answer question of the uer, keep it short answer \n"+ prompt;
+        System.out.println(prompt);
+        return aiService.callAi(prompt);
+    }
 }

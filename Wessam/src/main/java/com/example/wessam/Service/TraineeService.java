@@ -9,7 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,26 +89,73 @@ public class TraineeService {
 
         return aiService.callAi(prompt);     }
 
+    //Auth: Trainee
+    public JsonNode GetDayNutrition(Integer traineeId){
+        Trainee trainee = traineeRepository.findTraineeById(traineeId);
+        String prompt=
+                """
+            I need a personalized nutrition plan for a %d-year-old %s who practices %s at %s level.
+            They weigh %d kg and are %d cm tall.
+            Based on their activity level and goals, provide a daily caloric intake with a macronutrient breakdown (protein, carbs, fats).
+            Include a meal plan for breakfast, lunch, snack, dinner, and post-workout, with food items and their respective quantities.
+            Format the response in JSON with the following structure:
+            
+            return exact json as below (don't put any thing else and don't add character like `):
+            {
+                "calories_per_day": <total_calories>,
+                "macronutrients": {
+                    "protein": {
+                        "amount": <grams>,
+                        "unit": "grams"
+                    },
+                    "carbs": {
+                        "amount": <grams>,
+                        "unit": "grams"
+                    },
+                    "fats": {
+                        "amount": <grams>,
+                        "unit": "grams"
+                    }
+                },
+                "meal_plan": [
+                    {
+                        "meal": "Breakfast",
+                        "items": [
+                            {"name": "<food_name>", "quantity": "<amount>"}
+                        ]
+                    },
+                    {
+                        "meal": "Lunch",
+                        "items": [
+                            {"name": "<food_name>", "quantity": "<amount>"}
+                        ]
+                    },
+                    {
+                        "meal": "Snack",
+                        "items": [
+                            {"name": "<food_name>", "quantity": "<amount>"}
+                        ]
+                    },
+                    {
+                        "meal": "Dinner",
+                        "items": [
+                            {"name": "<food_name>", "quantity": "<amount>"}
+                        ]
+                    },
+                    {
+                        "meal": "Post-Workout",
+                        "items": [
+                            {"name": "<food_name>", "quantity": "<amount>"}
+                        ]
+                    }
+                ],
+                "notes": "Include any relevant advice or guidance for maintaining a balanced diet."
+            }
+        """.formatted(Period.between(trainee.getBirthDate(),LocalDate.now()).getYears(), trainee.getGender(), trainee.getSport().getName(), trainee.getLevel(), trainee.getWeight(), trainee.getHeight());
 
-    public String FeedBackSummary( Integer traineeId,Integer coachId) {
-        Coach coach=coachRepository.findCoachById(coachId);
-        if(traineeId ==null){
-            throw new ApiException("Trainee or Coach is not found");
-        }
-        List<TraineeFeedback> feedbacks=traineeFeedbackRepository.findAllTraineeFeedback(coachId);
-        String prompt =
-                "You are an AI specialized in trainee performance evaluation and sentiment analysis.\n" +
-                        "Analyze the following trainee feedback by this coach " + coach.getName() + ".\n\n" +
-
-                        "Tasks:\n" +
-                        "1. Perform sentiment analysis (Positive / Neutral / Negative).\n" +
-                        "2. Summarize overall sentiment in one sentence.\n" +
-                        "3. List key strengths mentioned for trainee.\n" +
-                        "4. List common weaknesses or complaints.\n" +
-                        "5. Provide 3 clear, actionable improvement suggestions.\n\n" +
-
-                        "coach ai Feedback for trainee:\n" +
-                        feedbacks;
-        return aiService.callAi(prompt);
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readTree(
+                aiService.callAi(prompt)
+        );
     }
 }
