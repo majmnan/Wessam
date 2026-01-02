@@ -131,7 +131,7 @@ path: /api/v1/reviews
 ---
 
 ### 🏅 Sport Management
-| Method | Endpoint | Description | Name |
+| Method | Endpoint | Description |
 |--------|---------|-------------|------|
 | GET | `/api/v1/sport/get` | Get all sports | Leena |
 | POST | `/api/v1/sport/add` | Add new sport | Leena |
@@ -142,7 +142,7 @@ path: /api/v1/reviews
 ---
 
 ### 🏢 Organizer Management
-| Method | Endpoint | Description | Name |
+| Method | Endpoint | Description |
 |--------|---------|-------------|------|
 | GET | `/api/v1/organizer/get` | Get all organizers | Leena |
 | POST | `/api/v1/organizer/add` | Add new organizer | Leena |
