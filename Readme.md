@@ -132,22 +132,22 @@ path: /api/v1/reviews
 
 ### 🏅 Sport Management
 | Method | Endpoint | Description |
-|--------|---------|-------------|------|
-| GET | `/api/v1/sport/get` | Get all sports | Leena |
-| POST | `/api/v1/sport/add` | Add new sport | Leena |
-| PUT | `/api/v1/sport/update/{id}` | Update sport | Leena |
-| DELETE | `/api/v1/sport/delete/{id}` | Delete sport | Leena |
-| GET | `/api/v1/sport/analyze/sport/{sportId}` | Analyze sport popularity | Leena |
+|--------|---------|-------------|
+| GET | `/api/v1/sport/get` | Get all sports | 
+| POST | `/api/v1/sport/add` | Add new sport | 
+| PUT | `/api/v1/sport/update/{id}` | Update sport |
+| DELETE | `/api/v1/sport/delete/{id}` | Delete sport |
+| GET | `/api/v1/sport/analyze/sport/{sportId}` | Analyze sport popularity |
 
 ---
 
 ### 🏢 Organizer Management
 | Method | Endpoint | Description |
-|--------|---------|-------------|------|
-| GET | `/api/v1/organizer/get` | Get all organizers | Leena |
-| POST | `/api/v1/organizer/add` | Add new organizer | Leena |
-| PUT | `/api/v1/organizer/update/{id}` | Update organizer | Leena |
-| DELETE | `/api/v1/organizer/delete/{id}` | Delete organizer | Leena |
+|--------|---------|-------------|
+| GET | `/api/v1/organizer/get` | Get all organizers | 
+| POST | `/api/v1/organizer/add` | Add new organizer |
+| PUT | `/api/v1/organizer/update/{id}` | Update organizer |
+| DELETE | `/api/v1/organizer/delete/{id}` | Delete organizer |
 
 ---
 
